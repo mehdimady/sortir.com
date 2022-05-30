@@ -31,6 +31,12 @@ class Sortie
     #[ORM\Column(type: 'text')]
     private $infosSortie;
 
+    #[ORM\ManyToOne(targetEntity: Etat::class, inversedBy: 'sorties')]
+    private $etat;
+
+    #[ORM\ManyToOne(targetEntity: Lieu::class, inversedBy: 'sorties')]
+    private $lieux;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -104,6 +110,30 @@ class Sortie
     public function setInfosSortie(string $infosSortie): self
     {
         $this->infosSortie = $infosSortie;
+
+        return $this;
+    }
+
+    public function getEtat(): ?Etat
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(?Etat $etat): self
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getLieux(): ?Lieu
+    {
+        return $this->lieux;
+    }
+
+    public function setLieux(?Lieu $lieux): self
+    {
+        $this->lieux = $lieux;
 
         return $this;
     }
