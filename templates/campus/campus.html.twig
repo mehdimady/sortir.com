@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{title}} - {{parent()}}
+{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">Gérer les campus</h1>
+    <h2>Filtrer les campus</h2>
+
+    <div class="col-sm-10 col-md-8 col-lg-6 m-2 d-flex justify-content-around">
+        {{form_start(formSearch)}}
+        {{form_widget(formSearch.name, {'full_name': 'search','label':'Le nom contient :'})}}
+        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Rechercher</button>
+        {{form_end(formSearch)}}
+
+
+    </div>
+    <div class="container bg-dark text-light">
+        <table class="table table-dark table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Campus</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for campus in campusx %}
+                <tr>
+                    <td>{{campus.nom}}</td>*
+                    <td><a href="{{path('campus_modify',{'id':campus.id})}}">Modifier</a> - <a href="{{path('campus_delete',{'id':campus.id})}}">Supprimer</a></td>
+                </tr>
+            {% endfor%}
+            {{form_start(formCampus)}}
+            <tr>
+                <td>
+                    {{form_widget(formCampus.nom,{"label":"Nom du campus"})}}
+                </td>
+                <td><button>{{ button }}</button></td>
+            </tr>
+            {{ form_end(formCampus)}}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Campus;
 use App\Entity\Etat;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
@@ -15,10 +16,21 @@ class AppFixtures extends Fixture
     {
         $faker = Faker\Factory::create('fr_FR');
 
+        $campusx = [];
         $villes = [];
         $lieux = [];
         $sorties = [];
        $etats = [];
+
+
+
+//       fixtures CAMPUS
+        foreach(["Nantes","Rennes","Niort"] as $city){
+            $campus = new Campus();
+            $campus->setNom($city);
+            $manager->persist($campus);
+        }
+
 
 //        fixtures VILLES
         for($i = 0; $i< 10; $i++){
