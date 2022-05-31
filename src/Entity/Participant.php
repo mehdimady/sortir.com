@@ -72,6 +72,9 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $actif = 1;
 
+    #[ORM\ManyToOne(targetEntity: Campus::class, inversedBy: 'participants')]
+    private $campus;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -217,6 +220,18 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     public function setActif(bool $actif): self
     {
         $this->actif = $actif;
+
+        return $this;
+    }
+
+    public function getCampus(): ?Campus
+    {
+        return $this->campus;
+    }
+
+    public function setCampus(?Campus $campus): self
+    {
+        $this->campus = $campus;
 
         return $this;
     }

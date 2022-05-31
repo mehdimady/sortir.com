@@ -27,7 +27,7 @@
             <tbody>
             {% for campus in campusx %}
                 <tr>
-                    <td>{{campus.nom}}</td>*
+                    <td>{{campus.nom}}</td>
                     <td><a href="{{path('campus_modify',{'id':campus.id})}}">Modifier</a> - <a href="{{path('campus_delete',{'id':campus.id})}}">Supprimer</a></td>
                 </tr>
             {% endfor%}
