@@ -5,15 +5,23 @@ namespace App\DataFixtures;
 use App\Entity\Campus;
 use App\Entity\Etat;
 use App\Entity\Lieu;
+use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Entity\Ville;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
 class AppFixtures extends Fixture
 {
+    private $hasher;
+    public function __construct(UserPasswordHasherInterface $hasher){
+        $this->hasher = $hasher;
+    }
     public function load(ObjectManager $manager): void
     {
+
         $faker = Faker\Factory::create('fr_FR');
 
         $campusx = [];
@@ -29,6 +37,51 @@ class AppFixtures extends Fixture
             $campus = new Campus();
             $campus->setNom($city);
             $manager->persist($campus);
+            $campusx[]=$campus;
+        }
+
+//        fixtures PARTICIPANT
+
+        $partAdmin = new Participant();
+        $partAdmin->setNom($faker->lastName);
+        $partAdmin->setPrenom($faker->firstName);
+        $partAdmin->setTelephone("0607060706");
+        $partAdmin->setEmail("admin@test.eni");
+        $passAdmin = $this->hasher->hashPassword($partAdmin,'azerty');
+        $partAdmin->setPassword($passAdmin);
+        $partAdmin->setAdministrateur(1);
+        $partAdmin->setRoles(['ROLE_USER','ROLE_ADMIN']);
+        $partAdmin->setActif(1);
+        $partAdmin->setCampus($campusx[0]);
+        $manager->persist($partAdmin);
+
+        $partUser = new Participant();
+        $partUser->setNom($faker->lastName);
+        $partUser->setPrenom($faker->firstName);
+        $partUser->setTelephone("0607060706");
+        $partUser->setEmail("User@test.eni");
+        $passUser = $this->hasher->hashPassword($partUser,'azerty');
+        $partUser->setPassword($passUser);
+        $partUser->setAdministrateur(0);
+        $partUser->setRoles(['ROLE_USER']);
+        $partUser->setActif(1);
+        $partUser->setCampus($campusx[rand(0,2)]);
+        $manager->persist($partUser);
+
+        for($i=0;$i<30;$i++){
+            $part= new Participant();
+            $part->setNom($faker->lastName);
+            $part->setPrenom($faker->firstName);
+            $tel = $faker->randomNumber(9, true);
+            $part->setTelephone("0".$tel);
+            $part->setEmail($faker->email());
+            $pass = $this->hasher->hashPassword($part,'azerty');
+            $part->setPassword($pass);
+            $part->setAdministrateur(0);
+            $part->setRoles(['ROLE_USER']);
+            $part->setActif(1);
+            $part->setCampus($campusx[rand(0,2)]);
+            $manager->persist($part);
         }
 
 
