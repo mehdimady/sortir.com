@@ -25,7 +25,7 @@ class VilleController extends AbstractController
             $entityManager->persist($ville);
             $entityManager->flush();
 
-            $this->addFlash('success','La ville a bien été crée !');
+            $this->addFlash('success','La ville a bien été créée !');
             return $this->redirectToRoute('ville_toutes');
         }
 
@@ -34,7 +34,6 @@ class VilleController extends AbstractController
         if($formSearch->isSubmitted() && $formSearch->isValid()){
             $villes = $villeRepository->searchVille($request->get('search'));
         }
-    dump($villes);
 
         return $this->render('ville/villes.html.twig', [
             'title' => 'Les Villes',
@@ -68,12 +67,19 @@ class VilleController extends AbstractController
             return $this->redirectToRoute('ville_toutes');
         }
 
+        $formSearch = $this->createForm(SearchVilleType::class);
+        $formSearch->handleRequest($request);
+        if($formSearch->isSubmitted() && $formSearch->isValid()){
+            $villes = $villeRepository->searchVille($request->get('search'));
+        }
+
 
         return $this->render('ville/villes.html.twig', [
             'title' => 'Les Villes',
             "villes"=>$villes,
             "button"=>"Modifier",
-            'formVille'=>$formVille->createView()
+            'formVille'=>$formVille->createView(),
+            'formSearch'=>$formSearch->createView()
         ]);
 
 
