@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Ville;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use function Symfony\Component\String\u;
 
 /**
  * @extends ServiceEntityRepository<Ville>
@@ -37,5 +38,16 @@ class VilleRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function searchVille($search){
+
+        $queryBuilder = $this->createQueryBuilder('v')
+                ->andWhere("v.nom LIKE :search ")
+                ->setParameter("search",'%'.$search.'%');
+               $query = $queryBuilder->getQuery();
+               $result = $query->getResult();
+    return $result;
+
     }
 }

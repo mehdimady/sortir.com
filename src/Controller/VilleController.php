@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Ville;
+use App\Form\SearchVilleType;
 use App\Form\VilleType;
 use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,7 +17,7 @@ class VilleController extends AbstractController
     #[Route('s', name: 'toutes')]
     public function displayAll(VilleRepository $villeRepository,Request $request, EntityManagerInterface $entityManager): Response
     {
-       $villes =  $villeRepository->findAll();
+        $villes =  $villeRepository->findAll();
        $ville = new Ville();
        $formVille = $this->createForm(VilleType::class,$ville);
         $formVille->handleRequest($request);
@@ -28,12 +29,19 @@ class VilleController extends AbstractController
             return $this->redirectToRoute('ville_toutes');
         }
 
+        $formSearch = $this->createForm(SearchVilleType::class);
+        $formSearch->handleRequest($request);
+        if($formSearch->isSubmitted() && $formSearch->isValid()){
+            $villes = $villeRepository->searchVille($request->get('search'));
+        }
+    dump($villes);
 
         return $this->render('ville/villes.html.twig', [
             'title' => 'Les Villes',
             "villes"=>$villes,
             "button"=>"Ajouter",
-            'formVille'=>$formVille->createView()
+            'formVille'=>$formVille->createView(),
+            'formSearch'=>$formSearch->createView()
         ]);
     }
 
