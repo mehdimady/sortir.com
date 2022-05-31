@@ -30,61 +30,6 @@ class AppFixtures extends Fixture
         $sorties = [];
        $etats = [];
 
-
-
-//       fixtures CAMPUS
-        foreach(["Nantes","Rennes","Niort"] as $city){
-            $campus = new Campus();
-            $campus->setNom($city);
-            $manager->persist($campus);
-            $campusx[]=$campus;
-        }
-
-//        fixtures PARTICIPANT
-
-        $partAdmin = new Participant();
-        $partAdmin->setNom($faker->lastName);
-        $partAdmin->setPrenom($faker->firstName);
-        $partAdmin->setTelephone("0607060706");
-        $partAdmin->setEmail("admin@test.eni");
-        $passAdmin = $this->hasher->hashPassword($partAdmin,'azerty');
-        $partAdmin->setPassword($passAdmin);
-        $partAdmin->setAdministrateur(1);
-        $partAdmin->setRoles(['ROLE_USER','ROLE_ADMIN']);
-        $partAdmin->setActif(1);
-        $partAdmin->setCampus($campusx[0]);
-        $manager->persist($partAdmin);
-
-        $partUser = new Participant();
-        $partUser->setNom($faker->lastName);
-        $partUser->setPrenom($faker->firstName);
-        $partUser->setTelephone("0607060706");
-        $partUser->setEmail("User@test.eni");
-        $passUser = $this->hasher->hashPassword($partUser,'azerty');
-        $partUser->setPassword($passUser);
-        $partUser->setAdministrateur(0);
-        $partUser->setRoles(['ROLE_USER']);
-        $partUser->setActif(1);
-        $partUser->setCampus($campusx[rand(0,2)]);
-        $manager->persist($partUser);
-
-        for($i=0;$i<30;$i++){
-            $part= new Participant();
-            $part->setNom($faker->lastName);
-            $part->setPrenom($faker->firstName);
-            $tel = $faker->randomNumber(9, true);
-            $part->setTelephone("0".$tel);
-            $part->setEmail($faker->email());
-            $pass = $this->hasher->hashPassword($part,'azerty');
-            $part->setPassword($pass);
-            $part->setAdministrateur(0);
-            $part->setRoles(['ROLE_USER']);
-            $part->setActif(1);
-            $part->setCampus($campusx[rand(0,2)]);
-            $manager->persist($part);
-        }
-
-
 //        fixtures VILLES
         for($i = 0; $i< 10; $i++){
             $ville = new Ville();
@@ -171,9 +116,83 @@ class AppFixtures extends Fixture
         }
         $sortie->setDateHeureDebut($date);
         $sortie->setDateLimiteInscription($faker->dateTimeInInterval($dateStart, $dateInterval));
-
+        $sorties[] = $sortie;
         $manager->persist($sortie);
     }
+
+        //       fixtures CAMPUS
+        foreach(["Nantes","Rennes","Niort"] as $city){
+            $campus = new Campus();
+            $campus->setNom($city);
+            $manager->persist($campus);
+            $campusx[]=$campus;
+        }
+
+//        fixtures PARTICIPANT
+
+        $partAdmin = new Participant();
+        $partAdmin->setNom($faker->lastName);
+        $partAdmin->setPrenom($faker->firstName);
+        $partAdmin->setTelephone("0607060706");
+        $partAdmin->setEmail("admin@test.eni");
+        $passAdmin = $this->hasher->hashPassword($partAdmin,'azerty');
+        $partAdmin->setPassword($passAdmin);
+        $partAdmin->setAdministrateur(1);
+        $partAdmin->setRoles(['ROLE_USER','ROLE_ADMIN']);
+        $partAdmin->setActif(1);
+        $partAdmin->setCampus($campusx[0]);
+        $sortie1 = $sorties[0];
+        $sortie2 = $sorties[1];
+        $sortie3 = $sorties[2];
+        $sortie1->setCampus($campusx[0]);
+        $sortie2->setCampus($campusx[0]);
+        $sortie3->setCampus($campusx[0]);
+        $partAdmin->addOrganisateur($sortie1);
+        $partAdmin->addOrganisateur($sortie2);
+        $partAdmin->addOrganisateur($sortie3);
+        $manager->persist($partAdmin);
+
+        $partUser = new Participant();
+        $partUser->setNom($faker->lastName);
+        $partUser->setPrenom($faker->firstName);
+        $partUser->setTelephone("0607060706");
+        $partUser->setEmail("User@test.eni");
+        $passUser = $this->hasher->hashPassword($partUser,'azerty');
+        $partUser->setPassword($passUser);
+        $partUser->setAdministrateur(0);
+        $partUser->setRoles(['ROLE_USER']);
+        $partUser->setActif(1);
+        $partUser->setCampus($campusx[rand(0,2)]);
+        $sortie4 = $sorties[3];
+        $sortie5 = $sorties[4];
+        $sortie6 = $sorties[5];
+        $sortie4->setCampus($partUser->getCampus());
+        $sortie5->setCampus($partUser->getCampus());
+        $sortie6->setCampus($partUser->getCampus());
+        $partUser->addOrganisateur($sortie4);
+        $partUser->addOrganisateur($sortie5);
+        $partUser->addOrganisateur($sortie6);
+        $manager->persist($partUser);
+
+        for($i=0;$i<30;$i++){
+            $part= new Participant();
+            $part->setNom($faker->lastName);
+            $part->setPrenom($faker->firstName);
+            $tel = $faker->randomNumber(9, true);
+            $part->setTelephone("0".$tel);
+            $part->setEmail($faker->email());
+            $pass = $this->hasher->hashPassword($part,'azerty');
+            $part->setPassword($pass);
+            $part->setAdministrateur(0);
+            $part->setRoles(['ROLE_USER']);
+            $part->setActif(1);
+            $part->setCampus($campusx[rand(0,2)]);
+            $manager->persist($part);
+        }
+
+
+
+
         $manager->flush();
     }
 }
