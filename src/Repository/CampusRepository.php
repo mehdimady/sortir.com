@@ -63,7 +63,7 @@ class CampusRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
-    public function searchCampus(mixed $search)
+    public function searchCampus($search)
     {
         $queryBuilder = $this->createQueryBuilder('v')
             ->andWhere("v.nom LIKE :search ")
