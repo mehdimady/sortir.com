@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{title}} - {{parent()}}{% endblock %}
+
+{% block body %}
+
+    <h1>Welcome to Sortir.com</h1>
+
+    <code>
+        composer install || composer update
+    </code>
+    <hr>
+    <code>
+        php bin/console make:migration
+    </code>
+    <hr>
+    <code>
+        php bin/console doctrine:migrations:migrate
+    </code>
+
+
+{% endblock %}
