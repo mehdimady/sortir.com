@@ -85,6 +85,9 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         $this->organisateur = new ArrayCollection();
     }
 
+    #[ORM\Column(type: 'string', length: 50)]
+    private $pseudo;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -242,6 +245,18 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCampus(?Campus $campus): self
     {
         $this->campus = $campus;
+
+        return $this;
+    }
+
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(string $pseudo): self
+    {
+        $this->pseudo = $pseudo;
 
         return $this;
     }

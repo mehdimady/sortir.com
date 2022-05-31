@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }} | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h2>{{ participant.pseudo }}</h2>
+    <div>
+        <p>Prénom : {{ participant.prenom | nl2br }}</p>
+        <p>Nom : {{ participant.nom | nl2br }}</p>
+        <p>Téléphone : {{ participant.telephone | nl2br }}</p>
+        <p>Email : {{ participant.email | nl2br }}</p>
+        <p>Campus : {{ participant.campus.nom | nl2br }}</p>
+    </div>
+    <a href="{{path('app_modifier',{'id':app.user.id})}}">Modifier</a>
+{% endblock %}

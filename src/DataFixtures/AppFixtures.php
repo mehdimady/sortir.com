@@ -132,6 +132,7 @@ class AppFixtures extends Fixture
 
         $partAdmin = new Participant();
         $partAdmin->setNom($faker->lastName);
+        $partAdmin->setPseudo($faker->lastName);
         $partAdmin->setPrenom($faker->firstName);
         $partAdmin->setTelephone("0607060706");
         $partAdmin->setEmail("admin@test.eni");
@@ -154,6 +155,7 @@ class AppFixtures extends Fixture
 
         $partUser = new Participant();
         $partUser->setNom($faker->lastName);
+        $partUser->setPseudo($faker->lastName);
         $partUser->setPrenom($faker->firstName);
         $partUser->setTelephone("0607060706");
         $partUser->setEmail("User@test.eni");
@@ -177,6 +179,7 @@ class AppFixtures extends Fixture
         for($i=0;$i<30;$i++){
             $part= new Participant();
             $part->setNom($faker->lastName);
+            $part->setPseudo($faker->lastName);
             $part->setPrenom($faker->firstName);
             $tel = $faker->randomNumber(9, true);
             $part->setTelephone("0".$tel);
