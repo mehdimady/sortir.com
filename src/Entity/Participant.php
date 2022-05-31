@@ -67,10 +67,10 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private $telephone;
 
     #[ORM\Column(type: 'boolean')]
-    private $administrateur;
+    private $administrateur = 0;
 
     #[ORM\Column(type: 'boolean')]
-    private $actif;
+    private $actif = 1;
 
     public function getId(): ?int
     {
