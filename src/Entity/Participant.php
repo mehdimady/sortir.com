@@ -4,39 +4,161 @@ namespace App\Entity;
 
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
-class Participant
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
 
+    #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[Assert\Email(message: "Votre email n'est pas valide !")]
+    private $email;
+
+    #[ORM\Column(type: 'json')]
+    private $roles = [];
+
+    #[ORM\Column(type: 'string')]
+    private $password;
+
     #[ORM\Column(type: 'string', length: 50)]
+    #[Assert\NotBlank (message: "Veuillez indiquer votre nom")]
+    #[Assert\Length(
+        min: 3,
+        max: 50,
+        minMessage: "Minimum 3 caractères s'il vous plait !",
+        maxMessage: "Maximum 50 caractères s'il vous plait !"
+    )]
+    #[Assert\Regex(pattern: "/^[Á-ÿA-Za-z \-]{3,50}$/",
+        message: "Merci d'utiliser uniquement des lettres, des tirets et des espaces !")]
     private $nom;
 
     #[ORM\Column(type: 'string', length: 50)]
+    #[Assert\NotBlank (message: "Veuillez indiquer votre prenom")]
+    #[Assert\Length(
+        min: 3,
+        max: 50,
+        minMessage: "Minimum 3 caractères s'il vous plait !",
+        maxMessage: "Maximum 50 caractères s'il vous plait !"
+    )]
+    #[Assert\Regex(pattern: "/^[Á-ÿA-Za-z \-]{3,50}$/",
+        message: "Merci d'utiliser uniquement des lettres, des tirets et des espaces !")]
     private $prenom;
 
-    #[ORM\Column(type: 'string', length: 15)]
+    #[ORM\Column(type: 'string', length: 14)]
+    #[Assert\NotBlank (message: "Veuillez indiquer votre numéro de téléphone")]
+    #[Assert\Length(
+        min: 10,
+        max: 14,
+        minMessage:
+        "Votre numéro de téléphone doit comporter 10 chiffres séparés ou non par des espaces, points ou tirets ! exemple : 06.**.**.**.**",
+        maxMessage:
+        "Votre numéro de téléphone doit comporter 10 chiffres séparés ou non par des espaces, points ou tirets ! exemple : 06.**.**.**.**"
+    )]
+    #[Assert\Regex(pattern: "/^(0)*[0-9]([ .-]*[0-9]{2}){4}$/",
+        message: "Merci d'utiliser uniquement des chiffres, des points, des tirets et des espaces !")]
     private $telephone;
 
-    #[ORM\Column(type: 'string', length: 100)]
-    private $email;
-
-    #[ORM\Column(type: 'string', length: 255)]
-    private $mdp;
+    #[ORM\Column(type: 'boolean')]
+    private $administrateur = 0;
 
     #[ORM\Column(type: 'boolean')]
-    private $administrateur;
-
-    #[ORM\Column(type: 'boolean')]
-    private $actif;
+    private $actif = 1;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @deprecated since Symfony 5.3, use getUserIdentifier instead
+     */
+    public function getUsername(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
     public function getNom(): ?string
@@ -71,30 +193,6 @@ class Participant
     public function setTelephone(string $telephone): self
     {
         $this->telephone = $telephone;
-
-        return $this;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getMdp(): ?string
-    {
-        return $this->mdp;
-    }
-
-    public function setMdp(string $mdp): self
-    {
-        $this->mdp = $mdp;
 
         return $this;
     }

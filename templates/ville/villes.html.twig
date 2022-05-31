@@ -9,9 +9,12 @@
     <h2>Filtrer les villes</h2>
 
     <div class="col-sm-10 col-md-8 col-lg-6 m-2 d-flex justify-content-around">
-        <label for="search" class="form-label">Le nom contient :</label>
-         <input type="text" id="search" class="form-control w-50"  aria-label="search" aria-describedby="button-addon2">
+        {{form_start(formSearch)}}
+        {{form_widget(formSearch.name, {'full_name': 'search','label':'Le nom contient :'})}}
         <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Rechercher</button>
+        {{form_end(formSearch)}}
+
+
     </div>
         <div class="container bg-dark text-light">
             <table class="table table-dark table-striped">
@@ -27,14 +30,20 @@
                             <tr>
                                 <td>{{ville.nom}}</td>
                                 <td>{{ville.codePostal}}</td>
-                                <td><a href="#">Modifier</a> - <a href="#">Supprimer</a></td>
+                                <td><a href="{{path('ville_modify',{'id':ville.id})}}">Modifier</a> - <a href="{{path('ville_delete',{'id':ville.id})}}">Supprimer</a></td>
                             </tr>
                         {% endfor%}
+                        {{form_start(formVille)}}
                     <tr>
-                        <td><input type="text" id="ajoutVille"></td>
-                        <td><input type="text" id="ajoutCP"></td>
-                        <td><button>Ajouter</button></td>
+                        <td>
+                            {{form_row(formVille.nom,{"label":"Nom de la ville"})}}
+                        </td>
+                        <td>
+                            {{form_row(formVille.codePostal,{"label":"Code Postal"})}}
+                        </td>
+                        <td><button>{{ button }}</button></td>
                     </tr>
+                    {{ form_end(formVille)}}
                     </tbody>
             </table>
         </div>
