@@ -12,7 +12,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['email'], message: 'Il y a déjà un compte existant avec cet email !')]
+#[UniqueEntity(fields: ['pseudo'], message: 'Ce pseudo est déjà utilisé !')]
 class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -85,7 +86,16 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         $this->organisateur = new ArrayCollection();
     }
 
-    #[ORM\Column(type: 'string', length: 50)]
+    #[ORM\Column(type: 'string', length: 50, unique: true)]
+    #[Assert\NotBlank (message: "Veuillez indiquer votre pseudo")]
+    #[Assert\Length(
+        min: 3,
+        max: 50,
+        minMessage: "Minimum 3 caractères s'il vous plait !",
+        maxMessage: "Maximum 50 caractères s'il vous plait !"
+    )]
+    #[Assert\Regex(pattern: "/^[Á-ÿA-Za-z0-9_-]{3,50}$/",
+        message: "Merci d'utiliser uniquement des lettres, des chiffres, des tirets et des underscores  !")]
     private $pseudo;
 
     public function getId(): ?int
