@@ -37,6 +37,12 @@ class Sortie
     #[ORM\ManyToOne(targetEntity: Lieu::class, inversedBy: 'sorties')]
     private $lieux;
 
+    #[ORM\ManyToOne(targetEntity: Participant::class, inversedBy: 'organisateur')]
+    private $organisateur;
+
+    #[ORM\ManyToOne(targetEntity: Campus::class, inversedBy: 'sorties')]
+    private $campus;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -134,6 +140,30 @@ class Sortie
     public function setLieux(?Lieu $lieux): self
     {
         $this->lieux = $lieux;
+
+        return $this;
+    }
+
+    public function getOrganisateur(): ?Participant
+    {
+        return $this->organisateur;
+    }
+
+    public function setOrganisateur(?Participant $organisateur): self
+    {
+        $this->organisateur = $organisateur;
+
+        return $this;
+    }
+
+    public function getCampus(): ?Campus
+    {
+        return $this->campus;
+    }
+
+    public function setCampus(?Campus $campus): self
+    {
+        $this->campus = $campus;
 
         return $this;
     }
