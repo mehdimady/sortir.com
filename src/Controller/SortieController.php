@@ -4,20 +4,53 @@ namespace App\Controller;
 
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Lieu;
+use App\Entity\Sortie;
+use App\Entity\Ville;
+use App\Form\LieuType;
+use App\Form\SortieType;
+use App\Form\VilleType;
+use App\Repository\LieuRepository;
+use App\Repository\VilleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
 #[Route('/sortie', name: 'sortie_')]
 class SortieController extends AbstractController
 {
+
     #[Route('/{id}', name: 'affiche',requirements: ['id' => '\d+'])]
-    public function DisplayOne(SortieRepository $sortieRepository,int $id): Response
-    {
+    public function DisplayOne(SortieRepository $sortieRepository,int $id): Response    {
         $sortie = $sortieRepository->findOneBy(["id"=>$id]);
 
         return $this->render('sortie/affiche.html.twig', [
             'title' => "Afficher une sortie",
             "sortie" =>$sortie
+        ]);
+    }
+
+
+    #[Route('/create', name: 'create')]
+    public function createSortie(Request $request, EntityManagerInterface $em ): Response
+    {
+        $user =$this->getUser();
+        if ($user)
+        $sortie =new Sortie();
+        $lieu =new Lieu();
+        $sortie->setOrganisateur($user);
+        $sortieForm = $this->createForm(SortieType::class,$sortie);
+        $sortieForm->handleRequest($request);
+
+        if ($sortieForm->isSubmitted() and $sortieForm->isValid() ){
+            $em->persist($sortie);
+            $em->flush();
+        }
+
+        return $this->render('sortie/index.html.twig', [
+            'title' => 'Créer une sortie',
+            'sortieForm' => $sortieForm->createView(),
         ]);
     }
 
