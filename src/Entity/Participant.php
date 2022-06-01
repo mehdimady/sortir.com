@@ -89,6 +89,9 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         $this->organisateur = new ArrayCollection();
         $this->sorties = new ArrayCollection();
     }
+    public function __toString() {
+        return $this->nom;
+    }
 
     #[ORM\Column(type: 'string', length: 50, unique: true)]
     #[Assert\NotBlank (message: "Veuillez indiquer votre pseudo")]

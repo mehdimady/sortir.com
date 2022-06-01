@@ -30,12 +30,16 @@ class Lieu
     #[ORM\ManyToOne(targetEntity: Ville::class, inversedBy: 'lieus')]
     private $ville;
 
-    #[ORM\OneToMany(mappedBy: 'lieux', targetEntity: Sortie::class)]
+
+    #[ORM\OneToMany(mappedBy: 'lieux', targetEntity: Sortie::class , cascade: ["persist"])]
     private $sorties;
 
     public function __construct()
     {
         $this->sorties = new ArrayCollection();
+    }
+    public function __toString() {
+        return $this->nom;
     }
 
     public function getId(): ?int

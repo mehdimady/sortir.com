@@ -5,8 +5,12 @@
 {% endblock %}
 
 {% block body %}
-    {{form_start(sortieForm)}}
-    {{ form_widget(sortieForm) }}
+
+{{ form_start(sortieForm) }}
+    {{ form_row(sortieForm.nom) }}
+    {{ form_row(sortieForm.lieux.nom,{'label':'Lieu'}) }}
+    {{ form_row(sortieForm.lieux.latitude) }}
+    {{ form_row(sortieForm.lieux.longitude) }}
     <button>Enregistrer</button>
-    {{form_end(sortieForm)}}
+{{ form_end(sortieForm) }}
 {% endblock %}

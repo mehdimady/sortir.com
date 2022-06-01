@@ -36,7 +36,7 @@ class Sortie
     #[ORM\ManyToOne(targetEntity: Etat::class, inversedBy: 'sorties')]
     private $etat;
 
-    #[ORM\ManyToOne(targetEntity: Lieu::class, inversedBy: 'sorties')]
+    #[ORM\ManyToOne(targetEntity: Lieu::class, inversedBy: 'sorties', cascade: ["persist"])]
     private $lieux;
 
     #[ORM\ManyToOne(targetEntity: Participant::class, inversedBy: 'organisateur')]
@@ -53,7 +53,9 @@ class Sortie
         $this->participants = new ArrayCollection();
     }
 
-
+    public function __toString() {
+        return $this->nom;
+    }
 
     public function getId(): ?int
     {

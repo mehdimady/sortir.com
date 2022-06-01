@@ -2,20 +2,26 @@
 
 namespace App\Form;
 
-use App\Entity\Campus;
-use App\Entity\Lieu;
-use App\Entity\Sortie;
-use App\Entity\Ville;
 
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Sortie;
+
+
+use Doctrine\ORM\EntityManagerInterface;
+
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 
 class SortieType extends AbstractType
 {
+    protected $security;
+
+    public function __construct(Security $security,EntityManagerInterface $em){
+        return $this->security = $security ;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -25,46 +31,14 @@ class SortieType extends AbstractType
             ->add('duree')
             ->add('nbInscriptionsMax')
             ->add('infosSortie')
-            ->add('campus', EntityType::class, [
-                'class' => Campus::class,
-                'choice_label' => 'nom',
-                'required' => true
+            ->add('campus', \Symfony\Component\Form\Extension\Core\Type\TextType::class, [
+                'disabled' => true,
+                'mapped' => false,
+                'data' => $this->security->getUser()->getCampus(),
             ])
-            ->add('ville', EntityType::class, [
-                'mapped'=>false,
-                'label'=>'Ville',
-                'class'=>Ville::class,
-                'choice_label'=>'nom'
-            ])
-            ->add('lieux', EntityType::class, [
-
-                'label'=>'Lieu',
-                'class'=>Lieu::class,
-                'choice_label'=>'nom'
-            ])
-            ->add('rue', EntityType::class, [
-                'mapped'=>false,
-                'label'=>'Rue',
-                'class'=>Lieu::class,
-                'choice_label'=>'rue'
-            ])
-            ->add('codepostal', EntityType::class, [
-                'mapped'=>false,
-                'label'=>'Code Postal',
-                'class'=>Ville::class,
-                'choice_label'=>'codePostal'
-            ])
-            ->add('lattitude', TextType::class, [
-                'mapped'=>false,
-                'attr' => ['class' => Lieu::class],
-            ])
-            ->add('longitude', TextType::class, [
-                'mapped'=>false,
-                'attr' => ['class' => Lieu::class],
+            ->add('lieux',LieuType::class,[
+                'label'=> ' ',
             ]);
-
-
-
     }
 
     public function configureOptions(OptionsResolver $resolver): void
