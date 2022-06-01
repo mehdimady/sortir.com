@@ -149,6 +149,7 @@ class AppFixtures extends Fixture
 
     public function makeSpecificUsers(ObjectManager $manager,bool $isAdmin,array $campus,array $sorties){
         $participant = new Participant();
+        $participant->setPseudo($this->faker->lastName);
         $participant->setNom($this->faker->lastName);
         $participant->setPrenom($this->faker->firstName);
         $participant->setTelephone("0607060706");
@@ -179,6 +180,7 @@ class AppFixtures extends Fixture
     public function makeUsers(ObjectManager $manager,array $campus):array{
         for($i=0;$i<30;$i++){
             $part= new Participant();
+            $part->setPseudo($this->faker->lastName);
             $part->setNom($this->faker->lastName);
             $part->setPrenom($this->faker->firstName);
             $tel = $this->faker->randomNumber(9, true);

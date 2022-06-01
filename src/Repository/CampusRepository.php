@@ -67,7 +67,7 @@ class CampusRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this->createQueryBuilder('v')
             ->andWhere("v.nom LIKE :search ")
-            ->setParameter("search",'%'.$search.'%');
+            ->setParameter("search",$search.'%');
         $query = $queryBuilder->getQuery();
         $result = $query->getResult();
         return $result;
