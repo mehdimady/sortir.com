@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{title}} - {{parent()}}{% endblock %}
+
+{% block body %}
+    <p>nom de la sortie : {{sortie.nom}}</p>
+
+    <p>Date et heure de la sortie :
+        {{sortie.dateHeureDebut | format_datetime('full','full',locale='fr') | split(' ')[0]}}
+        {{sortie.dateHeureDebut | format_datetime('full','full',locale='fr') | split(' ')[1]}}
+        {{sortie.dateHeureDebut | format_datetime('full','full',locale='fr') | split(' ')[2]}}
+        {{sortie.dateHeureDebut | format_datetime('full','full',locale='fr') | split(' ')[3]}}
+        {{sortie.dateHeureDebut | format_datetime('full','full',locale='fr') | split(' ')[5]|split(':')[0]}}H{{sortie.dateHeureDebut | format_datetime('full','full',locale='fr') | split(' ')[5]|split(':')[1]}}
+    </p>
+<p>Date limite d'inscription :
+    {{sortie.dateLimiteInscription | format_datetime('full','full',locale='fr') | split(' ')[0]}}
+    {{sortie.dateLimiteInscription | format_datetime('full','full',locale='fr') | split(' ')[1]}}
+    {{sortie.dateLimiteInscription | format_datetime('full','full',locale='fr') | split(' ')[2]}}
+    {{sortie.dateLimiteInscription | format_datetime('full','full',locale='fr') | split(' ')[3]}}
+</p>
+<p>Nombre de place : {{sortie.nbInscriptionsMax}}</p>
+<p>Durée : {{sortie.duree}}</p>
+<p>Description des infos : {{sortie.infosSortie}}</p>
+<p>Campus : {{sortie.campus.nom}}</p>
+<p>Lieu : {{sortie.lieux.nom}}</p>
+<p>Rue : {{sortie.lieux.rue}}</p>
+<p>Code Postal : {{sortie.lieux.ville.codePostal}}</p>
+<p>Latitude : {{sortie.lieux.latitude}}</p>
+<p>Longitude : {{sortie.lieux.longitude}}</p>
+{% endblock %}
