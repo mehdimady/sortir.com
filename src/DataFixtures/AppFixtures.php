@@ -16,40 +16,54 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class AppFixtures extends Fixture
 {
     private $hasher;
+    private $faker;
     public function __construct(UserPasswordHasherInterface $hasher){
         $this->hasher = $hasher;
+        $this->faker = Faker\Factory::create('fr_FR');
     }
     public function load(ObjectManager $manager): void
     {
+        $campus = $this->makeCampus($manager);
+        $etats = $this->makeEtats($manager);
+        $villes = $this->makeVilles($manager);
+        $lieux = $this->makeLieux($manager,$villes);
+        $sorties = $this->makeSorties($manager,$lieux,$etats);
+//        USERS
+        $this->makeSpecificUsers($manager,TRUE,$campus,$sorties);
+        $this->makeSpecificUsers($manager,FALSE,$campus,$sorties);
+        $users = $this->makeUsers($manager,$campus);
 
-        $faker = Faker\Factory::create('fr_FR');
+        $this->addParticipant($manager,$sorties,$users);
 
-        $campusx = [];
-        $villes = [];
-        $lieux = [];
-        $sorties = [];
-       $etats = [];
+        $manager->flush();
+    }
 
-//        fixtures VILLES
+    public function makeVilles(ObjectManager $manager):array{
         for($i = 0; $i< 10; $i++){
             $ville = new Ville();
-            $ville->setNom($faker->city());
-            $ville->setCodePostal($faker->randomNumber(5, true));
+            $ville->setNom($this->faker->city());
+            $ville->setCodePostal($this->faker->randomNumber(5, true));
             $manager->persist($ville);
             $villes[]=$ville;
         }
-//        fixtures LIEUX
-        for ($i = 0 ; $i < 50 ; $i++){
-           $lieu = new Lieu();
-           $lieu->setNom($faker->sentence(1));
-           $lieu->setRue($faker->streetAddress());
-           $lieu->setVille($villes[rand(0,9)]);
-           $lieu->setLatitude($faker->latitude($min = -90, $max = 90));
-           $lieu->setLongitude($faker->longitude($min = -180, $max = 180));
+        return $villes;
+    }
+
+    public function makeLieux(ObjectManager $manager,array $villes):array{
+        for ($i = 0 ; $i < 10 ; $i++){
+            $lieu = new Lieu();
+            $lieu->setNom($this->faker->sentence(1));
+            $lieu->setRue($this->faker->streetAddress());
+            $lieu->setVille($villes[rand(0,9)]);
+            $lieu->setLatitude($this->faker->latitude($min = -90, $max = 90));
+            $lieu->setLongitude($this->faker->longitude($min = -180, $max = 180));
             $manager->persist($lieu);
             $lieux[] = $lieu;
         }
-//        fixtures ETATS
+        return $lieux;
+    }
+
+    public function makeEtats(ObjectManager $manager):array{
         $states = ['Créée','Ouverte','Clôturée','Activité en cours','passée','Annulée'];
         foreach ($states as $state){
             $etat = new Etat();
@@ -57,145 +71,141 @@ class AppFixtures extends Fixture
             $manager->persist($etat);
             $etats[]=$etat;
         }
-
-//        fixtures SORTIES
-
-    for($i = 0; $i <= 5; $i++ ){
-        $sortie = new Sortie();
-        $sortie->setNom($faker->sentence(1));
-        $sortie->setDuree(rand(30,180));
-        $sortie->setNbInscriptionsMax(rand(50,150));
-        $sortie->setInfosSortie($faker->paragraph(2));
-        $sortie->setLieux($lieux[rand(0,49)]);
-
-        $date = new \DateTime();
-        $dateStart = '';
-        $dateInterval = '';
-        switch ($i){
-//            creee
-            case 0 :
-                $date->modify('+6 week');
-                $dateStart .= '+4 weeks';
-                $dateInterval .= '+5 weeks';
-                $sortie->setEtat($etats[0]);
-                break;
-//                ouverte
-            case 1 :
-                $date->modify('+3 week');
-                $dateStart .= '+1 week';
-                $dateInterval .= '+2 weeks';
-                $sortie->setEtat($etats[1]);
-                break;
-//                cloturee
-            case 2 :
-                $date->modify('+1 week');
-                $dateStart .= '-2 weeks';
-                $dateInterval .= '-1 week';
-                $sortie->setEtat($etats[2]);
-                break;
-//                en cours
-            case 3 :
-                $dateStart .= '-3 weeks';
-                $dateInterval .= '-1 week';
-                $sortie->setEtat($etats[3]);
-                break;
-//                passee
-            case 4 :
-                $date->modify('-1 week');
-                $dateStart .= '-3 weeks';
-                $dateInterval .= '-2 week';
-                $sortie->setEtat($etats[4]);
-                break;
-//                annulee
-            case 5 :
-            $date->modify('-2 week');
-            $dateStart .= '-4 weeks';
-            $dateInterval .= '-3 week';
-                $sortie->setEtat($etats[5]);
-            break;
-        }
-        $sortie->setDateHeureDebut($date);
-        $sortie->setDateLimiteInscription($faker->dateTimeInInterval($dateStart, $dateInterval));
-        $sorties[] = $sortie;
-        $manager->persist($sortie);
+        return $etats;
     }
 
-        //       fixtures CAMPUS
+    public function makeCampus(ObjectManager $manager):array{
         foreach(["Nantes","Rennes","Niort"] as $city){
             $campus = new Campus();
             $campus->setNom($city);
             $manager->persist($campus);
-            $campusx[]=$campus;
+            $allCampus[]=$campus;
         }
+        return $allCampus;
+    }
 
-//        fixtures PARTICIPANT
+    public function makeSorties(ObjectManager $manager, array $lieux,array $etats):array{
+        for($i = 0; $i <= 5; $i++ ){
+            $sortie = new Sortie();
+            $sortie->setNom($this->faker->sentence(1));
+            $sortie->setDuree(rand(30,180));
+            $sortie->setNbInscriptionsMax(rand(10,50));
+            $sortie->setInfosSortie($this->faker->paragraph(2));
+            $sortie->setLieux($lieux[rand(0,9)]);
 
-        $partAdmin = new Participant();
-        $partAdmin->setNom($faker->lastName);
-        $partAdmin->setPseudo($faker->lastName);
-        $partAdmin->setPrenom($faker->firstName);
-        $partAdmin->setTelephone("0607060706");
-        $partAdmin->setEmail("admin@test.eni");
-        $passAdmin = $this->hasher->hashPassword($partAdmin,'azerty');
-        $partAdmin->setPassword($passAdmin);
-        $partAdmin->setAdministrateur(1);
-        $partAdmin->setRoles(['ROLE_USER','ROLE_ADMIN']);
-        $partAdmin->setActif(1);
-        $partAdmin->setCampus($campusx[0]);
-        $sortie1 = $sorties[0];
-        $sortie2 = $sorties[1];
-        $sortie3 = $sorties[2];
-        $sortie1->setCampus($campusx[0]);
-        $sortie2->setCampus($campusx[0]);
-        $sortie3->setCampus($campusx[0]);
-        $partAdmin->addOrganisateur($sortie1);
-        $partAdmin->addOrganisateur($sortie2);
-        $partAdmin->addOrganisateur($sortie3);
-        $manager->persist($partAdmin);
+            $date = new \DateTime();
+            $dateStart = '';
+            $dateInterval = '';
+            switch ($i){
+//            creee
+                case 0 :
+                    $date->modify('+6 week');
+                    $dateStart .= '+4 weeks';
+                    $dateInterval .= '+5 weeks';
+                    $sortie->setEtat($etats[0]);
+                    break;
+//                ouverte
+                case 1 :
+                    $date->modify('+3 week');
+                    $dateStart .= '+1 week';
+                    $dateInterval .= '+2 weeks';
+                    $sortie->setEtat($etats[1]);
+                    break;
+//                cloturee
+                case 2 :
+                    $date->modify('+1 week');
+                    $dateStart .= '-2 weeks';
+                    $dateInterval .= '-1 week';
+                    $sortie->setEtat($etats[2]);
+                    break;
+//                en cours
+                case 3 :
+                    $dateStart .= '-3 weeks';
+                    $dateInterval .= '-1 week';
+                    $sortie->setEtat($etats[3]);
+                    break;
+//                passee
+                case 4 :
+                    $date->modify('-1 week');
+                    $dateStart .= '-3 weeks';
+                    $dateInterval .= '-2 week';
+                    $sortie->setEtat($etats[4]);
+                    break;
+//                annulee
+                case 5 :
+                    $date->modify('-2 week');
+                    $dateStart .= '-4 weeks';
+                    $dateInterval .= '-3 week';
+                    $sortie->setEtat($etats[5]);
+                    break;
+            }
+            $sortie->setDateHeureDebut($date);
+            $sortie->setDateLimiteInscription($this->faker->dateTimeInInterval($dateStart, $dateInterval));
+            $sorties[] = $sortie;
+            $manager->persist($sortie);
+        }
+        return $sorties;
+    }
 
-        $partUser = new Participant();
-        $partUser->setNom($faker->lastName);
-        $partUser->setPseudo($faker->lastName);
-        $partUser->setPrenom($faker->firstName);
-        $partUser->setTelephone("0607060706");
-        $partUser->setEmail("User@test.eni");
-        $passUser = $this->hasher->hashPassword($partUser,'azerty');
-        $partUser->setPassword($passUser);
-        $partUser->setAdministrateur(0);
-        $partUser->setRoles(['ROLE_USER']);
-        $partUser->setActif(1);
-        $partUser->setCampus($campusx[rand(0,2)]);
-        $sortie4 = $sorties[3];
-        $sortie5 = $sorties[4];
-        $sortie6 = $sorties[5];
-        $sortie4->setCampus($partUser->getCampus());
-        $sortie5->setCampus($partUser->getCampus());
-        $sortie6->setCampus($partUser->getCampus());
-        $partUser->addOrganisateur($sortie4);
-        $partUser->addOrganisateur($sortie5);
-        $partUser->addOrganisateur($sortie6);
-        $manager->persist($partUser);
+    public function makeSpecificUsers(ObjectManager $manager,bool $isAdmin,array $campus,array $sorties){
+        $participant = new Participant();
+        $participant->setNom($this->faker->lastName);
+        $participant->setPrenom($this->faker->firstName);
+        $participant->setTelephone("0607060706");
+        $participant->setPassword($this->hasher->hashPassword($participant,'azerty'));
+        $participant->setActif(1);
+        if($isAdmin){
+            $participant->setEmail("admin@test.eni");
+            $participant->setRoles(['ROLE_USER','ROLE_ADMIN']);
+            $participant->setAdministrateur(1);
+            $indiceSortie=0;
+            $indiceCampus=0;
+        }else{
+            $participant->setEmail("user@test.eni");
+            $participant->setRoles(['ROLE_USER']);
+            $participant->setAdministrateur(0);
+            $indiceSortie=3;
+            $indiceCampus=1;
+        }
+        $participant->setCampus($campus[$indiceCampus]);
+        for($i=0; $i<3; $i++){
+            $currentSortie = $sorties[$i+$indiceSortie];
+            $currentSortie->setCampus($campus[$indiceCampus]);
+            $participant->addOrganisateur($currentSortie);
+        }
+        $manager->persist($participant);
+    }
 
+    public function makeUsers(ObjectManager $manager,array $campus):array{
         for($i=0;$i<30;$i++){
             $part= new Participant();
-            $part->setNom($faker->lastName);
-            $part->setPseudo($faker->lastName);
-            $part->setPrenom($faker->firstName);
-            $tel = $faker->randomNumber(9, true);
+            $part->setNom($this->faker->lastName);
+            $part->setPrenom($this->faker->firstName);
+            $tel = $this->faker->randomNumber(9, true);
             $part->setTelephone("0".$tel);
-            $part->setEmail($faker->email());
+            $part->setEmail($this->faker->email());
             $pass = $this->hasher->hashPassword($part,'azerty');
             $part->setPassword($pass);
             $part->setAdministrateur(0);
             $part->setRoles(['ROLE_USER']);
             $part->setActif(1);
-            $part->setCampus($campusx[rand(0,2)]);
+            $part->setCampus($campus[rand(0,2)]);
             $manager->persist($part);
+            $users[] = $part;
         }
+        return $users;
+    }
 
-
-
-
-        $manager->flush();
+    private function addParticipant(ObjectManager $manager, array $sorties, array $users)
+    {
+        for($i=0;$i<=5;$i++){
+            if($i!=0) {
+                $hasard = rand(10, 30);
+                for ($j = 0; $j < $hasard; $j++) {
+                    $sorties[$i]->addParticipant($users[rand(0, 29)]);
+                    $manager->persist($sorties[$i]);
+                }
+            }
+        }
     }
 }
