@@ -81,9 +81,13 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class)]
     private $organisateur;
 
+    #[ORM\ManyToMany(targetEntity: Sortie::class, mappedBy: 'participants')]
+    private $sorties;
+
     public function __construct()
     {
         $this->organisateur = new ArrayCollection();
+        $this->sorties = new ArrayCollection();
     }
 
     #[ORM\Column(type: 'string', length: 50, unique: true)]
@@ -296,6 +300,33 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
             if ($organisateur->getOrganisateur() === $this) {
                 $organisateur->setOrganisateur(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Sortie>
+     */
+    public function getSorties(): Collection
+    {
+        return $this->sorties;
+    }
+
+    public function addSorty(Sortie $sorty): self
+    {
+        if (!$this->sorties->contains($sorty)) {
+            $this->sorties[] = $sorty;
+            $sorty->addParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSorty(Sortie $sorty): self
+    {
+        if ($this->sorties->removeElement($sorty)) {
+            $sorty->removeParticipant($this);
         }
 
         return $this;
