@@ -24,10 +24,11 @@ class SortieController extends AbstractController
     #[Route('/{id}', name: 'affiche',requirements: ['id' => '\d+'])]
     public function DisplayOne(SortieRepository $sortieRepository,int $id): Response    {
         $sortie = $sortieRepository->findOneBy(["id"=>$id]);
-
+        $listeParticipant = $sortie->getParticipants();
         return $this->render('sortie/affiche.html.twig', [
             'title' => "Afficher une sortie",
-            "sortie" =>$sortie
+            "sortie" =>$sortie,
+            "listeParticipants"=>$listeParticipant
         ]);
     }
 
@@ -36,12 +37,13 @@ class SortieController extends AbstractController
     public function createSortie(Request $request, EntityManagerInterface $em ): Response
     {
         $user =$this->getUser();
-        if ($user)
-        $sortie =new Sortie();
-        $lieu =new Lieu();
-        $sortie->setOrganisateur($user);
-        $sortieForm = $this->createForm(SortieType::class,$sortie);
-        $sortieForm->handleRequest($request);
+        if ($user){
+            $sortie =new Sortie();
+            $lieu =new Lieu();
+            $sortie->setOrganisateur($user);
+            $sortieForm = $this->createForm(SortieType::class,$sortie);
+            $sortieForm->handleRequest($request);
+        }
 
         if ($sortieForm->isSubmitted() and $sortieForm->isValid() ){
             $em->persist($sortie);
