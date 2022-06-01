@@ -4,20 +4,109 @@
 
 {% block body %}
 
-    <h1>Welcome to Sortir.com</h1>
+        <div class="container mb-3">
+            <form >
+                <h4>Filtrer les sorties</h4>
+                <div class="form-group row mb-0">
+                    <label class="col-lg-2 col-form-label" for="site">Campus</label>
+                    <select  id="site" class="custom-select col-lg-3">
+                        <option>
 
-    <code>
-        composer install || composer update
-    </code>
-    <hr>
-    <code>
-        php bin/console make:migration
-    </code>
-    <hr>
-    <code>
-        php bin/console doctrine:migrations:migrate
-    </code>
-    <hr>
-    User@test.eni = azerty
-    Admin@test.eni = azerty
+                        </option>
+                    </select>
+                    <div class="form-group row">
+                        <label for="Contains" class="col-form-label col-lg-3">Le nom de la sortie contient</label>
+                        <input type="search"  class="form-control col-lg-2" id="Contains">
+                        <div class="form-check offset-lg-2 d-flex flex-column">
+                        </div>
+                    </div>
+                    <div class="form-check offset-lg-2 d-flex flex-column">
+                        <div>
+                            <input type="checkbox" class="form-check-input">
+                            <label class="form-check-label" for="amIOrganizer">Sorties dont je suis l'organisateur.trice</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" class="form-check-input">
+                            <label class="form-check-label" for="amIOrganizer">Sorties auxquelles je suis inscrit.e</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" class="form-check-input">
+                            <label class="form-check-label" for="amIOrganizer">Sorties auxquelles je ne suis pas inscrit.e</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" class="form-check-input">
+                            <label class="form-check-label" for="amIOrganizer">Sorties passée</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="startDate" class="col-form-label col-lg-1">Entre le</label>
+                    <input type="date" id="startDate"  class="form-control col-lg-2">
+                    <label for="endDate" class="col-form-label col-lg-1">et le</label>
+                    <input type="date" id="endDate"  class="form-control col-lg-2">
+                    <button
+                            type="submit"
+                            class="btn btn-block btn-dark offset-lg-1 col-lg-4">
+                        Recherche
+                    </button>
+
+                </div>
+            </form>
+        </div>
+        <hr>
+
+        <div class="table-responsive row">
+            <h5 class="text-center m-4">Sorties prévues sur le site </h5>
+
+
+
+            <table class="table offset-1 offset-lg-2 col-lg-8">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">Nom de la sortie</th>
+                    <th scope="col">Date de la sortie</th>
+                    <th scope="col">inscrits/places</th>
+                    <th scope="col">Clôture de l'inscription</th>
+                    <th scope="col">Etat</th>
+                    <th scope="col">Inscrit</th>
+                    <th scope="col">Organisateur</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr >
+                    <th scope="row">a</th>
+                    <td>date</td>
+                    <td>b</td>
+                    <td>c</td>
+                    <td>d</td>
+                    <td>
+          <span >
+            X
+          </span></td>
+                    <td><a></a></td>
+                    <td>
+                        <a >Afficher</a>
+                        <a >Gérer</a>
+                        <span >
+            - <a >S'inscrire</a>
+          </span>
+                        <span >
+            - <a >Se désister</a>
+          </span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+          </div>
+         <div class="form-group row">
+          <button
+            type="submit"
+            class="btn btn-block btn-dark offset-lg-2 col-lg-3">
+            Créer une Sortie
+          </button>
+
+         </div>
+    </div>
 {% endblock %}
