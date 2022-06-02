@@ -36,11 +36,24 @@ class SortieController extends AbstractController
         $sortie = $sortieRepository->findOneBy(["id"=>$id]);
         $listeParticipant = $sortie->getParticipants();
 
-        return $this->render('sortie/affiche.html.twig', [
-            'title' => "Afficher une sortie",
-            "sortie" =>$sortie,
-            "listeParticipants"=>$listeParticipant
-        ]);
+        if($sortie->getEtat()->getLibelle() == $this->etats[3]){
+            $motif = $sortie->getMotif();
+//            dd($motif);
+            return $this->render('sortie/affiche.html.twig', [
+                'title' => "Afficher une sortie",
+                "sortie" =>$sortie,
+                "motif"=>$motif,
+                "listeParticipants"=>$listeParticipant
+            ]);
+        }else{
+            return $this->render('sortie/affiche.html.twig', [
+                'title' => "Afficher une sortie",
+                "sortie" =>$sortie,
+                "listeParticipants"=>$listeParticipant
+            ]);
+        }
+
+
     }
 
 
@@ -131,7 +144,6 @@ class SortieController extends AbstractController
         $this->addFlash('success','Les inscriptions sont désormais ouvertes !');
         return $this->redirectToRoute('app_home');
     }
-
 
     #[Route('/annuler/{id}', name: 'annuler',requirements: ['id' => '\d+'])]
     public function CancelSortie(int $id, SortieRepository $sortieRepository,EntityManagerInterface $entityManager,Request $request ):Response
