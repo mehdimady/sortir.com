@@ -52,8 +52,6 @@ class SortieController extends AbstractController
                 "listeParticipants"=>$listeParticipant
             ]);
         }
-
-
     }
 
 
@@ -154,14 +152,13 @@ class SortieController extends AbstractController
             $formAnnule = $this->createForm(AnnuleType::class);
             $formAnnule->handleRequest($request);
             if($formAnnule->isSubmitted() && $formAnnule->isValid()){
-//              dd($request->get('motif'));
+                $sortie->setMotif($request->get('motif'));
                 $sortie->setEtat($this->etats[3]);
                 $entityManager->persist($sortie);
                 $entityManager->flush();
                 $this->addFlash('success','La sortie est annulée !');
                 return $this->redirectToRoute('app_home');
             }
-//
         }else{
             $this->addFlash('error','Attention Opération interdite !');
             return $this->redirectToRoute('app_home');
