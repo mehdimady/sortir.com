@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
+use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Sortie;
@@ -14,26 +16,35 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/sortie', name: 'sortie_')]
 class SortieController extends AbstractController
 {
+    private $etats;
+    public function __construct(EtatRepository $repo){
+        $this->etats = $repo->findAll();
+    }
 
     #[Route('/{id}', name: 'affiche',requirements: ['id' => '\d+'])]
     public function DisplayOne(SortieRepository $sortieRepository,int $id): Response    {
         $sortie = $sortieRepository->findOneBy(["id"=>$id]);
+        $listeParticipant = $sortie->getParticipants();
 
         return $this->render('sortie/affiche.html.twig', [
             'title' => "Afficher une sortie",
-            "sortie" =>$sortie
+            "sortie" =>$sortie,
+            "listeParticipants"=>$listeParticipant
         ]);
     }
 
 
     #[Route('/create', name: 'create')]
-    public function createSortie(Request $request, EntityManagerInterface $em ): Response
+    public function createSortie(Request $request, EtatRepository $etatRepository,EntityManagerInterface $em ): Response
     {
+        $etats = $etatRepository->findAll();
         $user =$this->getUser();
 
         $sortie =new Sortie();
+
         $sortie->setOrganisateur($user);
         $sortie->setCampus($user->getCampus());
+        $sortie->setEtat($etats[0]);
 
         $sortieForm = $this->createForm(SortieType::class,$sortie);
         $sortieForm->handleRequest($request);
@@ -92,5 +103,22 @@ class SortieController extends AbstractController
             $this->addFlash('warning','Veuillez vous connecter !');
             return $this->redirectToRoute('app_home');
         }
+    }
+
+    #[Route('/publier/{id}', name: 'publier',requirements: ['id' => '\d+'])]
+    public function PublishSortie(int $id, SortieRepository $sortieRepository,EtatRepository $etatRepository, EntityManagerInterface $entityManager )
+    {
+        $user =$this->getUser();
+        $sortie = $sortieRepository->findOneBy(["id"=>$id]);
+        if($sortie != null and $user != null and $sortie->getOrganisateur()->getEmail() == $this->getUser()->getUserIdentifier()){
+            $sortie->setEtat($this->etats[1]);
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+        }else{
+            $this->addFlash('error','Attention Opération interdite !');
+            return $this->redirectToRoute('app_home');
+        }
+        $this->addFlash('success','Les inscriptions sont désormais ouvertes !');
+        return $this->redirectToRoute('app_home');
     }
 }
