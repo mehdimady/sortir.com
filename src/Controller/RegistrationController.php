@@ -35,9 +35,11 @@ class RegistrationController extends AbstractController
                 $uploadedFile->move(
                     $this->getParameter('image_directory'),
                     $newFilename);
-
-                $user->setImageFilename($newFilename);
             }
+            else{
+                $newFilename = 'noimage.jpg';
+            }
+            $user->setImageFilename($newFilename);
             // encode the plain password
             $user->setPassword(
             $userPasswordHasher->hashPassword(

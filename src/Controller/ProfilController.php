@@ -45,7 +45,11 @@ class ProfilController extends AbstractController
                         $uploadedFile->move(
                             $this->getParameter('image_directory'),
                             $newFilename);
-
+                        if (file_exists('./uploads/image/'.$user->getImageFilename())) {
+                            if ($user->getImageFilename() != 'noimage.jpg'){
+                                unlink('./uploads/image/'.$user->getImageFilename());
+                            }
+                        }
                         $user->setImageFilename($newFilename);
                     }
                     $entityManager->persist($participant);
