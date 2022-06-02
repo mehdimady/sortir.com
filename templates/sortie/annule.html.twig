@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{title}} - {{parent()}}{% endblock %}
+
+{% block body %}
+        <h1>Annuler une sortie</h1>
+        <p>Nom de la sortie : {{sortie.nom}}</p>
+        <p>Date de la sortie : {{sortie.DateHeureDebut | format_date}}</p>
+        <p>Campus : {{sortie.campus.nom}}</p>
+        <p>Lieu : {{sortie.lieux.nom}}</p>
+
+        <div class="col-sm-10 col-md-8 col-lg-6 m-2 d-flex justify-content-around">
+                {{form_start(formAnnule)}}
+                {{form_widget(formAnnule.motif, {'full_name': 'motif','label':'Motif'})}}
+                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Rechercher</button>
+                {{form_end(formAnnule)}}
+        </div>
+
+{% endblock %}

@@ -10,7 +10,7 @@
                 <td>
                         {% if app.user.id == result.sortie.organisateur.id %}
                                 {% if result.sortie.etat.libelle == 'En création' %}modifier - <a href="{{path('sortie_publier',{'id':result.sortie.id})}}">publier</a>
-                                {% elseif result.sortie.etat.libelle == 'Ouvert' %}<a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a> -annuler
+                                {% elseif result.sortie.etat.libelle == 'Ouvert' %}<a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a> - <a href="{{path('sortie_annuler',{'id':result.sortie.id})}}">annuler</a>
                                 {% elseif result.sortie.etat.libelle == 'Fermé' %}<a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a>
                                 {% else %}<a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a>
                                 {% endif %}
@@ -19,6 +19,7 @@
                                 {% elseif result.sortie.etat.libelle == 'Ouvert' %}<a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a>
                                         -  {% if result.inscrit %}<a href="{{path('sortie_desister',{'id':result.sortie.id})}}">se désister</a>{% else %}<a href="{{path('sortie_inscrire',{'id':result.sortie.id})}}">s'inscrire</a>{% endif %}
                                 {% elseif result.sortie.etat.libelle == 'Fermé' %}<a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a>
+                                        -  {% if result.inscrit %}<a href="{{path('sortie_desister',{'id':result.sortie.id})}}">se désister</a>{% endif %}
                                 {% else %}<a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a>
                                 {% endif %}
                         {% endif %}
