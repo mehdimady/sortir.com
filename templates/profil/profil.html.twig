@@ -4,6 +4,7 @@
 
 {% block body %}
     <h2>{{ participant.pseudo }}</h2>
+    <img src="{{ asset('uploads/image/' ~ participant.imageFilename()) }}" alt="image-profil">
     <div>
         <p>Prénom : {{ participant.prenom | nl2br }}</p>
         <p>Nom : {{ participant.nom | nl2br }}</p>
@@ -11,5 +12,7 @@
         <p>Email : {{ participant.email | nl2br }}</p>
         <p>Campus : {{ participant.campus.nom | nl2br }}</p>
     </div>
-    <a href="{{path('app_modifier',{'id':app.user.id})}}">Modifier</a>
+    {% if app.user.userIdentifier == participant.email %}
+        <a href="{{path('app_modifier',{'id':app.user.id})}}">Modifier</a>
+    {% endif %}
 {% endblock %}

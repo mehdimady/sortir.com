@@ -105,6 +105,9 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         message: "Merci d'utiliser uniquement des lettres, des chiffres, des tirets et des underscores  !")]
     private $pseudo;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $imageFilename;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -331,6 +334,18 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->sorties->removeElement($sorty)) {
             $sorty->removeParticipant($this);
         }
+
+        return $this;
+    }
+
+    public function getImageFilename(): ?string
+    {
+        return $this->imageFilename;
+    }
+
+    public function setImageFilename(?string $imageFilename): self
+    {
+        $this->imageFilename = $imageFilename;
 
         return $this;
     }
