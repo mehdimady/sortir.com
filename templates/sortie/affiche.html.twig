@@ -4,6 +4,20 @@
 
 {% block body %}
 <h1 class="text-center p-2">Afficher une sortie</h1>
+
+    {% if motif is defined %}
+        <div class="toast m-auto d-block">
+            <div class="toast-header text-center bg-danger">
+                <strong class="text-light d-block w-100">SORTIE ANNULÉE</strong>
+            </div>
+            <div class="toast-body bg-warning">
+                {{ motif }}
+            </div>
+        </div>
+    {% endif %}
+
+
+
     <div class="card col-sm-12 col-md-10 col-lg-8 mx-auto my-3">
         <div class="card-body d-flex justify-content-around ">
             <div class="col-5">
