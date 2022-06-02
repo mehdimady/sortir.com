@@ -16,6 +16,15 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/sortie', name: 'sortie_')]
 class SortieController extends AbstractController
 {
+    /*
+    0:'En création',
+    1: 'Ouvert',
+    2: 'Fermé',
+    3: 'Annulé',
+    4: 'En cours',
+    5: 'Terminé',
+    6: 'Historisé'
+    */
     private $etats;
     public function __construct(EtatRepository $repo){
         $this->etats = $repo->findAll();
@@ -66,11 +75,12 @@ class SortieController extends AbstractController
         $user = $this->getUser();
         if ($user!=null){
             $sortie = $sortieRepository->findOneBy(["id"=>$id]);
+            $maxInscrit = $sortie->getNbInscriptionsMax();
+            $nbInscrit = count($sortie->getParticipants());
             $sortie->addParticipant($user);
-
-//            todo controlle de l'etat
-            //  si c'est le dernier participant => alors on passe en fermée
-
+            if ( $nbInscrit == $maxInscrit){
+                $sortie->setEtat($this->etats[3]);
+            }
             $entityManager->persist($sortie);
             $entityManager->flush();
             $this->addFlash('success','Vous êtes inscrit !');
@@ -89,11 +99,10 @@ class SortieController extends AbstractController
         if ($user!=null){
             $sortie = $sortieRepository->findOneBy(["id"=>$id]);
             $sortie->removeParticipant($user);
-
-//             todo controlle de l'etat
-//  si c'est le dernier participant =>  si la date de fin d'inscription est dépassé alors reste en fermée
-//                                                  =>  si la date de fin d'inscription n'est pas dépassé alors repasse en ouverte
-
+            $dateFin = $sortie->getDateLimiteInscription();
+            if (!$dateFin){
+                $sortie->setEtat($this->etats[1]);
+            }
             $entityManager->persist($sortie);
             $entityManager->flush();
             $this->addFlash('success','Vous êtes désinscrit !');
