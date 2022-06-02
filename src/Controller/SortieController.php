@@ -3,8 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Etat;
-use App\Form\AnnuleType;
-use App\Form\SearchVilleType;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -78,10 +76,10 @@ class SortieController extends AbstractController
         if ($user!=null){
             $sortie = $sortieRepository->findOneBy(["id"=>$id]);
             $maxInscrit = $sortie->getNbInscriptionsMax();
-            $sortie->addParticipant($user);
             $nbInscrit = count($sortie->getParticipants());
+            $sortie->addParticipant($user);
             if ( $nbInscrit == $maxInscrit){
-                $sortie->setEtat($this->etats[2]);
+                $sortie->setEtat($this->etats[3]);
             }
             $entityManager->persist($sortie);
             $entityManager->flush();
@@ -102,10 +100,8 @@ class SortieController extends AbstractController
             $sortie = $sortieRepository->findOneBy(["id"=>$id]);
             $sortie->removeParticipant($user);
             $dateFin = $sortie->getDateLimiteInscription();
-            if ($dateFin <  new \DateTime()){
+            if (!$dateFin){
                 $sortie->setEtat($this->etats[1]);
-            }else{
-                $sortie->setEtat($this->etats[2]);
             }
             $entityManager->persist($sortie);
             $entityManager->flush();
@@ -133,34 +129,5 @@ class SortieController extends AbstractController
         }
         $this->addFlash('success','Les inscriptions sont désormais ouvertes !');
         return $this->redirectToRoute('app_home');
-    }
-
-    #[Route('/annuler/{id}', name: 'annuler',requirements: ['id' => '\d+'])]
-    public function CancelSortie(int $id, SortieRepository $sortieRepository,EntityManagerInterface $entityManager,Request $request ):Response
-    {
-        $user =$this->getUser();
-        $sortie = $sortieRepository->findOneBy(["id"=>$id]);
-        if($sortie != null and $user != null and $sortie->getOrganisateur()->getEmail() == $this->getUser()->getUserIdentifier()){
-            $formAnnule = $this->createForm(AnnuleType::class);
-            $formAnnule->handleRequest($request);
-            if($formAnnule->isSubmitted() && $formAnnule->isValid()){
-//              dd($request->get('motif'));
-            $sortie->setEtat($this->etats[3]);
-            $entityManager->persist($sortie);
-            $entityManager->flush();
-            $this->addFlash('success','La sortie est annulée !');
-            return $this->redirectToRoute('app_home');
-            }
-//
-        }else{
-            $this->addFlash('error','Attention Opération interdite !');
-            return $this->redirectToRoute('app_home');
-        }
-
-        return $this->render('sortie/annule.html.twig', [
-            'title' => 'Annuler une sortie',
-            'sortie'=>$sortie,
-            'formAnnule' => $formAnnule->createView()
-        ]);
     }
 }
