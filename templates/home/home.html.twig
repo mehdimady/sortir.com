@@ -56,18 +56,18 @@
         </div>
         <hr>
 
-        <div class="table-responsive row">
+        <div class="col-12 col-md-10 col-lg-8  m-auto">
             <h5 class="text-center m-4">Sorties prévues sur le site </h5>
 
 
 
-            <table class="table offset-1 offset-lg-2 col-lg-8">
+            <table class="table table-dark table-striped ">
                 <thead class="thead-light">
                 <tr>
                     <th scope="col">Nom de la sortie</th>
                     <th scope="col">Date de la sortie</th>
-                    <th scope="col">inscrits/places</th>
-                    <th scope="col">Clôture de l'inscription</th>
+                    <th scope="col">Clôture</th>
+                    <th scope="col">Participants</th>
                     <th scope="col">Etat</th>
                     <th scope="col">Inscrit</th>
                     <th scope="col">Organisateur</th>
@@ -75,37 +75,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr >
-                    <th scope="row">a</th>
-                    <td>date</td>
-                    <td>b</td>
-                    <td>c</td>
-                    <td>d</td>
-                    <td>
-          <span >
-            X
-          </span></td>
-                    <td><a></a></td>
-                    <td>
-                        <a >Afficher</a>
-                        <a >Gérer</a>
-                        <span >
-            - <a >S'inscrire</a>
-          </span>
-                        <span >
-            - <a >Se désister</a>
-          </span>
-                    </td>
-                </tr>
+                {% for result in sorties%}
+                    {% if result.sortie.etat.libelle == 'En création' and app.user.id == result.sortie.organisateur.id %}
+                        {{ include('includes/sortieComponent.html.twig') }}
+                    {%endif%}
+                    {% if result.sortie.etat.libelle != 'En création'  %}
+                        {{ include('includes/sortieComponent.html.twig') }}
+                    {%endif%}
+                {% endfor %}
                 </tbody>
             </table>
           </div>
          <div class="form-group row">
-          <button
-            type="submit"
-            class="btn btn-block btn-dark offset-lg-2 col-lg-3">
-            Créer une Sortie
-          </button>
+          <a class="btn btn-secondary btn-lg active col-2 mx-auto" role="button" aria-pressed="true" href="{{path('sortie_create')}}">Créer une Sortie</a>
 
          </div>
     </div>

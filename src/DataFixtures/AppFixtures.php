@@ -64,7 +64,7 @@ class AppFixtures extends Fixture
     }
 
     public function makeEtats(ObjectManager $manager):array{
-        $states = ['Créée','Ouverte','Clôturée','Activité en cours','passée','Annulée'];
+        $states = ['En création','Ouvert','Fermé','Annulé','En cours','Terminé','Historisé'];
         foreach ($states as $state){
             $etat = new Etat();
             $etat->setLibelle($state);
@@ -99,44 +99,50 @@ class AppFixtures extends Fixture
             switch ($i){
 //            creee
                 case 0 :
-                    $date->modify('+6 week');
-                    $dateStart .= '+4 weeks';
-                    $dateInterval .= '+5 weeks';
+                    $date->modify('+6 weeks');
+                    $dateStart .= '+3 weeks';
+                    $dateInterval .= '+4 weeks';
                     $sortie->setEtat($etats[0]);
                     break;
 //                ouverte
                 case 1 :
-                    $date->modify('+3 week');
-                    $dateStart .= '+1 week';
+                    $date->modify('+7 weeks');
+                    $dateStart = new \DateTime();
                     $dateInterval .= '+2 weeks';
                     $sortie->setEtat($etats[1]);
                     break;
-//                cloturee
+//                ferme
                 case 2 :
                     $date->modify('+1 week');
                     $dateStart .= '-2 weeks';
                     $dateInterval .= '-1 week';
                     $sortie->setEtat($etats[2]);
                     break;
-//                en cours
+//                annule
                 case 3 :
-                    $dateStart .= '-3 weeks';
-                    $dateInterval .= '-1 week';
+                    $date->modify('+5 week');
+                    $dateStart .= '+3 weeks';
+                    $dateInterval .= '+4 week';
                     $sortie->setEtat($etats[3]);
                     break;
-//                passee
+//                en cours
                 case 4 :
-                    $date->modify('-1 week');
-                    $dateStart .= '-3 weeks';
-                    $dateInterval .= '-2 week';
+                    $dateStart .= '-2 weeks';
+                    $dateInterval .= '-1 week';
                     $sortie->setEtat($etats[4]);
                     break;
-//                annulee
+//                termine
                 case 5 :
                     $date->modify('-2 week');
                     $dateStart .= '-4 weeks';
                     $dateInterval .= '-3 week';
                     $sortie->setEtat($etats[5]);
+                    break;
+                case 6 :
+                    $date->modify('-1 week');
+                    $dateStart .= '-4 weeks';
+                    $dateInterval .= '-3 week';
+                    $sortie->setEtat($etats[6]);
                     break;
             }
             $sortie->setDateHeureDebut($date);

@@ -4,14 +4,8 @@ namespace App\Controller;
 
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\Lieu;
 use App\Entity\Sortie;
-use App\Entity\Ville;
-use App\Form\LieuType;
 use App\Form\SortieType;
-use App\Form\VilleType;
-use App\Repository\LieuRepository;
-use App\Repository\VilleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -62,6 +56,10 @@ class SortieController extends AbstractController
         if ($user!=null){
             $sortie = $sortieRepository->findOneBy(["id"=>$id]);
             $sortie->addParticipant($user);
+
+//            todo controlle de l'etat
+            //  si c'est le dernier participant => alors on passe en fermée
+
             $entityManager->persist($sortie);
             $entityManager->flush();
             $this->addFlash('success','Vous êtes inscrit !');
@@ -80,6 +78,11 @@ class SortieController extends AbstractController
         if ($user!=null){
             $sortie = $sortieRepository->findOneBy(["id"=>$id]);
             $sortie->removeParticipant($user);
+
+//             todo controlle de l'etat
+//  si c'est le dernier participant =>  si la date de fin d'inscription est dépassé alors reste en fermée
+//                                                  =>  si la date de fin d'inscription n'est pas dépassé alors repasse en ouverte
+
             $entityManager->persist($sortie);
             $entityManager->flush();
             $this->addFlash('success','Vous êtes désinscrit !');

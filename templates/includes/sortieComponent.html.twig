@@ -1,0 +1,26 @@
+
+        <tr >
+                <th scope="row">{{result.sortie.nom}}</th>
+                <td>{{result.sortie.dateHeureDebut | format_datetime}}</td>
+                <td>{{result.sortie.dateLimiteInscription | format_datetime}}</td>
+                <td>{{result.sortie.participants |length}} / {{result.sortie.nbInscriptionsMax}}</td>
+                <td>{{result.sortie.etat.libelle}}</td>
+                <td>todo</td>
+                <td>{{result.sortie.organisateur.pseudo}}</td>
+                <td>
+                        {% if app.user.id == result.sortie.organisateur.id %}
+                                {% if result.sortie.etat.libelle == 'En création' %}modifier - publier
+                                {% elseif result.sortie.etat.libelle == 'Ouvert' %}<a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a> -annuler
+                                {% elseif result.sortie.etat.libelle == 'Fermé' %}<a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a>
+                                {% else %}<a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a>
+                                {% endif %}
+                        {% else %}
+                                {% if result.sortie.etat.libelle == 'En création' %}modifier - publier
+                                {% elseif result.sortie.etat.libelle == 'Ouvert' %}<a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a>
+                                        -  {% if result.inscrit %}<a href="{{path('sortie_desister',{'id':result.sortie.id})}}">se désister</a>{% else %}<a href="{{path('sortie_inscrire',{'id':result.sortie.id})}}">s'inscrire</a>{% endif %}
+                                {% elseif result.sortie.etat.libelle == 'Fermé' %}<a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a>
+                                {% else %}<a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a>
+                                {% endif %}
+                        {% endif %}
+                </td>
+        </tr>
