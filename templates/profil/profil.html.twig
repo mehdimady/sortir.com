@@ -4,7 +4,12 @@
 
 {% block body %}
     <h2>{{ participant.pseudo }}</h2>
-    <img src="{{ asset('uploads/image/' ~ participant.imageFilename()) }}" alt="image-profil">
+    {% if participant.imageFilename == 'noimage.jpg' %}
+        <img src="{{ asset('assets/image/noimage.jpg')}}" alt="noimage">
+    {% else%}
+         <img src="{{ asset('uploads/image/' ~ participant.imageFilename()) }}" alt="image-profil">
+    {% endif %}
+
     <div>
         <p>Prénom : {{ participant.prenom | nl2br }}</p>
         <p>Nom : {{ participant.nom | nl2br }}</p>

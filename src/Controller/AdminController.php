@@ -87,15 +87,25 @@ class AdminController extends AbstractController
     }
 
     #[Route('/disable/{id}', name: 'disable',requirements: ['id' => '\d+'])]
-    public function disableParticipant(ParticipantRepository $participantRepository, Participant $participant,
+    public function disableParticipant(int $id, ParticipantRepository $participantRepository, Participant $participant,
                                        EntityManagerInterface $entityManager){
+
+        $participant = $participantRepository->find($id);
+        $participant->setActif(false);
+        $entityManager->flush();
+        $this->addFlash('success','Le compte a bien été désactivé!');
+        return $this->redirectToRoute('admin_tous');
 
     }
 
     #[Route('/enable/{id}', name: 'enable',requirements: ['id' => '\d+'])]
-    public function enableParticipant(ParticipantRepository $participantRepository, Participant $participant,
+    public function enableParticipant(int $id,ParticipantRepository $participantRepository, Participant $participant,
                                       EntityManagerInterface $entityManager){
-
+        $participant = $participantRepository->find($id);
+        $participant->setActif(true);
+        $entityManager->flush();
+        $this->addFlash('success','Le compte a bien été activé!');
+        return $this->redirectToRoute('admin_tous');
     }
 
 }
