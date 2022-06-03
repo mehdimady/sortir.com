@@ -78,10 +78,10 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(targetEntity: Campus::class, inversedBy: 'participants')]
     private $campus;
 
-    #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class)]
+    #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class, cascade: ["persist", "remove"])]
     private $organisateur;
 
-    #[ORM\ManyToMany(targetEntity: Sortie::class, mappedBy: 'participants')]
+    #[ORM\ManyToMany(targetEntity: Sortie::class, mappedBy: 'participants', cascade: ["persist", "remove"])]
     private $sorties;
 
     public function __construct()

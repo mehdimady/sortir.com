@@ -39,13 +39,13 @@ class Sortie
     #[ORM\ManyToOne(targetEntity: Lieu::class, inversedBy: 'sorties', cascade: ["persist"])]
     private $lieux;
 
-    #[ORM\ManyToOne(targetEntity: Participant::class, inversedBy: 'organisateur')]
+    #[ORM\ManyToOne(targetEntity: Participant::class, inversedBy: 'organisateur', cascade: ["persist", "remove"])]
     private $organisateur;
 
     #[ORM\ManyToOne(targetEntity: Campus::class, inversedBy: 'sorties')]
     private $campus;
 
-    #[ORM\ManyToMany(targetEntity: participant::class, inversedBy: 'sorties')]
+    #[ORM\ManyToMany(targetEntity: participant::class, inversedBy: 'sorties', cascade: ["persist", "remove"])]
     private $participants;
 
     #[ORM\Column(type: 'text', nullable: true)]

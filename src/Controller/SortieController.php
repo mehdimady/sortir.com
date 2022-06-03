@@ -86,7 +86,7 @@ class SortieController extends AbstractController
     {
         $user = $this->getUser();
         if ($user!=null){
-            $sortie = $sortieRepository->findOneBy(["id"=>$id]);
+            $sortie = $sortieRepository->find($id);
             $maxInscrit = $sortie->getNbInscriptionsMax();
             $nbInscrit = count($sortie->getParticipants());
             $sortie->addParticipant($user);
