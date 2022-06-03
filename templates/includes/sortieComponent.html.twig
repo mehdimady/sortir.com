@@ -6,7 +6,7 @@
                 <td>{{result.sortie.participants |length}} / {{result.sortie.nbInscriptionsMax}}</td>
                 <td>{{result.sortie.etat.libelle}}</td>
                 <td>todo</td>
-                <td>{{result.sortie.organisateur.pseudo}}</td>
+                <td><a href="{{path('app_profil',{'id':result.sortie.organisateur.id})}}">{{result.sortie.organisateur.pseudo}}</a></td>
                 <td>
                         {% if app.user.id == result.sortie.organisateur.id %}
                                 {% if result.sortie.etat.libelle == 'En création' %}modifier - <a href="{{path('sortie_publier',{'id':result.sortie.id})}}">publier</a>

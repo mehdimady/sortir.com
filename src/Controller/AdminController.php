@@ -3,17 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\Participant;
+use App\Etats\ImportCSVFile;
+use App\Form\InscriptionFileType;
 use App\Form\RegistrationFormType;
 use App\Form\SearchVilleType;
 use App\Repository\ParticipantRepository;
-use App\Security\AppAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/admin', name: 'admin_')]
@@ -22,14 +22,28 @@ class AdminController extends AbstractController
     #[Route('/', name: 'tous')]
     public function displayAll(ParticipantRepository $participantRepository,Request $request,
                                EntityManagerInterface $entityManager,  UserPasswordHasherInterface $userPasswordHasher,
-                               UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator,
-                               SluggerInterface $slugger): Response
+                               SluggerInterface $slugger,ImportCSVFile $csv): Response
     {
         $participants = $participantRepository->findAll();
         $formSearch = $this->createForm(SearchVilleType::class);
         $formSearch->handleRequest($request);
         if($formSearch->isSubmitted() && $formSearch->isValid()){
             $participants = $participantRepository->searchParticipant($request->get('search'));
+        }
+
+
+        $formFile = $this->createForm(InscriptionFileType::class);
+        $formFile->handleRequest($request);
+        if($formFile->isSubmitted() && $formFile->isValid()){
+            $filecsv = $formFile->get('upload_file')->getData();
+            $filecsv->move(
+                $this->getParameter('image_directory'),
+                "participant.csv");
+            $csv->test($entityManager);
+            $this->addFlash('success','Les inscriptions sont enregistrées !');
+            return $this->redirectToRoute('admin_tous');
+
+
         }
 
         #FORMULAIRE
@@ -72,7 +86,8 @@ class AdminController extends AbstractController
             'title' => 'Gestion des participants',
             "participants"=>$participants,
             'formSearch'=>$formSearch->createView(),
-            'adminForm' => $addForm->createView()
+            'adminForm' => $addForm->createView(),
+            'formFile'=>$formFile->createView()
         ]);
     }
 

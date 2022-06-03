@@ -13,11 +13,7 @@ class VilleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom', EntityType::class,[
-            'label'=>'Ville',
-            'class'=> Ville::class,
-            'choice_label'=>'nom',
-            ])
+            ->add('nom')
             ->add('codePostal')
         ;
     }

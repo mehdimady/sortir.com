@@ -155,7 +155,7 @@ class AppFixtures extends Fixture
 
     public function makeSpecificUsers(ObjectManager $manager,bool $isAdmin,array $campus,array $sorties){
         $participant = new Participant();
-        $participant->setPseudo($this->faker->lastName);
+        $participant->setPseudo($this->faker->word());
         $participant->setNom($this->faker->lastName);
         $participant->setPrenom($this->faker->firstName);
         $participant->setTelephone("0607060706");
@@ -184,9 +184,9 @@ class AppFixtures extends Fixture
     }
 
     public function makeUsers(ObjectManager $manager,array $campus):array{
-        for($i=0;$i<30;$i++){
+        for($i=0;$i<15;$i++){
             $part= new Participant();
-            $part->setPseudo($this->faker->lastName);
+            $part->setPseudo($this->faker->word());
             $part->setNom($this->faker->lastName);
             $part->setPrenom($this->faker->firstName);
             $tel = $this->faker->randomNumber(9, true);
@@ -208,9 +208,9 @@ class AppFixtures extends Fixture
     {
         for($i=0;$i<=5;$i++){
             if($i!=0) {
-                $hasard = rand(10, 30);
+                $hasard = rand(1, 5);
                 for ($j = 0; $j < $hasard; $j++) {
-                    $sorties[$i]->addParticipant($users[rand(0, 29)]);
+                    $sorties[$i]->addParticipant($users[rand(0, 14)]);
                     $manager->persist($sorties[$i]);
                 }
             }

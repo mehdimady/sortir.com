@@ -17,15 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/sortie', name: 'sortie_')]
 class SortieController extends AbstractController
 {
-    /*
-    0:'En création',
-    1: 'Ouvert',
-    2: 'Fermé',
-    3: 'Annulé',
-    4: 'En cours',
-    5: 'Terminé',
-    6: 'Historisé'
-    */
+    /* Liste des index des  états =  0:'En création',1: 'Ouvert',2: 'Fermé',3: 'Annulé',4: 'En cours',5: 'Terminé',6: 'Historisé' */
     private $etats;
     public function __construct(EtatRepository $repo){
         $this->etats = $repo->findAll();
@@ -35,10 +27,8 @@ class SortieController extends AbstractController
     public function DisplayOne(SortieRepository $sortieRepository,int $id): Response    {
         $sortie = $sortieRepository->findOneBy(["id"=>$id]);
         $listeParticipant = $sortie->getParticipants();
-
         if($sortie->getEtat()->getLibelle() == $this->etats[3]){
             $motif = $sortie->getMotif();
-//            dd($motif);
             return $this->render('sortie/affiche.html.twig', [
                 'title' => "Afficher une sortie",
                 "sortie" =>$sortie,
@@ -54,19 +44,15 @@ class SortieController extends AbstractController
         }
     }
 
-
     #[Route('/create', name: 'create')]
     public function createSortie(Request $request, EtatRepository $etatRepository,EntityManagerInterface $em ): Response
     {
         $etats = $etatRepository->findAll();
         $user =$this->getUser();
-
         $sortie =new Sortie();
-
         $sortie->setOrganisateur($user);
         $sortie->setCampus($user->getCampus());
         $sortie->setEtat($etats[0]);
-
         $sortieForm = $this->createForm(SortieType::class,$sortie);
         $sortieForm->handleRequest($request);
 

@@ -1,0 +1,17 @@
+"id";"campus_id";"email";"roles";"password";"nom";"prenom";"telephone";"administrateur";"actif";"pseudo";"image_filename"
+"83";"17";"user@test.eni";"[""ROLE_USER""]";"$2y$13$oRABKhZtDfIZRbh5NO9OxejZvXH1sPDwqQbXJcUYOQeCVzoZAc/aa";"Dupre";"Eugène";"0607060706";"0";"1";"voluptatibus";NULL
+"84";"17";"odette.poirier@sfr.fr";"[""ROLE_USER""]";"$2y$13$Pbvy98RphBLX0idiXTP22.3HMP8p3URd/4g2caT.OHD8nsUv9FVYa";"Hebert";"Yves";"0721444619";"0";"1";"et";NULL
+"85";"17";"xlecoq@tele2.fr";"[""ROLE_USER""]";"$2y$13$3t0iGCGpKLV5g5Zxcej6QuPwNp1Msuxj8O70P.KTZI4eruCFtce7e";"Hardy";"Alix";"0934676643";"0";"1";"atque";NULL
+"86";"18";"michelle22@delattre.com";"[""ROLE_USER""]";"$2y$13$KYrI0gA2W.3jntMBzVcsLeXsnIuMrYCR41iY4QQineCDXM9IJlDx2";"Lesage";"Louise";"0635111771";"0";"1";"odit";NULL
+"87";"16";"aurelie33@dacosta.fr";"[""ROLE_USER""]";"$2y$13$1UVGmW3IrU9XZPLFU6Jbxe/iQ2aSnRVAnYVjf5Tjo0mdJnOzEedVC";"Texier";"Simone";"0401932509";"0";"1";"qui";NULL
+"88";"17";"eleonore42@free.fr";"[""ROLE_USER""]";"$2y$13$D5.3Qua9M32cED34S4rwb.I1EgAfCkvwuDZV41TXv5bH0kjzTVbQW";"Masson";"Sophie";"0806683341";"0";"1";"id";NULL
+"89";"17";"bertin.therese@club-internet.fr";"[""ROLE_USER""]";"$2y$13$GTkYT4DQK2nKJSNbwQa.R.dvG5OrxY1N4s.T6.9Hr3x1HDm.8IP02";"Roussel";"Louis";"0626190891";"0";"1";"veritatis";NULL
+"90";"16";"pmartin@orange.fr";"[""ROLE_USER""]";"$2y$13$n0vjrlkamjxd42fTtWNAK.a2N242TdqpcGkYzcAlZKJR0wYudJC5S";"Courtois";"Guy";"0873445779";"0";"1";"expedita";NULL
+"91";"17";"coste.jacques@hotmail.fr";"[""ROLE_USER""]";"$2y$13$Zgsg0CgaPFhGM3YFXQ1I7.xpccmSUT6/L.f8MCRiMhZ.pL8RmAske";"Colas";"Geneviève";"0271799772";"0";"1";"perferendis";NULL
+"92";"18";"lrocher@albert.org";"[""ROLE_USER""]";"$2y$13$7LBdYnhPlyp/HZPyJJeLFuL7IXICFMrrDKb9.h2YbGHNHWHfZ3ftS";"Fleury";"Marcelle";"0623072512";"0";"1";"molestias";NULL
+"93";"16";"benjamin36@bourdon.com";"[""ROLE_USER""]";"$2y$13$LZUhaQ6u3gFlpnySIwd6f.oJLtBPaa4lG96aHMn0pGdIxAVQOd1wy";"Hoarau";"Adrien";"0736963982";"0";"1";"tempora";NULL
+"94";"16";"valentin.bernadette@picard.com";"[""ROLE_USER""]";"$2y$13$8bGJbPuVqaJk5mnPT15fiuKJSByQBpnZpjTTTv4hnK66st6PCzbvm";"Jacquet";"Marcel";"0849895486";"0";"1";"quis";NULL
+"95";"16";"tmartin@tele2.fr";"[""ROLE_USER""]";"$2y$13$tdw4O8y7HRbZ2/CbXxOwm..vRncIWtpsgXmrStbeLV.EV4LdHpOVK";"Raymond";"Charles";"0275799787";"0";"1";"ut";NULL
+"96";"17";"herve.alex@tele2.fr";"[""ROLE_USER""]";"$2y$13$v46MuAj6Q1AW9eYq3udC0OsHFjIYcFkRPzqC60Svpu0vthcNSZotO";"Roux";"Frédérique";"0970582716";"0";"1";"tempore";NULL
+"97";"16";"henry.alexandre@club-internet.fr";"[""ROLE_USER""]";"$2y$13$jJMR4UmcjsrZHYWHRhNVJu6RzEZFs78tUR7So/xqTfgqZ4gEpgsqa";"Samson";"Pierre";"0808422936";"0";"1";"quia";NULL
+"98";"18";"virginie.muller@dumont.fr";"[""ROLE_USER""]";"$2y$13$PL8Q7WcowuVCz4PDzb2/9.p3m6FNBqSD2mte6ikgaMoXsNsLIDtuu";"Meunier";"Alexandrie";"0869002381";"0";"1";"voluptate";NULL
