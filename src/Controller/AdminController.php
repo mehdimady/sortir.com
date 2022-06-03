@@ -87,7 +87,14 @@ class AdminController extends AbstractController
     }
 
     #[Route('/disable/{id}', name: 'disable',requirements: ['id' => '\d+'])]
-    public function disableParticipant(){
+    public function disableParticipant(ParticipantRepository $participantRepository, Participant $participant,
+                                       EntityManagerInterface $entityManager){
+
+    }
+
+    #[Route('/enable/{id}', name: 'enable',requirements: ['id' => '\d+'])]
+    public function enableParticipant(ParticipantRepository $participantRepository, Participant $participant,
+                                      EntityManagerInterface $entityManager){
 
     }
 
