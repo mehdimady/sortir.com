@@ -72,7 +72,15 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
             ->getOneOrNullResult();
     }
 
-
+    public function searchParticipant($search)
+    {
+        $queryBuilder = $this->createQueryBuilder('v')
+            ->andWhere("v.nom LIKE :search ")
+            ->setParameter("search",$search.'%');
+        $query = $queryBuilder->getQuery();
+        $result = $query->getResult();
+        return $result;
+    }
 
 //    /**
 //     * @return Participant[] Returns an array of Participant objects
