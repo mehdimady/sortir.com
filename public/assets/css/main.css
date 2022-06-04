@@ -1,7 +1,51 @@
+@keyframes logoScale {
+    0%{
+        text-shadow: 0 0 10px black;
+        transform: scale(1);
+    }100%{
+         text-shadow: 0 0 50px black;
+         transform: scale(1.05);
+     }
+}
+/*####################*/
 *{
     box-sizing: border-box;
 }
 body{
+    width:100%;
+    max-width:100%;
+    padding: 2em;
     font-family: 'Roboto', sans-serif;
     font-size:.8em;
+}
+/*####################*/
+.bg-1{
+    background-color: #f3e9dcff;
+}
+.bg-2{
+     background-color: #c08552ff;
+}
+.bg-3{
+      background-color: #5e3023ff;
+}
+.bg-4{
+    background-color:#895737ff;
+}
+.bg-5{
+    background-color: #dab49dff;
+}
+.f-lunatic{
+    font-family: 'Rubik Glitch', cursive;
+    text-shadow: 0 0 10px black;
+}
+.f-lunatic:hover{
+    animation: logoScale 1s  ease-in-out forwards;
+}
+.navbar{
+    width: 100%;
+    max-width: 100%;
+}
+.nav-link{
+    font-size: 17px;
+    color:#ffffff;
 }

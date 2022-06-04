@@ -13,14 +13,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 #[Route('/sortie', name: 'sortie_')]
 class SortieController extends AbstractController
 {
     /* Liste des index des  états =  0:'En création',1: 'Ouvert',2: 'Fermé',3: 'Annulé',4: 'En cours',5: 'Terminé',6: 'Historisé' */
     private $etats;
-    public function __construct(EtatRepository $repo){
+    private $security;
+
+    public function __construct(EtatRepository $repo, Security $security){
         $this->etats = $repo->findAll();
+        $this->security = $security;
     }
 
     #[Route('/{id}', name: 'affiche',requirements: ['id' => '\d+'])]
@@ -98,7 +102,7 @@ class SortieController extends AbstractController
             $sortie = $sortieRepository->findOneBy(["id"=>$id]);
             $sortie->removeParticipant($user);
             $dateFin = $sortie->getDateLimiteInscription();
-            if (!$dateFin){
+            if (new \DateTime('now') < $dateFin){
                 $sortie->setEtat($this->etats[1]);
             }
             $entityManager->persist($sortie);
@@ -134,7 +138,7 @@ class SortieController extends AbstractController
     {
         $user =$this->getUser();
         $sortie = $sortieRepository->findOneBy(["id"=>$id]);
-        if($sortie != null and $user != null and $sortie->getOrganisateur()->getEmail() == $this->getUser()->getUserIdentifier()){
+        if($sortie != null and $user != null and $sortie->getOrganisateur()->getEmail() == $this->getUser()->getUserIdentifier() or $this->security->isGranted('ROLE_ADMIN')){
             $formAnnule = $this->createForm(AnnuleType::class);
             $formAnnule->handleRequest($request);
             if($formAnnule->isSubmitted() && $formAnnule->isValid()){

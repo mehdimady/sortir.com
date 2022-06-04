@@ -3,40 +3,58 @@
 namespace App\Controller;
 
 use App\Etats\GestionDesEtats;
+use App\Etats\SecurityControl;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-#[Route('/', name: 'app_')]
+use Symfony\Component\Security\Core\Security;
+#[IsGranted('ROLE_USER')]
+#[Route('/accueil', name: 'app_')]
 class HomeController extends AbstractController
 {
-    #[Route('', name: 'home')]
-    public function displaySortiesOfCampus(SortieRepository $sortieRepository,EtatRepository $etatRepository, GestionDesEtats $gestionDesEtats,EntityManagerInterface $manager): Response
+    private $security;
+    public function __construct(Security $security){
+        $this->security = $security;
+//        if ($this->security->isGranted('ROLE_ADMIN')) {
+//        }
+    }
+
+    #[Route('/', name: 'home')]
+    public function displayAllEvents(SortieRepository $sortieRepository,EtatRepository $etatRepository, GestionDesEtats $gestionDesEtats,EntityManagerInterface $manager,SecurityControl $control): Response
     {
-        $gestionDesEtats->UpdateStatesOfEvents($sortieRepository,$etatRepository,$manager);
-        $sortiesReturn=[];
-        if($this->getUser() != null){
-            $user_current = $this->getUser()->getCampus();
-            $sorties= $sortieRepository->findBy(["campus"=>$user_current]);
-            foreach ($sorties as $sortie){
-                $inscrit = false;
-                foreach ($sortie->getParticipants() as $participant){
-                    if( $this->getUser()->getUserIdentifier() == $participant->getEmail()) {
-                        $inscrit = true;
+        if($control->userIsActive($this->getUser())){
+
+            $gestionDesEtats->UpdateStatesOfEvents($sortieRepository,$etatRepository,$manager);
+
+            $sorties = $sortieRepository->findAll();
+
+            if($this->getUser() != null){
+                foreach ($sorties as $sortie){
+                    $inscrit = false;
+                    foreach ($sortie->getParticipants() as $participant) {
+                        if ($this->getUser()->getUserIdentifier() == $participant->getEmail()) {
+                            $inscrit = true;
+                        }
                     }
+                    $sortiesReturn[] = ['sortie' => $sortie, 'inscrit' => $inscrit];
                 }
-                $sortiesReturn[] = ['sortie' => $sortie, 'inscrit' => $inscrit];
+            }else{
+                $this->addFlash('error','Veuillez vous connecter ou vous inscrire !');
+                return $this->redirectToRoute('app_login');
             }
-        }
-        else{
+
+            return $this->render('home/home.html.twig', [
+                'title' => 'Campus | sorties',
+                "inscrit"=>$inscrit,
+                'sorties'=>$sortiesReturn
+            ]);
+        }else{
+            $this->addFlash('error','Veuillez vous connecter ou vous inscrire !');
             return $this->redirectToRoute('app_login');
         }
-
-        return $this->render('home/home.html.twig', [
-            'title' => 'Campus | sorties',
-            'sorties'=>$sortiesReturn
-        ]);
     }
 }

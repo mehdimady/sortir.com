@@ -9,20 +9,23 @@ use App\Form\RegistrationFormType;
 use App\Form\SearchVilleType;
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
-
+#[IsGranted('ROLE_ADMIN')]
 #[Route('/admin', name: 'admin_')]
 class AdminController extends AbstractController
 {
     #[Route('/', name: 'tous')]
-    public function displayAll(ParticipantRepository $participantRepository,Request $request,
-                               EntityManagerInterface $entityManager,  UserPasswordHasherInterface $userPasswordHasher,
-                               SluggerInterface $slugger,ImportCSVFile $csv): Response
+    public function displayAll(
+        ParticipantRepository $participantRepository,
+        Request $request,EntityManagerInterface $entityManager,
+        UserPasswordHasherInterface $userPasswordHasher,
+        SluggerInterface $slugger,ImportCSVFile $csv): Response
     {
         $participants = $participantRepository->findAll();
         $formSearch = $this->createForm(SearchVilleType::class);
@@ -30,8 +33,6 @@ class AdminController extends AbstractController
         if($formSearch->isSubmitted() && $formSearch->isValid()){
             $participants = $participantRepository->searchParticipant($request->get('search'));
         }
-
-
         $formFile = $this->createForm(InscriptionFileType::class);
         $formFile->handleRequest($request);
         if($formFile->isSubmitted() && $formFile->isValid()){
@@ -42,16 +43,10 @@ class AdminController extends AbstractController
             $csv->test($entityManager);
             $this->addFlash('success','Les inscriptions sont enregistrées !');
             return $this->redirectToRoute('admin_tous');
-
-
         }
-
-        #FORMULAIRE
-
         $user = new Participant();
         $addForm = $this->createForm(RegistrationFormType::class, $user);
         $addForm->handleRequest($request);
-
         if ($addForm->isSubmitted() && $addForm->isValid()) {
             $uploadedFile = $addForm->get('imageFile')->getData();
             if ($uploadedFile){
@@ -61,8 +56,7 @@ class AdminController extends AbstractController
                 $uploadedFile->move(
                     $this->getParameter('image_directory'),
                     $newFilename);
-            }
-            else{
+            }else{
                 $newFilename = 'noimage.jpg';
             }
             $user->setRoles(["ROLE_USER"]);
@@ -76,12 +70,9 @@ class AdminController extends AbstractController
             );
             $entityManager->persist($user);
             $entityManager->flush();
-            // do anything else you need here, like send an email
-
             $this->addFlash('success','Le compte a bien été créé!');
             return $this->redirectToRoute('admin_tous');
         }
-
         return $this->render('admin/admin.html.twig', [
             'title' => 'Gestion des participants',
             "participants"=>$participants,

@@ -7,10 +7,12 @@ use App\Form\SearchVilleType;
 use App\Form\VilleType;
 use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+#[IsGranted('ROLE_ADMIN')]
 #[Route('/ville', name: 'ville_')]
 class VilleController extends AbstractController
 {
@@ -62,18 +64,14 @@ class VilleController extends AbstractController
         if($formVille->isSubmitted() && $formVille->isValid()){
             $entityManager->persist($ville);
             $entityManager->flush();
-
             $this->addFlash('success','La ville a bien été modifiée !');
             return $this->redirectToRoute('ville_toutes');
         }
-
         $formSearch = $this->createForm(SearchVilleType::class);
         $formSearch->handleRequest($request);
         if($formSearch->isSubmitted() && $formSearch->isValid()){
             $villes = $villeRepository->searchVille($request->get('search'));
         }
-
-
         return $this->render('ville/villes.html.twig', [
             'title' => 'Les Villes',
             "villes"=>$villes,
@@ -81,8 +79,5 @@ class VilleController extends AbstractController
             'formVille'=>$formVille->createView(),
             'formSearch'=>$formSearch->createView()
         ]);
-
-
-
     }
 }

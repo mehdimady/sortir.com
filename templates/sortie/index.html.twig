@@ -1,14 +1,11 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}
 {{title}}
 {% endblock %}
-
 {% block body %}
-
 {{ form_start(sortieForm) }}
     {{ form_row(sortieForm.nom) }}
-    {{ form_row(sortieForm.lieux.nom,{'label':'Lieu'}) }}
+    {{ form_row(sortieForm.lieux.nom,{'label':'Lieu'}) }}<a class="display-1">+</a>
     {{ form_row(sortieForm.lieux.latitude) }}
     {{ form_row(sortieForm.lieux.longitude) }}
     <button>Enregistrer</button>
