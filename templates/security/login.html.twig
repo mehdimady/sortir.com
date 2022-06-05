@@ -1,30 +1,53 @@
 {% extends 'base.html.twig' %}
-
 {% block title %} {{ title }} | {{ parent() }}{% endblock %}
-
-{% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-
-    <h1 class="h3 mb-3 font-weight-normal">Veuillez vous connecter !</h1>
-    <label for="inputEmail">Email/Pseudo</label>
-    <input type="text" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="text" required autofocus>
-    <label for="inputPassword">Mot de Passe</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-    <div class="checkbox mb-3">
-        <label>
-            <input type="checkbox" name="_remember_me"> Se souvenir de moi
-        </label>
-    </div>
-
-    <button class="btn btn-lg btn-primary" type="submit">
-        Se connecter
-    </button>
-</form>
-{% endblock %}
+{% block body%}
+    <section class="container-fluid h-custom w-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-md-9 col-lg-6 col-xl-5">
+                    <img src="{{asset('assets/image/connexion.png')}}"
+                         class="img-fluid" alt="Sample image">
+                </div>
+                <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                    <form method="post">
+                        <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
+                            <h1 class="mb-3 text-center color-3 fs-4 fw-bold">Veuillez vous connecter !</h1>
+                        </div>
+                        {% if error %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>Erreur !</strong> {{ error.messageKey|trans(error.messageData, 'security') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endif %}
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="inputEmail">Email | Pseudo</label>
+                            <input type="text" id="inputEmail"
+                                   placeholder="Entrez votre email ou votre pseudo"
+                                   value="{{ last_username }}" name="email" class="form-control form-control-lg" autocomplete="text" required autofocus/>
+                        </div>
+                        <div class="form-outline mb-3">
+                            <label class="form-label" for="inputPassword">Mot de passe</label>
+                            <input type="password" id="inputPassword" class="form-control form-control-lg"
+                                   placeholder="Entrez Votre Mot de passe"
+                                   name="password" autocomplete="current-password" required/>
+                        </div>
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="form-check mb-0">
+                                <input class="form-check-input me-2" type="checkbox" name="_remember_me" id="remember_me" />
+                                <label class="form-check-label" for="remember_me">
+                                    Se souvenir de moi
+                                </label>
+                            </div>
+                        </div>
+                        <div class="text-center text-lg-start mt-4 pt-2">
+                            <button type="submit" class="btn bg-4 btn-lg text-white f-lunatic btn-connexion">Se connecter
+                            </button>
+                            <p class="small fw-bold mt-2 pt-1 mb-3">Mot de passe oublié?
+                                <a {#href="{{app_forgot_password_request}}"#} class="link-danger">Récupération</a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+    </section>
+{% endblock%}
