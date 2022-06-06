@@ -34,6 +34,10 @@ class Sortie
 
     #[ORM\Column(type: 'integer')]
     #[Assert\NotBlank (message: "Veuillez indiquer une durée pour la sortie")]
+    #[Assert\GreaterThanOrEqual(
+        value: 30,
+        message: 'Les sorties doivent durer 30 minutes ou plus !'
+    )]
     private $duree;
 
     #[ORM\Column(type: 'datetime')]
@@ -43,6 +47,10 @@ class Sortie
 
     #[ORM\Column(type: 'integer')]
     #[Assert\NotBlank (message: "Veuillez indiquer un nombre maximum de participants !")]
+    #[Assert\GreaterThanOrEqual(
+        value: 2,
+        message: 'Il est inutile de programmer une sortie pour moins de deux personnes !'
+    )]
     private $nbInscriptionsMax;
 
     #[ORM\Column(type: 'text')]

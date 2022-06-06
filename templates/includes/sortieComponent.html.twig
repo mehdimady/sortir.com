@@ -9,18 +9,22 @@
                 <td><a href="{{path('app_profil',{'id':result.sortie.organisateur.id})}}">{{result.sortie.organisateur.pseudo}}</a></td>
                 <td>
                         {% if app.user.id == result.sortie.organisateur.id %}
-                                {% if result.sortie.etat.libelle == 'En création' %}modifier - <a href="{{path('sortie_publier',{'id':result.sortie.id})}}">publier</a>
-                                {% elseif result.sortie.etat.libelle == 'Ouvert' %}<a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a>
-                                {% elseif result.sortie.etat.libelle == 'Fermé' %}<a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a>
+                                {% if result.sortie.etat.libelle == 'En création' %}
+                                    <a href="{{path('sortie_modifier',{'id':result.sortie.id})}}">modifier</a>
+                                    - <a href="{{path('sortie_publier',{'id':result.sortie.id})}}">publier</a>
+                                {% elseif result.sortie.etat.libelle == 'Ouvert' %}
+                                    <a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a>
+                                {% elseif result.sortie.etat.libelle == 'Fermé' %}
+                                    <a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a>
                                 {% else %}<a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a>
                                 {% endif %}
                                 {% if app.user.roles[0]  == "ROLE_ADMIN" or  app.user.id == result.sortie.organisateur.id %}
                                         {%if result.sortie.etat.libelle != "Annulé" and result.sortie.etat.libelle !='En cours' and result.sortie.etat.libelle !='Terminé' %}
-                                                <a href="{{path('sortie_annuler',{'id':result.sortie.id})}}">annuler</a>
+                                               - <a href="{{path('sortie_annuler',{'id':result.sortie.id})}}">annuler</a>
                                         {%endif%}
                                 {%endif%}
                         {% else %}
-                                {% if result.sortie.etat.libelle == 'En création' %}modifier - publier
+                                {% if result.sortie.etat.libelle == 'En création' %}
 
                                 {% elseif result.sortie.etat.libelle == 'Ouvert' %}<a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a>helo3
 
