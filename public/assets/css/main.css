@@ -71,7 +71,7 @@ main{
 
 }
 .date,.date a{
-    color: rgba(192,133,82,.5);
+    color: rgb(192,133,82);
     display:inline;
     text-decoration: none;
     text-shadow: none;
@@ -107,4 +107,35 @@ form[name='registration_form'] > ul{
 }form[name='registration_form'] > ul > li{
     color: #fff;
      padding-left: 1em;
+}
+
+ .box-table{
+    max-height:400px!important;
+     width:95%;
+     margin:auto;
+     overflow-y: auto;
+     scrollbar-color: #c08552ff #dab49dff ;
+     scrollbar-width: thin;
+     border-radius: 8px;
+     padding: 5px;
+     background: #dab49dff;
+     border: 5px solid #dab49dff;
+ }
+body main .box-table table{
+    background: #895737ff;
+    margin-top: 1em;
+ }
+
+.box-table table thead tr{
+    background-color: rgba(192,133,82,.5);
+    color: #fff;
+    text-align: center;
+ }
+
+.box-table table tr{
+    background-color: #FFFFFF;
+ }
+.box-table table tr:nth-child(even) {
+    background: #c08552ff;
+    color: #fff;
 }

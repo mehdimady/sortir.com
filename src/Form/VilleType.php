@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Ville;
+use Doctrine\DBAL\Types\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,7 +15,11 @@ class VilleType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('codePostal')
+            ->add('codePostal',TextType::class,[
+                'attr'=>[
+                    'type'=>'text'
+                ]
+            ])
         ;
     }
 
