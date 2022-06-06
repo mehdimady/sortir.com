@@ -66,7 +66,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         "Votre numéro de téléphone doit comporter 10 chiffres séparés ou non par des espaces, points ou tirets ! exemple : 06.**.**.**.**"
     )]
     #[Assert\Regex(pattern: "/^(0)*[0-9]([ .-]*[0-9]{2}){4}$/",
-        message: "Merci d'utiliser uniquement des chiffres, des points, des tirets et des espaces !")]
+        message: "Merci d'utiliser uniquement des chiffres, des points, des tirets et des espaces ! exemple : 06.**.**.**.**")]
     private $telephone;
 
     #[ORM\Column(type: 'boolean')]

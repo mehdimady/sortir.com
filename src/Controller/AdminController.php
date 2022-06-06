@@ -75,6 +75,7 @@ class AdminController extends AbstractController
         }
         return $this->render('admin/admin.html.twig', [
             'title' => 'Gestion des participants',
+            'subtitle' => 'Ajouter un compte',
             "participants"=>$participants,
             'formSearch'=>$formSearch->createView(),
             'adminForm' => $addForm->createView(),
