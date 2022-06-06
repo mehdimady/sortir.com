@@ -53,7 +53,7 @@ class HomeController extends AbstractController
                 'sorties'=>$sortiesReturn
             ]);
         }else{
-            $this->addFlash('error','Veuillez vous connecter ou vous inscrire !');
+            $this->addFlash('error',"Votre compte a été déactivé! Veuillez contacter l'administrateur.");
             return $this->redirectToRoute('app_login');
         }
     }
