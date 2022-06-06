@@ -15,14 +15,11 @@
         {% endblock %}
 </head>
 <body>
-<header class="bg-4">
+<header class="bg-3">
         {{ include('includes/header.html.twig')}}
 </header>
-<aside>
-        <div class="text-end text-secondary p-2">
-                {% if app.user%} Hello <strong><a href="{{ path('app_profil',{'id':app.user.id}) }}">{{app.user.pseudo}}</a></strong> | | {% endif %} {{ "now"|date("d-m-y") |format_datetime('full', 'none', locale='fr') }}
-        </div>
-</aside>
+{% if app.user %}<section class="bg-4">{{ include('includes/navbar.html.twig')}}</section>{% endif %}
+
 <aside>
         {% for label, messages in app.flashes%}
                 {% for message in messages %}<div class="alert-{{ label }}">{{ message }}</div> {% endfor%}

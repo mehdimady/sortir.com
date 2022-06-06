@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -25,22 +26,34 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('pseudo', TextType::class, [
-                'label' => 'Pseudo',
-                'required' => true
+                'required' => true,
+                'attr'=>[
+                    'class'=>'form-control'
+                ]
             ])
             ->add('nom', TextType::class, [
-                    'label' => 'Nom',
-                    'required' => true
+                    'required' => true,
+                    'attr'=>[
+                        'class'=>'form-control'
+                ]
                 ])
             ->add('prenom', TextType::class, [
-                'label' => 'Prénom',
-                'required' => true
+                'required' => true,
+                'attr'=>[
+                    'class'=>'form-control'
+                ]
             ])
             ->add('telephone', TextType::class, [
-                'label' => 'Téléphone',
-                'required' => true
+                'required' => true,
+                'attr'=>[
+                    'class'=>'form-control'
+                ]
             ])
-            ->add('email')
+            ->add('email',EmailType::class,[
+                'attr'=>[
+                    'class'=>'form-control'
+                ]
+            ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 // instead of being set onto the object directly,
@@ -58,13 +71,20 @@ class RegistrationFormType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
-                'first_options'  => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Confirmation'],
+                'first_options'  => ['attr'=>[
+                    'class'=>"form-control"
+                ]],
+                'second_options' => ['attr'=>[
+                    'class'=>"form-control"
+                ]],
             ])
             ->add('campus', EntityType::class, [
                 'class' => Campus::class,
                 'choice_label' => 'nom',
-                'required' => true
+                'required' => true,
+                'attr' => [
+                    'class' => 'form-select'
+                ]
             ])
             ->add('imageFile', FileType::class, [
                 'mapped'=>false,
@@ -72,13 +92,15 @@ class RegistrationFormType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new File([
-                        'maxSize' => '1024k',
+                        'maxSize' => '1M',
+                        'maxSizeMessage'=>'Taille du fichier maximun de 1mo',
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png'
                         ]
                     ])
-                ]
+                ],
+                'attr'=>['class'=>"form-control"]
 
             ])
         ;

@@ -3,18 +3,73 @@
 {% block title %}{{ title}} | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1>{{ subtitle }}</h1>
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.pseudo) }}
-        {{ form_row(registrationForm.nom) }}
-        {{ form_row(registrationForm.prenom) }}
-        {{ form_row(registrationForm.telephone) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword) }}
-        {{ form_row(registrationForm.campus) }}
-        {{ form_row(registrationForm.imageFile) }}
+        <section class="container-fluid h-custom w-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                        <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                                <h1  class="my-3 w-100 text-center color-3 fs-4 fw-bold bg-1 p-1 rounded">S'enregistrer</h1>
+                                {{ form_start(registrationForm) }}
 
-        <button type="submit" class="btn">Enregistrer</button>
-        <a href="{{ path('app_home') }}">Annuler</a>
-    {{ form_end(registrationForm) }}
+                                <div class="input-group mb-3">
+                                        <label class="input-group-text" for="basic-registration_form_pseudo" >Pseudo</label>
+                                        {{ form_widget(registrationForm.pseudo) }}
+                                </div>
+                                {{form_errors(registrationForm.pseudo)}}
+
+                                <div class="input-group mb-3">
+                                        <label class="input-group-text" for="basic-registration_form_nom" >Nom</label>
+                                        {{ form_widget(registrationForm.nom) }}
+                                </div>
+                                {{form_errors(registrationForm.nom)}}
+
+                                <div class="input-group mb-3">
+                                        <label class="input-group-text" for="basic-registration_form_prenom" >Prenom</label>
+                                        {{ form_widget(registrationForm.prenom) }}
+                                </div>
+                                {{form_errors(registrationForm.prenom)}}
+
+                                <div class="input-group mb-3">
+                                        <label class="input-group-text" for="basic-registration_form_telephone" >Téléphone</label>
+                                        {{ form_widget(registrationForm.telephone) }}
+                                </div>
+                                {{form_errors(registrationForm.telephone)}}
+
+                                <div class="input-group mb-3">
+                                        <label class="input-group-text" for="basic-registration_form_email" >Email</label>
+                                        {{ form_widget(registrationForm.email) }}
+                                </div>
+                                {{form_errors(registrationForm.email)}}
+
+                                <div class="input-group mb-3">
+                                        <label class="input-group-text" for="basic-registration_form_plainPassword_first" >Mot de passe</label>
+                                        {{ form_widget(registrationForm.plainPassword.first) }}
+                                </div>
+                                {{form_errors(registrationForm.plainPassword)}}
+                                <div class="input-group mb-3">
+                                        <label class="input-group-text" for="basic-registration_form_plainPassword_second" >Confirmation</label>
+                                        {{ form_widget(registrationForm.plainPassword.second) }}
+                                </div>
+
+                                <div class="input-group mb-3">
+                                        <label class="input-group-text" for="basic-registration_form_pseudo" >Campus</label>
+                                        {{ form_widget(registrationForm.campus) }}
+                                </div>
+
+                                <div class="input-group mb-3">
+                                        <label class="input-group-text" for="registration_form_imageFile">Avatar</label>
+                                        {{ form_widget(registrationForm.imageFile) }}
+                                </div>
+                                {{form_errors(registrationForm.imageFile)}}
+                                <div class="d-flex justify-content-between mb-3">
+                                        <a class="btn bg-4 btn-lg text-white f-lunatic btn-connexion mb-3" href="{{ path('app_home') }}">Annuler</a>
+                                        <button type="submit" class="btn bg-4 btn-lg text-white f-lunatic btn-connexion mb-3">Enregistrer</button>
+                                        {{ form_end(registrationForm) }}
+                                </div>
+
+                        </div>
+                        <div class="col-md-9 col-lg-6 col-xl-5 shadow mb-3 rounded">
+                                <img src="{{asset('assets/image/register.jpg')}}"
+                                     class="img-fluid" alt="S'enregistrer">
+                        </div>
+                </div>
+        </section>
 {% endblock %}

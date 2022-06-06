@@ -2,10 +2,23 @@
     0%{
         text-shadow: 0 0 10px black;
         transform: scale(1);
-    }100%{
+    }50%{
          text-shadow: 0 0 50px black;
          transform: scale(1.05);
+     }100%{
+         text-shadow: 0 0 10px black;
+         transform: scale(1);
      }
+}
+/*####################*/
+/*fonts*/
+.f-lunatic{
+    font-family: 'Rubik Glitch', cursive;
+    text-shadow: 0 0 10px black;
+}
+
+.f-lunatic.anim:hover{
+    animation: logoScale 2s  ease-in-out forwards;
 }
 /*####################*/
 *{
@@ -43,15 +56,10 @@ main{
     background-color: #dab49dff;
 }
 .color-3{
-    color: #5e3023ff;
+    color: #5e3023ff!important;
 }
-.f-lunatic{
-    font-family: 'Rubik Glitch', cursive;
-    text-shadow: 0 0 10px black;
-}
-.f-lunatic.anim:hover{
-    animation: logoScale 1s  ease-in-out forwards;
-}
+
+/*header*/
 .navbar{
     width: 100%;
     max-width: 100%;
@@ -59,11 +67,44 @@ main{
 .nav-link{
     font-size: 17px;
     color:#ffffff;
+    font-weight: bold;
+
+}
+.date,.date a{
+    color: rgba(192,133,82,.5);
+    display:inline;
+    text-decoration: none;
+    text-shadow: none;
 }
 
+.date:hover,.date a:hover{
+    color:  #fff;
+}
+/*login*/
 .btn-connexion{
     padding-left: 2.5rem;
     padding-right: 2.5rem;
 }.btn-connexion:hover{
     background: #c08552ff;
+}
+/*se souvenir*/
+.form-check-input{
+    background-color: rgba(192,133,82,.5);
+    border-color: rgba(94,48,35,.5);
+}.form-check-input:checked {
+    background-color: #c08552ff;
+    border-color: #5e3023ff;
+}
+ /*register*/
+form[name='registration_form'] label{
+    width:150px;
+}
+
+form[name='registration_form'] > ul{
+    background: #b96e6c;
+    padding: 1em 0;
+    margin: -1.5em 0 2em;
+}form[name='registration_form'] > ul > li{
+    color: #fff;
+     padding-left: 1em;
 }
