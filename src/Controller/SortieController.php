@@ -63,6 +63,8 @@ class SortieController extends AbstractController
         if ($sortieForm->isSubmitted() and $sortieForm->isValid() ){
             $em->persist($sortie);
             $em->flush();
+            $this->addFlash('success','La sortie a bien été créée !');
+            return $this->redirectToRoute('app_home');
         }
 
         return $this->render('sortie/index.html.twig', [
@@ -158,6 +160,26 @@ class SortieController extends AbstractController
             'title' => 'Annuler une sortie',
             'sortie'=>$sortie,
             'formAnnule' => $formAnnule->createView()
+        ]);
+    }
+
+    #[Route('/modifierSortie/{id}', name: 'modifier',requirements: ['id' => '\d+'])]
+    public function ModifySortie (int $id, Request $request, SortieRepository $sortieRepository,EntityManagerInterface $em) : Response
+    {
+        $sortie = $sortieRepository->find($id);
+        $sortieForm = $this->createForm(SortieType::class,$sortie);
+        $sortieForm->handleRequest($request);
+
+        if ($sortieForm->isSubmitted() and $sortieForm->isValid() ){
+            $em->persist($sortie);
+            $em->flush();
+            $this->addFlash('success','La sortie a bien été modifiée !');
+            return $this->redirectToRoute('app_home');
+        }
+
+        return $this->render('sortie/index.html.twig', [
+            'title' => 'Modifier une sortie',
+            'sortieForm' => $sortieForm->createView(),
         ]);
     }
 }
