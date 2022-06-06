@@ -65,7 +65,7 @@ class ProfilController extends AbstractController
             }
             return $this->render('registration/register.html.twig', [
                 'title' => 'Modifier le profil',
-                'subtitle' => 'Mon Profil',
+                'subtitle' => 'Modifier mon Profil',
                 "participant" => $participant,
                 'registrationForm' => $participantForm->createView()
             ]);
