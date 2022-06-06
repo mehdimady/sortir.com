@@ -20,7 +20,7 @@
         </header>
     <div class="container-fluid">
         <aside>
-            <div class="text-end text-secondary">Hello {{app.user.pseudo}} | | {{ "now"|date("d-m-y") |format_datetime('full', 'none', locale='fr') }}</div>
+            <div class="text-end text-secondary">Hello {{app.user}} | | {{ "now"|date("d-m-y") |format_datetime('full', 'none', locale='fr') }}</div>
         </aside>
         <aside>
             {% for label, messages in app.flashes%}
