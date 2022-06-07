@@ -43,7 +43,7 @@
                                         <label class="input-group-text" for="basic-registration_form_plainPassword_first" >Mot de passe</label>
                                         {{ form_widget(registrationForm.plainPassword.first) }}
                                 </div>
-                                {{form_errors(registrationForm.plainPassword)}}
+                                {{form_errors(registrationForm.plainPassword.first)}}
                                 <div class="input-group mb-3">
                                         <label class="input-group-text" for="basic-registration_form_plainPassword_second" >Confirmation</label>
                                         {{ form_widget(registrationForm.plainPassword.second) }}
