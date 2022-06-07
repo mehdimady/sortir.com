@@ -16,53 +16,55 @@
 
 
     </div>
-    <div class="container bg-dark text-light">
-        <table class="table table-dark table-striped">
-            <thead>
-            <tr>
-                <th scope="col">Nom</th>
-                <th scope="col">Rue</th>
-                <th scope="col">Latitude</th>
-                <th scope="col">longitude</th>
-                <th scope="col">ville</th>
-                <th scope="col">Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for lieu in lieux %}
+    <div class="col-12 col-10   m-auto">
+        <div class="box-table">
+            <table class="table">
+                <thead class="thead-light" >
                 <tr>
-                    <td>{{lieu.nom}}</td>
-                    <td>{{lieu.rue}}</td>
-                    <td>{{lieu.longitude}}</td>
-                    <td>{{lieu.latitude}}</td>
-                    <td>{{lieu.ville}}</td>
-                    <td></td>
-                    <td><a href="{{path('lieu_modify',{'id':lieu.id})}}">Modifier</a> - <a href="{{path('lieu_delete',{'id':lieu.id})}}">Supprimer</a></td>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Rue</th>
+                    <th scope="col">longitude</th>
+                    <th scope="col">Latitude</th>
+                    <th scope="col">ville</th>
+                    <th scope="col">Actions</th>
                 </tr>
-            {% endfor%}
-            {{form_start(formLieu)}}
-            <tr>
-                <td>
-                    {{form_row(formLieu.nom,{"label":"Nom de la ville"})}}
-                </td>
-                <td>
-                    {{form_row(formLieu.rue,{"label":"Rue"})}}
-                </td>
-                <td>
-                    {{form_row(formLieu.longitude,{"label":"Longitude"})}}
-                </td>
-                <td>
-                    {{form_row(formLieu.latitude,{"label":"Latitude"})}}
-                </td>
-                <td>
-                    {{form_row(formLieu.ville,{"label":"Ville"})}}
-                </td>
-                <td>
-                    <button type="submit">{{ button }}</button>
-                </td>
-            </tr>
-            {{ form_end(formLieu)}}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                {{form_start(formLieu)}}
+                <tr>
+                    <td>
+                        {{form_widget(formLieu.nom)}}
+                    </td>
+                    <td>
+                        {{form_widget(formLieu.rue)}}
+                    </td>
+                    <td>
+                        {{form_widget(formLieu.longitude)}}
+                    </td>
+                    <td>
+                        {{form_widget(formLieu.latitude)}}
+                    </td>
+                    <td>
+                        {{form_widget(formLieu.ville)}}
+                    </td>
+                    <td>
+                            <button type="submit" class="btn bg-4 btn-lg text-white f-lunatic btn-connexion mb-3 fs-6 add">Enregistrer</button>
+                    </td>
+                </tr>
+                {{ form_end(formLieu)}}
+                {% for lieu in lieux %}
+                    <tr>
+                        <td>{{lieu.nom}}</td>
+                        <td>{{lieu.rue}}</td>
+                        <td>{{lieu.longitude}}</td>
+                        <td>{{lieu.latitude}}</td>
+                        <td>{{lieu.ville}}</td>
+                        <td><a href="{{path('lieu_modify',{'id':lieu.id})}}">Modifier</a> - <a href="{{path('lieu_delete',{'id':lieu.id})}}">Supprimer</a></td>
+                    </tr>
+                {% endfor%}
+
+                </tbody>
+            </table>
+        </div>
     </div>
 {% endblock %}

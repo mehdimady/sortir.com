@@ -58,7 +58,7 @@ class VilleController extends AbstractController
     public function modifyVille(Request $request,VilleRepository $villeRepository,int $id,EntityManagerInterface $entityManager): Response
     {
         $villes =  $villeRepository->findAll();
-        $ville = $villeRepository->findOneBy(["id"=>$id]);
+        $ville = $villeRepository->find($id);
         $formVille = $this->createForm(VilleType::class,$ville);
         $formVille->handleRequest($request);
         if($formVille->isSubmitted() && $formVille->isValid()){

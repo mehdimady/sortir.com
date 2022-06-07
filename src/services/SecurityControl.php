@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Etats;
+namespace App\services;
 
 class SecurityControl
 {

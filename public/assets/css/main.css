@@ -84,7 +84,12 @@ main{
 .btn-connexion{
     padding-left: 2.5rem;
     padding-right: 2.5rem;
-}.btn-connexion:hover{
+}
+.btn-connexion.add{
+    height:43px;
+}
+
+.btn-connexion:hover{
     background: #c08552ff;
 }
 /*se souvenir*/
@@ -117,19 +122,24 @@ form[name='registration_form'] > ul{
      scrollbar-color: #c08552ff #dab49dff ;
      scrollbar-width: thin;
      border-radius: 8px;
-     padding: 5px;
+     padding:  0 5px;
      background: #dab49dff;
      border: 5px solid #dab49dff;
  }
 body main .box-table table{
     background: #895737ff;
-    margin-top: 1em;
+ }
+
+.box-table table thead{
+    position: sticky;
+    top: 0;
+    background-color: rgba(192,133,82,1);
  }
 
 .box-table table thead tr{
     background-color: rgba(192,133,82,.5);
     color: #fff;
-    text-align: center;
+    position: sticky !important;
  }
 
 .box-table table tr{

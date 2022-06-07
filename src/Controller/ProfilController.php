@@ -28,11 +28,11 @@ class ProfilController extends AbstractController
     }
 
     #[Route('/modifier/{id}', name:"app_modifier")]
-    public function Modify(int $id, Request $request, EntityManagerInterface $entityManager,
+    public function modify(int $id, Request $request, EntityManagerInterface $entityManager,
                            ParticipantRepository $participantRepository, SluggerInterface $slugger ): Response
     {
         $user = $this->getUser();
-        $participant = $participantRepository->findOneBy(['id' => $id]);
+        $participant = $participantRepository->find($id);
         $participantForm = $this->createForm(RegistrationFormType::class, $participant);
         $participantForm->handleRequest($request);
             if ($user!=null and $user->getUserIdentifier()==$participant->getUserIdentifier()){

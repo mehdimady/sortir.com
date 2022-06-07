@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Participant;
-use App\Etats\ImportCSVFile;
+use App\services\ImportCSVFile;
 use App\Form\InscriptionFileType;
 use App\Form\RegistrationFormType;
 use App\Form\SearchVilleType;

@@ -28,8 +28,8 @@ class SortieController extends AbstractController
     }
 
     #[Route('/{id}', name: 'affiche',requirements: ['id' => '\d+'])]
-    public function DisplayOne(SortieRepository $sortieRepository,int $id): Response    {
-        $sortie = $sortieRepository->findOneBy(["id"=>$id]);
+    public function displayOne(SortieRepository $sortieRepository,int $id): Response    {
+        $sortie = $sortieRepository->find($id);
         $listeParticipant = $sortie->getParticipants();
         if($sortie->getEtat()->getLibelle() == $this->etats[3]){
             $motif = $sortie->getMotif();
@@ -74,7 +74,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/inscrire/{id}', name: 'inscrire',requirements: ['id' => '\d+'])]
-    public function RegisterSortie(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager )
+    public function registerSortie(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager )
     {
         $user = $this->getUser();
         if ($user!=null){
@@ -101,7 +101,7 @@ class SortieController extends AbstractController
     {
         $user = $this->getUser();
         if ($user!=null){
-            $sortie = $sortieRepository->findOneBy(["id"=>$id]);
+            $sortie = $sortieRepository->find($id);
             $sortie->removeParticipant($user);
             $dateFin = $sortie->getDateLimiteInscription();
             if (new \DateTime('now') < $dateFin){
@@ -119,10 +119,10 @@ class SortieController extends AbstractController
     }
 
     #[Route('/publier/{id}', name: 'publier',requirements: ['id' => '\d+'])]
-    public function PublishSortie(int $id, SortieRepository $sortieRepository,EtatRepository $etatRepository, EntityManagerInterface $entityManager )
+    public function publishSortie(int $id, SortieRepository $sortieRepository,EtatRepository $etatRepository, EntityManagerInterface $entityManager )
     {
         $user =$this->getUser();
-        $sortie = $sortieRepository->findOneBy(["id"=>$id]);
+        $sortie = $sortieRepository->find($id);
         if($sortie != null and $user != null and $sortie->getOrganisateur()->getEmail() == $this->getUser()->getUserIdentifier()){
             $sortie->setEtat($this->etats[1]);
             $entityManager->persist($sortie);
@@ -136,10 +136,10 @@ class SortieController extends AbstractController
     }
 
     #[Route('/annuler/{id}', name: 'annuler',requirements: ['id' => '\d+'])]
-    public function CancelSortie(int $id, SortieRepository $sortieRepository,EntityManagerInterface $entityManager,Request $request ):Response
+    public function cancelSortie(int $id, SortieRepository $sortieRepository,EntityManagerInterface $entityManager,Request $request ):Response
     {
         $user =$this->getUser();
-        $sortie = $sortieRepository->findOneBy(["id"=>$id]);
+        $sortie = $sortieRepository->find($id);
         if($sortie != null and $user != null and $sortie->getOrganisateur()->getEmail() == $this->getUser()->getUserIdentifier() or $this->security->isGranted('ROLE_ADMIN')){
             $formAnnule = $this->createForm(AnnuleType::class);
             $formAnnule->handleRequest($request);
@@ -164,7 +164,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/modifierSortie/{id}', name: 'modifier',requirements: ['id' => '\d+'])]
-    public function ModifySortie (int $id, Request $request, SortieRepository $sortieRepository,EntityManagerInterface $em) : Response
+    public function modifySortie (int $id, Request $request, SortieRepository $sortieRepository,EntityManagerInterface $em) : Response
     {
         $sortie = $sortieRepository->find($id);
         $sortieForm = $this->createForm(SortieType::class,$sortie);

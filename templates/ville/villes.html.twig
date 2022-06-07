@@ -5,46 +5,47 @@
 {% endblock %}
 
 {% block body %}
-    <h1 class="text-center">Gérer les villes</h1>
-    <h2>Filtrer les villes</h2>
+        <h1 class="text-center">Gérer les villes</h1>
+        <h2>Filtrer les villes</h2>
 
-    <div class="col-sm-10 col-md-8 col-lg-6 m-2 d-flex justify-content-around">
-        {{form_start(formSearch)}}
-        {{form_widget(formSearch.name, {'full_name': 'search','label':'Le nom contient :'})}}
-        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Rechercher</button>
-        {{form_end(formSearch)}}
+        <div class="col-sm-10 col-md-8 col-lg-6 m-2 d-flex justify-content-around">
+                {{form_start(formSearch)}}
+                {{form_widget(formSearch.name, {'full_name': 'search','label':'Le nom contient :'})}}
+                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Rechercher</button>
+                {{form_end(formSearch)}}
+        </div>
+        <div class="col-12 col-10   m-auto">
+                <div class="box-table">
+                        <table class="table">
+                                <thead class="thead-light" >
+                                <tr>
+                                        <th scope="col">Nom</th>
+                                        <th scope="col">Code Postal</th>
+                                        <th scope="col">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {{form_start(formVille)}}
+                                <tr>
+                                        <td>
+                                                {{form_row(formVille.nom,{"label":"Nom de la ville"})}}
+                                        </td>
+                                        <td>
+                                                {{form_row(formVille.codePostal,{"label":"Code Postal"})}}
+                                        </td>
+                                        <td><button  type="submit">{{ button }}</button></td>
+                                </tr>
+                                {{ form_end(formVille)}}
+                                {% for ville in villes %}
+                                        <tr>
+                                                <td>{{ville.nom}}</td>
+                                                <td>{{ville.codePostal}}</td>
+                                                <td><a href="{{path('ville_modify',{'id':ville.id})}}">Modifier</a> - <a href="{{path('ville_delete',{'id':ville.id})}}">Supprimer</a></td>
+                                        </tr>
+                                {% endfor%}
 
-
-    </div>
-        <div class="container bg-dark text-light">
-            <table class="table table-dark table-striped">
-                    <thead>
-                    <tr>
-                            <th scope="col">Nom</th>
-                            <th scope="col">Code Postal</th>
-                            <th scope="col">Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        {% for ville in villes %}
-                            <tr>
-                                <td>{{ville.nom}}</td>
-                                <td>{{ville.codePostal}}</td>
-                                <td><a href="{{path('ville_modify',{'id':ville.id})}}">Modifier</a> - <a href="{{path('ville_delete',{'id':ville.id})}}">Supprimer</a></td>
-                            </tr>
-                        {% endfor%}
-                        {{form_start(formVille)}}
-                    <tr>
-                        <td>
-                            {{form_row(formVille.nom,{"label":"Nom de la ville"})}}
-                        </td>
-                        <td>
-                            {{form_row(formVille.codePostal,{"label":"Code Postal"})}}
-                        </td>
-                        <td><button  type="submit">{{ button }}</button></td>
-                    </tr>
-                    {{ form_end(formVille)}}
-                    </tbody>
-            </table>
+                                </tbody>
+                        </table>
+                </div>
         </div>
 {% endblock %}

@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Etats\GestionDesEtats;
-use App\Etats\SecurityControl;
+use App\services\GestionDesEtats;
+use App\services\SecurityControl;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
