@@ -184,7 +184,10 @@ class SortieController extends AbstractController
     public function cancelSortie(int $id, SortieRepository $sortieRepository,EntityManagerInterface $entityManager,Request $request ):Response
     {
         $sortie = $sortieRepository->find($id);
-        if($sortie != null  and $sortie->getOrganisateur() === $this->getUser() or $this->security->isGranted('ROLE_ADMIN')){
+        if($sortie != null and $sortie->getOrganisateur() === $this->getUser()
+            or $this->security->isGranted('ROLE_ADMIN')
+                and $sortie->getEtat()->getLibelle() == 'Ouvert' or $sortie->getEtat()->getLibelle() == 'Fermé'
+                    or $sortie->getEtat()->getLibelle() == 'En création'){
             $formAnnule = $this->createForm(AnnuleType::class,$sortie);
             $formAnnule->handleRequest($request);
             if($formAnnule->isSubmitted() && $formAnnule->isValid()){
@@ -195,7 +198,7 @@ class SortieController extends AbstractController
                 return $this->redirectToRoute('sortie_home');
             }
         }else{
-            $this->addFlash('error','Attention Opération interdite !');
+            $this->addFlash('error','Vous ne pouvez annuler que les sorties ouvertes, fermées ou en création !');
             return $this->redirectToRoute('sortie_home');
         }
 
