@@ -1,3 +1,6 @@
+sortie_home:
+  path: /
+  controller: App\Controller\SortieController::displayAllEvents
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
