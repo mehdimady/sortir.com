@@ -38,19 +38,14 @@ class SortieController extends AbstractController
 
             $sorties = $sortieRepository->findAll();
 
-            if ($this->getUser() != null) {
-                foreach ($sorties as $sortie) {
-                    $inscrit = false;
-                    foreach ($sortie->getParticipants() as $participant) {
-                        if ($this->getUser()->getUserIdentifier() == $participant->getEmail()) {
-                            $inscrit = true;
-                        }
+            foreach ($sorties as $sortie) {
+                $inscrit = false;
+                foreach ($sortie->getParticipants() as $participant) {
+                    if ($this->getUser()->getUserIdentifier() == $participant->getEmail()) {
+                        $inscrit = true;
                     }
-                    $sortiesReturn[] = ['sortie' => $sortie, 'inscrit' => $inscrit];
                 }
-            } else {
-                $this->addFlash('error', 'Veuillez vous connecter ou vous inscrire !');
-                return $this->redirectToRoute('app_login');
+                $sortiesReturn[] = ['sortie' => $sortie, 'inscrit' => $inscrit];
             }
 
             return $this->render('sortie/home.html.twig', [
@@ -175,13 +170,12 @@ class SortieController extends AbstractController
     #[Route('/annuler/{id}', name: 'annuler',requirements: ['id' => '\d+'])]
     public function cancelSortie(int $id, SortieRepository $sortieRepository,EntityManagerInterface $entityManager,Request $request ):Response
     {
-        $user =$this->getUser();
         $sortie = $sortieRepository->find($id);
-        if($sortie != null and $user != null and $sortie->getOrganisateur() == $this->getUser() or $this->security->isGranted('ROLE_ADMIN')){
+        if($sortie != null  and $sortie->getOrganisateur() === $this->getUser() or $this->security->isGranted('ROLE_ADMIN')){
             $formAnnule = $this->createForm(AnnuleType::class);
             $formAnnule->handleRequest($request);
             if($formAnnule->isSubmitted() && $formAnnule->isValid()){
-                $sortie->setMotif($request->get('motif'));
+            dd("ok");
                 $sortie->setEtat($this->etats[3]);
                 $entityManager->persist($sortie);
                 $entityManager->flush();

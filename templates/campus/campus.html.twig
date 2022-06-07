@@ -5,18 +5,10 @@
 {% endblock %}
 
 {% block body %}
-    <h1 class="text-center">Gérer les campus</h1>
-    <h2>Filtrer les campus</h2>
-
-    <div class="col-sm-10 col-md-8 col-lg-6 m-2 d-flex justify-content-around">
-        {{form_start(formSearch)}}
-        {{form_widget(formSearch.name, {'full_name': 'search','label':'Le nom contient :'})}}
-        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Rechercher</button>
-        {{form_end(formSearch)}}
-
-
-    </div>
-    <div class="col-12 col-10   m-auto">
+    <h1 class="text-center f-lunatic shadow-none color-4 my-3 my-md-5">Gérer les campus</h1>
+    <h2  class="px-3 color-4 fs-6">Filtrer les campus</h2>
+    {{include('includes/searchForm.html.twig')}}
+    <div class="col-12">
         <div class="box-table">
             <table class="table">
                 <thead class="thead-light" >
@@ -26,12 +18,16 @@
                 </tr>
                 </thead>
                 <tbody>
+
                 {{form_start(formCampus)}}
                 <tr>
                     <td>
-                        {{form_widget(formCampus.nom,{"label":"Nom du campus"})}}
+                        <div class="input-group">
+                            <label class="input-group-text d-none d-md-block" for="campus_nom">Nom</label>
+                            {{form_widget(formCampus.nom)}}
+                        </div>
                     </td>
-                    <td><button>{{ button }}</button></td>
+                    <td class="tdSubmit"><button type="submit" class="bg-4 btn btn-sm text-white f-lunatic btn-connexion">{{ button }}</button></td>
                 </tr>
                 {{ form_end(formCampus)}}
                 {% for campus in campusx %}
