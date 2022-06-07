@@ -54,7 +54,7 @@ class SortieController extends AbstractController
                 'sorties' => $sortiesReturn
             ]);
         } else {
-            $this->addFlash('error', "Votre compte a été déactivé! Veuillez contacter l'administrateur.");
+            $this->addFlash('error', "Votre compte a été désactivé! Veuillez contacter l'administrateur.");
             return $this->redirectToRoute('app_login');
         }
     }
@@ -113,14 +113,20 @@ class SortieController extends AbstractController
             $sortie = $sortieRepository->find($id);
             $maxInscrit = $sortie->getNbInscriptionsMax();
             $nbInscrit = count($sortie->getParticipants());
-            $sortie->addParticipant($user);
-            if ( $nbInscrit == $maxInscrit){
-                $sortie->setEtat($this->etats[3]);
+            if ($sortie->getEtat()->getLibelle() == 'Ouvert'){
+                $sortie->addParticipant($user);
+                if ( $nbInscrit == $maxInscrit){
+                    $sortie->setEtat($this->etats[3]);
+                }
+                $entityManager->persist($sortie);
+                $entityManager->flush();
+                $this->addFlash('success','Vous êtes inscrit !');
+                return $this->redirectToRoute('sortie_home');
             }
-            $entityManager->persist($sortie);
-            $entityManager->flush();
-            $this->addFlash('success','Vous êtes inscrit !');
-            return $this->redirectToRoute('sortie_home');
+            else{
+                $this->addFlash('warning','Vous ne pouvez pas vous inscrire à cette sortie !');
+                return $this->redirectToRoute('sortie_home');
+            }
         }
         else{
             $this->addFlash('warning','Veuillez vous connecter !');
@@ -134,15 +140,22 @@ class SortieController extends AbstractController
         $user = $this->getUser();
         if ($user!=null){
             $sortie = $sortieRepository->find($id);
-            $sortie->removeParticipant($user);
-            $dateFin = $sortie->getDateLimiteInscription();
-            if (new \DateTime('now') < $dateFin){
-                $sortie->setEtat($this->etats[1]);
+            if ($sortie->getEtat()->getLibelle() == 'Ouvert' or $sortie->getEtat()->getLibelle() == 'Fermé'){
+                $sortie->removeParticipant($user);
+                $dateFin = $sortie->getDateLimiteInscription();
+                if (new \DateTime('now') < $dateFin){
+                    $sortie->setEtat($this->etats[1]);
+                }
+                $entityManager->persist($sortie);
+                $entityManager->flush();
+                $this->addFlash('success','Vous êtes désinscrit !');
+                return $this->redirectToRoute('sortie_home');
             }
-            $entityManager->persist($sortie);
-            $entityManager->flush();
-            $this->addFlash('success','Vous êtes désinscrit !');
-            return $this->redirectToRoute('sortie_home');
+            else{
+                $this->addFlash('warning',
+                    'Vous ne pouvez pas vous désinscrire si la sortie est dans un autre état que Ouvert ou Fermé ! !');
+                return $this->redirectToRoute('sortie_home');
+            }
         }
         else{
             $this->addFlash('warning','Veuillez vous connecter !');
@@ -175,7 +188,6 @@ class SortieController extends AbstractController
             $formAnnule = $this->createForm(AnnuleType::class);
             $formAnnule->handleRequest($request);
             if($formAnnule->isSubmitted() && $formAnnule->isValid()){
-            dd("ok");
                 $sortie->setEtat($this->etats[3]);
                 $entityManager->persist($sortie);
                 $entityManager->flush();

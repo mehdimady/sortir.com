@@ -30,7 +30,7 @@
 
                                           {% if result.inscrit %}<a href="{{path('sortie_desister',{'id':result.sortie.id})}}">se désister</a>{% else %}<a href="{{path('sortie_inscrire',{'id':result.sortie.id})}}">s'inscrire</a>{% endif %}
 
-                                {% elseif result.sortie.etat.libelle == 'Fermé' %}<a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a> {{result.inscrit}}
+                                {% elseif result.sortie.etat.libelle == 'Fermé' %}<a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a>
 
                                           {% if result.inscrit %}<a href="{{path('sortie_desister',{'id':result.sortie.id})}}">se désister</a>{% endif %}
 
