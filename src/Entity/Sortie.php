@@ -6,6 +6,8 @@ use App\Repository\SortieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: SortieRepository::class)]
 class Sortie
@@ -16,21 +18,43 @@ class Sortie
     private $id;
 
     #[ORM\Column(type: 'string', length: 50)]
+    #[Assert\NotBlank (message: "Veuillez donner un nom à votre sortie")]
+    #[Assert\Length (
+        min: 3,
+        max: 50,
+        minMessage: "Minimum 3 caractères s'il vous plait !",
+        maxMessage: "Maximum 50 caractères s'il vous plait !"
+    )]
     private $nom;
 
     #[ORM\Column(type: 'datetime')]
+    #[Assert\GreaterThan(propertyPath: "dateLimiteInscription",
+        message: "La date du début de la sortie ne peut pas être avant celle de l'inscription !")]
     private $dateHeureDebut;
 
     #[ORM\Column(type: 'integer')]
+    #[Assert\NotBlank (message: "Veuillez indiquer une durée pour la sortie")]
+    #[Assert\GreaterThanOrEqual(
+        value: 30,
+        message: 'Les sorties doivent durer 30 minutes ou plus !'
+    )]
     private $duree;
 
     #[ORM\Column(type: 'datetime')]
+    #[Assert\LessThan(propertyPath: "dateHeureDebut",
+        message: "La date limite d'inscription ne peut pas dépasser celle du début de la sortie !")]
     private $dateLimiteInscription;
 
     #[ORM\Column(type: 'integer')]
+    #[Assert\NotBlank (message: "Veuillez indiquer un nombre maximum de participants !")]
+    #[Assert\GreaterThanOrEqual(
+        value: 2,
+        message: 'Il est inutile de programmer une sortie pour moins de deux personnes !'
+    )]
     private $nbInscriptionsMax;
 
     #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank (message: "Veuillez ajouter des informations sur la sortie !")]
     private $infosSortie;
 
     #[ORM\ManyToOne(targetEntity: Etat::class, inversedBy: 'sorties')]

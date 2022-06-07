@@ -4,10 +4,14 @@ namespace App\Form;
 
 use App\Entity\Lieu;
 use App\Entity\Ville;
+use Doctrine\DBAL\Types\FloatType;
+use Doctrine\DBAL\Types\IntegerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class LieuType extends AbstractType
 {
@@ -16,8 +20,8 @@ class LieuType extends AbstractType
         $builder
             ->add('nom')
             ->add('rue')
-            ->add('latitude')
-            ->add('longitude')
+            ->add('latitude') //todo corriger problème message
+            ->add('longitude') //todo corriger problème message
             ->add('ville', EntityType::class, [
                 'label'=>'Ville',
                 'class'=>Ville::class,

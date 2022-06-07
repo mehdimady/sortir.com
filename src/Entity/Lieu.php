@@ -6,6 +6,8 @@ use App\Repository\LieuRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: LieuRepository::class)]
 class Lieu
@@ -16,15 +18,35 @@ class Lieu
     private $id;
 
     #[ORM\Column(type: 'string', length: 50)]
+    #[Assert\NotBlank (message: "Veuillez donner un nom à votre lieu !")]
+    #[Assert\Length (
+        min: 3,
+        max: 50,
+        minMessage: "Minimum 3 caractères s'il vous plait !",
+        maxMessage: "Maximum 50 caractères s'il vous plait !"
+    )]
     private $nom;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank (message: "Veuillez donner un nom à la rue !")]
+    #[Assert\Length (
+        min: 3,
+        max: 255,
+        minMessage: "Minimum 3 caractères s'il vous plait !",
+        maxMessage: "Maximum 255 caractères s'il vous plait !"
+    )]
     private $rue;
 
     #[ORM\Column(type: 'float')]
+    #[Assert\NotBlank (message: "Veuillez indiquer une latitude !")]
+    #[Assert\Regex(pattern: "/^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))$/",
+        message: 'Veuillez utiliser uniquement des chiffres, les signes + ou - et des points !')]
     private $latitude;
 
     #[ORM\Column(type: 'float')]
+    #[Assert\NotBlank (message: "Veuillez indiquer une longitude !")]
+    #[Assert\Regex(pattern: "/^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))$/",
+        message: 'Veuillez utiliser uniquement des chiffres, les signes + ou - et des points !')]
     private $longitude;
 
     #[ORM\ManyToOne(targetEntity: Ville::class, inversedBy: 'lieus')]

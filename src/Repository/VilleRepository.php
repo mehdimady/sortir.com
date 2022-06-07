@@ -44,8 +44,7 @@ class VilleRepository extends ServiceEntityRepository
         $queryBuilder = $this->createQueryBuilder('v')
                 ->andWhere("v.nom LIKE :search ")
                 ->setParameter("search",$search.'%');
-               $query = $queryBuilder->getQuery();
-               $result = $query->getResult();
-               return $result;
+        $query = $queryBuilder->getQuery();
+        return $query->getResult();
     }
 }

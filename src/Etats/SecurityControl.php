@@ -2,11 +2,9 @@
 
 namespace App\Etats;
 
-use App\Entity\Participant;
-
 class SecurityControl
 {
-public function UserIsActive(Participant $user_current){
-    $user_current->isActif() ? true :false;
-}
+    public function userIsActive ($user_current):bool{
+        return $user_current->isActif();
+    }
 }
