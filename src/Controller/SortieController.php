@@ -156,7 +156,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/publier/{id}', name: 'publier',requirements: ['id' => '\d+'])]
-    public function publishSortie(int $id, SortieRepository $sortieRepository,EtatRepository $etatRepository, EntityManagerInterface $entityManager )
+    public function PublishSortie(int $id, SortieRepository $sortieRepository,EtatRepository $etatRepository, EntityManagerInterface $entityManager )
     {
         $user =$this->getUser();
         $sortie = $sortieRepository->find($id);
