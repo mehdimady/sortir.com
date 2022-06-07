@@ -43,7 +43,7 @@
                                         <label class="input-group-text" for="basic-registration_form_plainPassword_first" >Mot de passe</label>
                                         {{ form_widget(registrationForm.plainPassword.first) }}
                                 </div>
-                                {{form_errors(registrationForm.plainPassword)}}
+                                {{form_errors(registrationForm.plainPassword.first)}}
                                 <div class="input-group mb-3">
                                         <label class="input-group-text" for="basic-registration_form_plainPassword_second" >Confirmation</label>
                                         {{ form_widget(registrationForm.plainPassword.second) }}
@@ -60,7 +60,7 @@
                                 </div>
                                 {{form_errors(registrationForm.imageFile)}}
                                 <div class="d-flex justify-content-between mb-3">
-                                        <a class="btn bg-4 btn-lg text-white f-lunatic btn-connexion mb-3" href="{{ path('app_home') }}">Annuler</a>
+                                        <a class="btn bg-4 btn-lg text-white f-lunatic btn-connexion mb-3" href="{{ path('sortie_home') }}">Annuler</a>
                                         <button type="submit" class="btn bg-4 btn-lg text-white f-lunatic btn-connexion mb-3">Enregistrer</button>
                                         {{ form_end(registrationForm) }}
                                 </div>

@@ -20,6 +20,10 @@
 .f-lunatic.anim:hover{
     animation: logoScale 2s  ease-in-out forwards;
 }
+
+.f-lunatic.shadow-none{
+    text-shadow: none;
+}
 /*####################*/
 *{
     box-sizing: border-box;
@@ -31,12 +35,12 @@ body{
     width:100%;
     max-width:100%;
     font-family: 'Roboto', sans-serif;
-    font-size:.8em;
+    /*font-size:.8em;*/
 }
 main{
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
     flex:1;
 }
 /*####################*/
@@ -58,7 +62,9 @@ main{
 .color-3{
     color: #5e3023ff!important;
 }
-
+.color-4{
+    color:#895737ff;
+}
 /*header*/
 .navbar{
     width: 100%;
@@ -82,9 +88,14 @@ main{
 }
 /*login*/
 .btn-connexion{
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
-}.btn-connexion:hover{
+    padding-left: .5rem;
+    padding-right: .5rem;
+}
+.btn-connexion.add{
+    height:43px;
+}
+
+.btn-connexion:hover{
     background: #c08552ff;
 }
 /*se souvenir*/
@@ -110,26 +121,31 @@ form[name='registration_form'] > ul{
 }
 
  .box-table{
-    max-height:400px!important;
+    max-height:600px!important;
      width:95%;
      margin:auto;
      overflow-y: auto;
      scrollbar-color: #c08552ff #dab49dff ;
      scrollbar-width: thin;
      border-radius: 8px;
-     padding: 5px;
+     padding:  0 5px;
      background: #dab49dff;
      border: 5px solid #dab49dff;
  }
 body main .box-table table{
     background: #895737ff;
-    margin-top: 1em;
+ }
+
+.box-table table thead{
+    position: sticky;
+    top: 0;
+    background-color: rgba(192,133,82,1);
  }
 
 .box-table table thead tr{
     background-color: rgba(192,133,82,.5);
     color: #fff;
-    text-align: center;
+    position: sticky !important;
  }
 
 .box-table table tr{
@@ -138,4 +154,12 @@ body main .box-table table{
 .box-table table tr:nth-child(even) {
     background: #c08552ff;
     color: #fff;
+}
+
+form[name="search_ville"]{
+    width:100%;
+}
+
+.tdSubmit button{
+    min-height: 42.5px;
 }

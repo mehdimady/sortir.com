@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Etats;
+namespace App\services;
 
 use App\Entity\Participant;
 use App\Repository\CampusRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 

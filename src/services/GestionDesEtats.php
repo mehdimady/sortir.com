@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Etats;
+namespace App\services;
 
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;

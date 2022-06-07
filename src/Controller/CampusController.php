@@ -6,7 +6,6 @@ use App\Entity\Campus;
 use App\Form\CampusType;
 use App\Form\SearchVilleType;
 use App\Repository\CampusRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -59,7 +58,7 @@ class CampusController extends AbstractController
     public function modifyCampus(Request $request,CampusRepository $campusRepository,int $id,EntityManagerInterface $entityManager): Response
     {
         $campusx =  $campusRepository->findAll();
-        $campus = $campusRepository->findOneBy(["id"=>$id]);
+        $campus = $campusRepository->find($id);
         $formCampus = $this->createForm(CampusType::class,$campus);
         $formCampus->handleRequest($request);
         if($formCampus->isSubmitted() && $formCampus->isValid()){

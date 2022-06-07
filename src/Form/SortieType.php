@@ -9,14 +9,10 @@ use App\Entity\Sortie;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\GreaterThan;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\LessThan;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 
 class SortieType extends AbstractType
@@ -36,7 +32,7 @@ class SortieType extends AbstractType
             ->add('duree')
             ->add('nbInscriptionsMax')
             ->add('infosSortie')
-            ->add('campus', \Symfony\Component\Form\Extension\Core\Type\TextType::class, [
+            ->add('campus', TextType::class, [
                 'disabled' => true,
                 'mapped' => false,
                 'data' => $this->security->getUser()->getCampus(),

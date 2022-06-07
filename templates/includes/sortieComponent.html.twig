@@ -1,17 +1,17 @@
 
         <tr >
                 <td>{{result.sortie.nom}}</td>
-                <td>{{result.sortie.dateHeureDebut | format_datetime}}</td>
-                <td class="d-none d-md-table-cell">{{result.sortie.dateLimiteInscription | format_datetime}}</td>
+                <td>{{result.sortie.dateHeureDebut | date("m/d/Y") |format_datetime('short', 'none', locale='fr')}}</td>
+                <td class="d-none d-md-table-cell">{{result.sortie.dateLimiteInscription | date("m/d/Y") |format_datetime('short', 'none', locale='fr')}}</td>
                 <td class="d-none d-md-table-cell">{{result.sortie.participants |length}} / {{result.sortie.nbInscriptionsMax}}</td>
                 <td class="d-none d-md-table-cell">{{result.sortie.etat.libelle}}</td>
-                <td class="d-none d-md-table-cell">todo</td>
+                <td class="d-none d-md-table-cell">{% if result.inscrit %} ✅ {% endif %}</td>
                 <td class="d-none d-md-table-cell"><a href="{{path('app_profil',{'id':result.sortie.organisateur.id})}}">{{result.sortie.organisateur.pseudo}}</a></td>
                 <td class="d-none d-md-table-cell">
                         {% if app.user.id == result.sortie.organisateur.id %}
                                 {% if result.sortie.etat.libelle == 'En création' %}
                                     <a href="{{path('sortie_modifier',{'id':result.sortie.id})}}">modifier</a>
-                                    - <a href="{{path('sortie_publier',{'id':result.sortie.id})}}">publier</a>
+                                         <a href="{{path('sortie_publier',{'id':result.sortie.id})}}">publier</a>
                                 {% elseif result.sortie.etat.libelle == 'Ouvert' %}
                                     <a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a>
                                 {% elseif result.sortie.etat.libelle == 'Fermé' %}
@@ -19,28 +19,28 @@
                                 {% else %}<a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a>
                                 {% endif %}
                                 {% if app.user.roles[0]  == "ROLE_ADMIN" or  app.user.id == result.sortie.organisateur.id %}
-                                        {%if result.sortie.etat.libelle != "Annulé" and result.sortie.etat.libelle !='En cours' and result.sortie.etat.libelle !='Terminé' %}
+                                        {%if result.sortie.etat.libelle != "Annulé" and result.sortie.etat.libelle !='En cours' and result.sortie.etat.libelle !='Terminé' and result.sortie.etat.libelle != 'Historisé' %}
                                                - <a href="{{path('sortie_annuler',{'id':result.sortie.id})}}">annuler</a>
                                         {%endif%}
                                 {%endif%}
                         {% else %}
                                 {% if result.sortie.etat.libelle == 'En création' %}
 
-                                {% elseif result.sortie.etat.libelle == 'Ouvert' %}<a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a>helo3
+                                {% elseif result.sortie.etat.libelle == 'Ouvert' %}<a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a>
 
-                                        -  {% if result.inscrit %}<a href="{{path('sortie_desister',{'id':result.sortie.id})}}">se désister</a>{% else %}<a href="{{path('sortie_inscrire',{'id':result.sortie.id})}}">s'inscrire</a>{% endif %}
+                                          {% if result.inscrit %}<a href="{{path('sortie_desister',{'id':result.sortie.id})}}">se désister</a>{% else %}<a href="{{path('sortie_inscrire',{'id':result.sortie.id})}}">s'inscrire</a>{% endif %}
 
-                                {% elseif result.sortie.etat.libelle == 'Fermé' %}<a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a>helo2 {{result.inscrit}}
+                                {% elseif result.sortie.etat.libelle == 'Fermé' %}<a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a> {{result.inscrit}}
 
-                                        -  {% if result.inscrit %}<a href="{{path('sortie_desister',{'id':result.sortie.id})}}">se désister</a>{% endif %}
+                                          {% if result.inscrit %}<a href="{{path('sortie_desister',{'id':result.sortie.id})}}">se désister</a>{% endif %}
 
-                                {% else %}<a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a>helo1
+                                {% else %}<a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a>
 
                                 {% endif %}
-                                {% if app.user.roles[0]  == "ROLE_ADMIN" and result.sortie.etat.libelle != "Annulé" and result.sortie.etat.libelle !='En cours' and result.sortie.etat.libelle !='Terminé' %}
+                                {% if app.user.roles[0]  == "ROLE_ADMIN" and result.sortie.etat.libelle != "Annulé" and result.sortie.etat.libelle !='En cours' and result.sortie.etat.libelle !='Terminé' and result.sortie.etat.libelle != 'Historisé' %}
                                         <a href="{{path('sortie_annuler',{'id':result.sortie.id})}}">annuler</a>
                                 {%endif%}
                         {% endif %}
                 </td>
-                <td class="d-md-none">Lieux</td>
+                <td class="d-md-none">{{ result.sortie.lieux.nom }} - {{result.sortie.lieux.ville.nom}}</td>
         </tr>

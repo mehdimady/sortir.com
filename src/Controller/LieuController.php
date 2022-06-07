@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Lieu;
 use App\Form\LieuType;
 use App\Form\SearchVilleType;
-use App\Form\VilleType;
 use App\Repository\LieuRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -41,7 +40,7 @@ class LieuController extends AbstractController
         return $this->render('lieu/lieu.html.twig', [
             'title' => 'Les Lieux',
             "lieux"=>$lieux,
-            "button"=>"Ajouter",
+            "button"=>"Ajouter une ville",
             'formLieu'=>$formLieu->createView(),
             'formSearch'=>$formSearch->createView()
         ]);
@@ -59,7 +58,7 @@ class LieuController extends AbstractController
     public function modifyLieu(Request $request,LieuRepository $lieuRepository,int $id,EntityManagerInterface $entityManager): Response
     {
         $lieux = $lieuRepository->findAll();
-        $lieu = $lieuRepository->findOneBy(["id" => $id]);
+        $lieu = $lieuRepository->find($id);
         $formLieu = $this->createForm(LieuType::class, $lieu);
         $formLieu->handleRequest($request);
         if ($formLieu->isSubmitted() && $formLieu->isValid()) {

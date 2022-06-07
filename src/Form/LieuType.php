@@ -4,28 +4,38 @@ namespace App\Form;
 
 use App\Entity\Lieu;
 use App\Entity\Ville;
-use Doctrine\DBAL\Types\FloatType;
-use Doctrine\DBAL\Types\IntegerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Regex;
 
 class LieuType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom')
-            ->add('rue')
-            ->add('latitude') //todo corriger problème message
-            ->add('longitude') //todo corriger problème message
+            ->add('nom',TextType::class,[ 'attr' => [
+                'class' =>"form-control"
+            ]])
+            ->add('rue',TextType::class,[ 'attr' => [
+        'class' => "form-control"
+    ]])
+            ->add('latitude',NumberType::class,[ 'attr' => [
+                'class' =>"form-control"
+            ]])
+            //todo corriger problème message
+            ->add('longitude',NumberType::class,[ 'attr' => [
+                'class' =>"form-control"
+            ]])
+            //todo corriger problème message
             ->add('ville', EntityType::class, [
-                'label'=>'Ville',
                 'class'=>Ville::class,
-                'choice_label'=>'nom'
+                'choice_label'=>'nom',
+                'attr' => [
+                    'class' => 'form-select'
+                ]
             ])
         ;
     }
