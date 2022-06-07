@@ -69,7 +69,7 @@ class ProfilController extends AbstractController
             }
             else{
                 $this->addFlash('error', 'Vous ne pouvez pas accéder à cette page !');
-                return $this->redirectToRoute('app_home');
+                return $this->redirectToRoute('sortie_home');
             }
             return $this->render('registration/register.html.twig', [
                 'title' => 'Modifier le profil',

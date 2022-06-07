@@ -45,6 +45,7 @@ class ParticipantFixtures extends Fixture implements DependentFixtureInterface
                 $participant->setAdministrateur(0);
                 $participant->setRoles(['ROLE_USER']);
             }
+            $participant->setImageFilename('noimage.jpg');
             $participant->setActif(1);
             $participant->setCampus($this->getReference('campus-'.rand(0,2)));
             $manager->persist($participant);

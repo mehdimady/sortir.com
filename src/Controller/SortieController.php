@@ -6,6 +6,8 @@ use App\Entity\Etat;
 use App\Form\AnnuleType;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
+use App\services\GestionDesEtats;
+use App\services\SecurityControl;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Sortie;
 use App\Form\SortieType;
@@ -25,6 +27,41 @@ class SortieController extends AbstractController
     public function __construct(EtatRepository $repo, Security $security){
         $this->etats = $repo->findAll();
         $this->security = $security;
+    }
+
+    #[Route('/', name: 'home')]
+    public function displayAllEvents(SortieRepository $sortieRepository,EtatRepository $etatRepository, GestionDesEtats $gestionDesEtats,EntityManagerInterface $manager,SecurityControl $control): Response
+    {
+        if ($control->userIsActive($this->getUser())) {
+
+            $gestionDesEtats->UpdateStatesOfEvents($sortieRepository, $etatRepository, $manager);
+
+            $sorties = $sortieRepository->findAll();
+
+            if ($this->getUser() != null) {
+                foreach ($sorties as $sortie) {
+                    $inscrit = false;
+                    foreach ($sortie->getParticipants() as $participant) {
+                        if ($this->getUser()->getUserIdentifier() == $participant->getEmail()) {
+                            $inscrit = true;
+                        }
+                    }
+                    $sortiesReturn[] = ['sortie' => $sortie, 'inscrit' => $inscrit];
+                }
+            } else {
+                $this->addFlash('error', 'Veuillez vous connecter ou vous inscrire !');
+                return $this->redirectToRoute('app_login');
+            }
+
+            return $this->render('sortie/home.html.twig', [
+                'title' => 'Campus | sorties',
+                "inscrit" => $inscrit,
+                'sorties' => $sortiesReturn
+            ]);
+        } else {
+            $this->addFlash('error', "Votre compte a été déactivé! Veuillez contacter l'administrateur.");
+            return $this->redirectToRoute('app_login');
+        }
     }
 
     #[Route('/{id}', name: 'affiche',requirements: ['id' => '\d+'])]
@@ -64,7 +101,7 @@ class SortieController extends AbstractController
             $em->persist($sortie);
             $em->flush();
             $this->addFlash('success','La sortie a bien été créée !');
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('sortie_home');
         }
 
         return $this->render('sortie/index.html.twig', [
@@ -88,11 +125,11 @@ class SortieController extends AbstractController
             $entityManager->persist($sortie);
             $entityManager->flush();
             $this->addFlash('success','Vous êtes inscrit !');
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('sortie_home');
         }
         else{
             $this->addFlash('warning','Veuillez vous connecter !');
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('sortie_home');
         }
     }
 
@@ -110,11 +147,11 @@ class SortieController extends AbstractController
             $entityManager->persist($sortie);
             $entityManager->flush();
             $this->addFlash('success','Vous êtes désinscrit !');
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('sortie_home');
         }
         else{
             $this->addFlash('warning','Veuillez vous connecter !');
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('sortie_home');
         }
     }
 
@@ -129,10 +166,10 @@ class SortieController extends AbstractController
             $entityManager->flush();
         }else{
             $this->addFlash('error','Attention Opération interdite !');
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('sortie_home');
         }
         $this->addFlash('success','Les inscriptions sont désormais ouvertes !');
-        return $this->redirectToRoute('app_home');
+        return $this->redirectToRoute('sortie_home');
     }
 
     #[Route('/annuler/{id}', name: 'annuler',requirements: ['id' => '\d+'])]
@@ -140,7 +177,7 @@ class SortieController extends AbstractController
     {
         $user =$this->getUser();
         $sortie = $sortieRepository->find($id);
-        if($sortie != null and $user != null and $sortie->getOrganisateur()->getEmail() == $this->getUser()->getUserIdentifier() or $this->security->isGranted('ROLE_ADMIN')){
+        if($sortie != null and $user != null and $sortie->getOrganisateur() == $this->getUser() or $this->security->isGranted('ROLE_ADMIN')){
             $formAnnule = $this->createForm(AnnuleType::class);
             $formAnnule->handleRequest($request);
             if($formAnnule->isSubmitted() && $formAnnule->isValid()){
@@ -149,11 +186,11 @@ class SortieController extends AbstractController
                 $entityManager->persist($sortie);
                 $entityManager->flush();
                 $this->addFlash('success','La sortie est annulée !');
-                return $this->redirectToRoute('app_home');
+                return $this->redirectToRoute('sortie_home');
             }
         }else{
             $this->addFlash('error','Attention Opération interdite !');
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('sortie_home');
         }
 
         return $this->render('sortie/annule.html.twig', [
@@ -174,7 +211,7 @@ class SortieController extends AbstractController
             $em->persist($sortie);
             $em->flush();
             $this->addFlash('success','La sortie a bien été modifiée !');
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('sortie_home');
         }
 
         return $this->render('sortie/index.html.twig', [
