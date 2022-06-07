@@ -111,9 +111,10 @@ class SortieController extends AbstractController
         $user = $this->getUser();
         if ($user!=null){
             $sortie = $sortieRepository->find($id);
+            $sortieLibelle = $sortie->getEtat()->getLibelle();
             $maxInscrit = $sortie->getNbInscriptionsMax();
             $nbInscrit = count($sortie->getParticipants());
-            if ($sortie->getEtat()->getLibelle() == 'Ouvert'){
+            if ($sortieLibelle == 'Ouvert'){
                 $sortie->addParticipant($user);
                 if ( $nbInscrit == $maxInscrit){
                     $sortie->setEtat($this->etats[3]);
@@ -140,7 +141,8 @@ class SortieController extends AbstractController
         $user = $this->getUser();
         if ($user!=null){
             $sortie = $sortieRepository->find($id);
-            if ($sortie->getEtat()->getLibelle() == 'Ouvert' or $sortie->getEtat()->getLibelle() == 'Fermé'){
+            $sortieLibelle = $sortie->getEtat()->getLibelle();
+            if ($sortieLibelle == 'Ouvert' or $sortieLibelle == 'Fermé'){
                 $sortie->removeParticipant($user);
                 $dateFin = $sortie->getDateLimiteInscription();
                 if (new \DateTime('now') < $dateFin){
@@ -168,7 +170,8 @@ class SortieController extends AbstractController
     {
         $user =$this->getUser();
         $sortie = $sortieRepository->find($id);
-        if($sortie != null and $user != null and $sortie->getOrganisateur()->getEmail() == $this->getUser()->getUserIdentifier()){
+        if($sortie != null and $user != null
+            and $sortie->getOrganisateur()->getEmail() == $this->getUser()->getUserIdentifier()){
             $sortie->setEtat($this->etats[1]);
             $entityManager->persist($sortie);
             $entityManager->flush();
@@ -184,10 +187,10 @@ class SortieController extends AbstractController
     public function cancelSortie(int $id, SortieRepository $sortieRepository,EntityManagerInterface $entityManager,Request $request ):Response
     {
         $sortie = $sortieRepository->find($id);
+        $sortieLibelle = $sortie->getEtat()->getLibelle();
         if($sortie != null and $sortie->getOrganisateur() === $this->getUser()
             or $this->security->isGranted('ROLE_ADMIN')
-                and $sortie->getEtat()->getLibelle() == 'Ouvert' or $sortie->getEtat()->getLibelle() == 'Fermé'
-                    or $sortie->getEtat()->getLibelle() == 'En création'){
+                and $sortieLibelle == 'Ouvert' or $sortieLibelle == 'Fermé' or $sortieLibelle == 'En création'){
             $formAnnule = $this->createForm(AnnuleType::class,$sortie);
             $formAnnule->handleRequest($request);
             if($formAnnule->isSubmitted() && $formAnnule->isValid()){
@@ -213,15 +216,24 @@ class SortieController extends AbstractController
     public function modifySortie (int $id, Request $request, SortieRepository $sortieRepository,EntityManagerInterface $em) : Response
     {
         $sortie = $sortieRepository->find($id);
-        $sortieForm = $this->createForm(SortieType::class,$sortie);
-        $sortieForm->handleRequest($request);
+        $sortieLibelle = $sortie->getEtat()->getLibelle();
+        if ($sortie != null and $sortie->getOrganisateur() === $this->getUser()
+            or $this->security->isGranted('ROLE_ADMIN') and $sortieLibelle == 'En création'){
+            $sortieForm = $this->createForm(SortieType::class,$sortie);
+            $sortieForm->handleRequest($request);
 
-        if ($sortieForm->isSubmitted() and $sortieForm->isValid() ){
-            $em->persist($sortie);
-            $em->flush();
-            $this->addFlash('success','La sortie a bien été modifiée !');
+            if ($sortieForm->isSubmitted() and $sortieForm->isValid() ){
+                $em->persist($sortie);
+                $em->flush();
+                $this->addFlash('success','La sortie a bien été modifiée !');
+                return $this->redirectToRoute('sortie_home');
+            }
+        }
+        else{
+            $this->addFlash('error','Vous ne pouvez pas modifier cette sortie !');
             return $this->redirectToRoute('sortie_home');
         }
+
 
         return $this->render('sortie/index.html.twig', [
             'title' => 'Modifier une sortie',
