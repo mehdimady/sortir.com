@@ -34,6 +34,8 @@ class SortieFixtures extends Fixture implements  DependentFixtureInterface
                 $idOrganisateur = rand(0,14);
                 $sortie->setOrganisateur($this->getReference('participant-'.$idOrganisateur));
                 $sortie->setCampus(($this->getReference('participant-'.$idOrganisateur))->getCampus());
+                $dateDebut = clone ($sortie->getDateHeureDebut());
+                $sortie->setDateHeureFin($dateDebut->modify("+{$sortie->getDuree()} minutes"));
                 $manager->persist($sortie);
                 $this->addReference('sortie-'.$indexSortie,$sortie);
                 $indexSortie++;

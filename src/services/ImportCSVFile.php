@@ -53,12 +53,4 @@ class ImportCSVFile
         $manager->flush();
         unlink( './uploads/image/participant.csv');
     }
-
-
-
-
-    public function encodeBinary($data):string{
-        $binary = pack('H*', base_convert($data, 2, 16));
-        return preg_replace('/[[:^print:]]/', $binary, $data);
-    }
 }

@@ -21,8 +21,8 @@ use Symfony\Component\Security\Core\Security;
 class SortieController extends AbstractController
 {
     /* Liste des index des  états =  0:'En création',1: 'Ouvert',2: 'Fermé',3: 'Annulé',4: 'En cours',5: 'Terminé',6: 'Historisé' */
-    private $etats;
-    private $security;
+    private array $etats;
+    private Security $security;
 
     public function __construct(EtatRepository $repo, Security $security){
         $this->etats = $repo->findAll();
@@ -93,6 +93,8 @@ class SortieController extends AbstractController
         $sortieForm->handleRequest($request);
 
         if ($sortieForm->isSubmitted() and $sortieForm->isValid() ){
+            $dateDebut = clone ($sortie->getDateHeureDebut());
+            $sortie->setDateHeureFin($dateDebut->modify("+{$sortie->getDuree()} minutes"));
             $em->persist($sortie);
             $em->flush();
             $this->addFlash('success','La sortie a bien été créée !');
@@ -113,10 +115,9 @@ class SortieController extends AbstractController
             $sortie = $sortieRepository->find($id);
             $sortieLibelle = $sortie->getEtat()->getLibelle();
             $maxInscrit = $sortie->getNbInscriptionsMax();
-            $nbInscrit = count($sortie->getParticipants());
-            if ($sortieLibelle == 'Ouvert'){
+            if ($sortieLibelle === 'Ouvert' and count($sortie->getParticipants()) < $maxInscrit){
                 $sortie->addParticipant($user);
-                if ( $nbInscrit == $maxInscrit){
+                if ( count($sortie->getParticipants()) === $maxInscrit){
                     $sortie->setEtat($this->etats[3]);
                 }
                 $entityManager->persist($sortie);
