@@ -48,7 +48,7 @@ class ProfilController extends AbstractController
                             $this->getParameter('image_directory'),
                             $newFilename);
                         if (file_exists('./uploads/image/'.$user->getImageFilename())) {
-                            if ($user->getImageFilename() != 'noimage.jpg'){
+                            if ($user->getImageFilename() != 'noimage.jpg' and $user->getImageFilename() !=""){
                                 unlink('./uploads/image/'.$user->getImageFilename());
                             }
                         }
