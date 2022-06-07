@@ -185,7 +185,7 @@ class SortieController extends AbstractController
     {
         $sortie = $sortieRepository->find($id);
         if($sortie != null  and $sortie->getOrganisateur() === $this->getUser() or $this->security->isGranted('ROLE_ADMIN')){
-            $formAnnule = $this->createForm(AnnuleType::class);
+            $formAnnule = $this->createForm(AnnuleType::class,$sortie);
             $formAnnule->handleRequest($request);
             if($formAnnule->isSubmitted() && $formAnnule->isValid()){
                 $sortie->setEtat($this->etats[3]);

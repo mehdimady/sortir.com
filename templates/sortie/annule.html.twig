@@ -8,10 +8,13 @@
         <p>Campus : {{sortie.campus.nom}}</p>
         <p>Lieu : {{sortie.lieux.nom}}</p>
 
-        <div class="col-sm-10 col-md-8 col-lg-6 m-2 d-flex justify-content-around">
+
+        <div class="input-group mb-3">
                 {{form_start(formAnnule)}}
-                {{form_widget(formAnnule.motif, {'full_name': 'motif','label':'Motif'})}}
-                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Annuler la sortie</button>
+                <label class="input-group-text" for="annule_motif">Motif</label>
+                {{form_widget(formAnnule.motif)}}
+                {{form_errors(formAnnule.motif)}}
+                <button class="btn btn-outline-secondary" type="submit" >Annuler la sortie</button>
                 {{form_end(formAnnule)}}
         </div>
 
