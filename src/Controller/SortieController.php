@@ -143,7 +143,8 @@ class SortieController extends AbstractController
         if ($user!=null){
             $sortie = $sortieRepository->find($id);
             $sortieLibelle = $sortie->getEtat()->getLibelle();
-            if ($sortieLibelle == 'Ouvert' or $sortieLibelle == 'Fermé'){
+            $sortieUser =$sortie->getParticipants()->contains($user);
+            if ($sortieUser and $sortieLibelle == 'Ouvert' or $sortieLibelle == 'Fermé'){
                 $sortie->removeParticipant($user);
                 $dateFin = $sortie->getDateLimiteInscription();
                 if (new \DateTime('now') < $dateFin){
@@ -156,7 +157,7 @@ class SortieController extends AbstractController
             }
             else{
                 $this->addFlash('warning',
-                    'Vous ne pouvez pas vous désinscrire si la sortie est dans un autre état que Ouvert ou Fermé ! !');
+                    'Vous ne pouvez pas vous désinscrire si la sortie est dans un autre état que Ouvert ou Fermé ou inscrivez vous !');
                 return $this->redirectToRoute('sortie_home');
             }
         }
@@ -189,9 +190,9 @@ class SortieController extends AbstractController
     {
         $sortie = $sortieRepository->find($id);
         $sortieLibelle = $sortie->getEtat()->getLibelle();
-        if($sortie != null and $sortie->getOrganisateur() === $this->getUser()
-            or $this->security->isGranted('ROLE_ADMIN')
-                and $sortieLibelle == 'Ouvert' or $sortieLibelle == 'Fermé' or $sortieLibelle == 'En création'){
+        $sortieGetUser = $sortie->getOrganisateur() === $this->getUser() or $this->security->isGranted('ROLE_ADMIN');
+        $sortieEtat = ($sortieLibelle == 'Ouvert' or $sortieLibelle == 'Fermé' or $sortieLibelle == 'En création');
+        if($sortie != null and $sortieGetUser and $sortieEtat){
             $formAnnule = $this->createForm(AnnuleType::class,$sortie);
             $formAnnule->handleRequest($request);
             if($formAnnule->isSubmitted() && $formAnnule->isValid()){
@@ -218,8 +219,8 @@ class SortieController extends AbstractController
     {
         $sortie = $sortieRepository->find($id);
         $sortieLibelle = $sortie->getEtat()->getLibelle();
-        if ($sortie != null and $sortie->getOrganisateur() === $this->getUser()
-            or $this->security->isGranted('ROLE_ADMIN') and $sortieLibelle == 'En création'){
+        $sortieGetUser = $sortie->getOrganisateur() === $this->getUser() or $this->security->isGranted('ROLE_ADMIN');
+        if ($sortie != null and $sortieLibelle == 'En création' and $sortieGetUser){
             $sortieForm = $this->createForm(SortieType::class,$sortie);
             $sortieForm->handleRequest($request);
 
