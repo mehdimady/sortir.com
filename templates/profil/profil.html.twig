@@ -22,7 +22,7 @@
         <p>Campus : {{ participant.campus.nom | nl2br }}</p>
       </div>
      {% if app.user.userIdentifier == participant.email %}
-        <a href="{{path('app_modifier',{'id':app.user.id})}}">Modifier</a>
+        <a href="{{path('app_modifier',{'id':app.user.id})}}" class="btn bg-4 btn-lg text-white f-lunatic btn-connexion">Modifier</a>
      {% endif %}
 
 

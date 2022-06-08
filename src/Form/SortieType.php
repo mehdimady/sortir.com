@@ -12,6 +12,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Security\Core\Security;
@@ -73,10 +74,25 @@ class SortieType extends AbstractType
                 'disabled' => true,
                 'mapped' => false,
                 'data' => $this->security->getUser()->getCampus(),
+                'attr'=>[
+                    'class'=>'form-control'
+                ]
             ])
             ->add('lieux',LieuType::class,[
                 'label'=> ' ',
-            ]);
+            ])
+            ->add('enregistre', SubmitType::class,
+                ['label' => 'Enregistrer',
+                    'attr'=>[
+                        'class'=>'btn bg-4 btn-lg text-white f-lunatic btn-connexion'
+                    ]
+                ])
+            ->add('publie', SubmitType::class,
+                ['label' => 'Publier',
+                    'attr'=>[
+                        'class'=>'btn bg-4 btn-lg text-white f-lunatic btn-connexion'
+                    ]
+                ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

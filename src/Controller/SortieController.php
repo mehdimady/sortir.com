@@ -99,16 +99,21 @@ class SortieController extends AbstractController
         $sortie =new Sortie();
         $sortie->setOrganisateur($user);
         $sortie->setCampus($user->getCampus());
-        $sortie->setEtat($etats[0]);
         $sortieForm = $this->createForm(SortieType::class,$sortie);
         $sortieForm->handleRequest($request);
-
+            if($sortieForm->get('enregistre')->isClicked()){
+                $sortie->setEtat($etats[0]);
+                $message = 'La sortie a bien été créée !';
+            }else{
+                $sortie->setEtat($etats[1]);
+                $message = 'La sortie a bien été créée et publiée !';
+            }
         if ($sortieForm->isSubmitted() and $sortieForm->isValid() ){
             $dateDebut = clone ($sortie->getDateHeureDebut());
             $sortie->setDateHeureFin($dateDebut->modify("+{$sortie->getDuree()} minutes"));
             $em->persist($sortie);
             $em->flush();
-            $this->addFlash('success','La sortie a bien été créée !');
+            $this->addFlash('success',$message);
             return $this->redirectToRoute('sortie_home');
         }
 
@@ -254,31 +259,4 @@ class SortieController extends AbstractController
         ]);
     }
 
-    #[Route('/published', name: 'createPublish')]
-    public function createPublishSortie(Request $request, EtatRepository $etatRepository,EntityManagerInterface $em ): Response
-    {
-        $etats = $etatRepository->findAll();
-        $user =$this->getUser();
-        $sortie =new Sortie();
-        $sortie->setOrganisateur($user);
-        $sortie->setCampus($user->getCampus());
-        $sortie->setEtat($etats[0]);
-        $sortieForm = $this->createForm(SortieType::class,$sortie);
-        $sortieForm->handleRequest($request);
-
-        if ($sortieForm->isSubmitted() and $sortieForm->isValid() ){
-            $dateDebut = clone ($sortie->getDateHeureDebut());
-            $sortie->setDateHeureFin($dateDebut->modify("+{$sortie->getDuree()} minutes"));
-            $sortie->setEtat($etats[1]);
-            $em->persist($sortie);
-            $em->flush();
-            $this->addFlash('success','La sortie a bien été créée et publiée!');
-            return $this->redirectToRoute('sortie_home');
-        }
-
-        return $this->render('sortie/index.html.twig', [
-            'title' => 'Créer une sortie',
-            'sortieForm' => $sortieForm->createView(),
-        ]);
-    }
 }

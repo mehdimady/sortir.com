@@ -4,31 +4,40 @@
 {% endblock %}
 {% block body %}
 <div class="box-profil">
-    <div class="cardsorti">
+    <h1>Créer une sortie</h1>
+    <div class="cardsorti col-12 col-sm-10 col-md-8 col-lg-6">
+
 {{ form_start(sortieForm) }}
         <div class="input-group mb-3 ">
             <label for="sortie_nom" class="input-group-text">Nom de la sortie:</label>
             {{ form_widget(sortieForm.nom) }}
+            {{ form_errors(sortieForm.nom) }}
         </div>
         <div class="input-group mb-3 ">
             <label for="sortie_dateHeureDebut" class="input-group-text">Date et heure de la sortie:</label>
             {{ form_widget(sortieForm.dateHeureDebut) }}
+            {{ form_errors(sortieForm.dateHeureDebut) }}
         </div>
         <div class="input-group mb-3 ">
             <label for="sortie_dateLimiteInscription" class="input-group-text">Date limite d'inscription:</label>
             {{ form_widget(sortieForm.dateLimiteInscription) }}
+            {{ form_errors(sortieForm.dateLimiteInscription) }}
+
         </div>
         <div class="input-group mb-3 ">
             <label for="sortie_nbInscriptionsMax" class="input-group-text">Nombre de places:</label>
             {{ form_widget(sortieForm.nbInscriptionsMax) }}
+            {{ form_errors(sortieForm.nbInscriptionsMax) }}
         </div>
         <div class="input-group mb-3 ">
             <label for="sortie_duree" class="input-group-text">Durée:</label>
             {{ form_widget(sortieForm.duree) }}
+            {{ form_errors(sortieForm.duree) }}
         </div>
         <div class="input-group mb-3 ">
             <label for="sortie_infosSortie" class="input-group-text">Description et infos :</label>
             {{ form_widget(sortieForm.infosSortie) }}
+            {{ form_errors(sortieForm.infosSortie) }}
         </div>
 
         <div class="input-group mb-3 ">
@@ -44,31 +53,42 @@
 
         <div class="input-group mb-3 ">
             <label for="sortie_lieux_nom" class="input-group-text">Lieux:</label>
-            {{ form_widget(sortieForm.lieux.nom) }}<a class="display-1" href="{{path('lieu_tous')}}">+</a>
+            {{ form_widget(sortieForm.lieux.nom) }}<a class="display-1 input-group-text" href="{{path('lieu_tous')}}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-plus" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 7a.5.5 0 0 1 .5.5V9H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V10H6a.5.5 0 0 1 0-1h1.5V7.5A.5.5 0 0 1 8 7z"/>
+                    <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                    <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                </svg>
+            </a>
+            {{ form_errors(sortieForm.lieux.nom) }}
         </div>
         <div class="input-group mb-3 ">
             <label for="sortie_lieux_rue" class="input-group-text">Rue:</label>
             {{ form_widget(sortieForm.lieux.rue) }}
+            {{ form_errors(sortieForm.lieux.rue) }}
         </div>
 
         <div class="input-group mb-3 ">
             <label for="sortie_lieux_latitude" class="input-group-text">Latitude:</label>
             {{ form_widget(sortieForm.lieux.latitude) }}
+            {{ form_errors(sortieForm.lieux.latitude) }}
         </div>
         <div class="input-group mb-3 ">
             <label for="sortie_lieux_longitude" class="input-group-text">Longitude:</label>
             {{ form_widget(sortieForm.lieux.longitude) }}
+            {{ form_errors(sortieForm.lieux.longitude) }}
         </div>
 
-        <div class="input-group mb-3 ">
-             <button class="btn bg-4 btn-sm text-white f-lunatic btn-connexion">Enregistrer</button>
-            <a href="{{path('sortie_createPublish')}}" class="btn bg-4 btn-sm text-white f-lunatic btn-connexion">Publier</a>
-            <a href="{{path('sortie_home')}}" class="btn bg-4 btn-sm text-white f-lunatic btn-connexion">Annuler</a>
+        <div class="input-group mb-3 d-flex justify-content-center ">
+            {{ form_widget(sortieForm.enregistre) }}
+            {{ form_widget(sortieForm.publie) }}
+            <a href="{{path('sortie_home')}}" class="btn bg-4 btn-lg text-white f-lunatic btn-connexion">Annuler</a>
         </div>
 
 
 
 {{ form_end(sortieForm) }}
+
 
 
 </div>
