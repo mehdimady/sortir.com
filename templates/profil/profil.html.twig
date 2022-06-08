@@ -3,21 +3,29 @@
 {% block title %}{{ title }} | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h2>{{ participant.pseudo }}</h2>
-    {% if participant.imageFilename == 'noimage.jpg' %}
-        <img src="{{ asset('assets/image/noimage.jpg')}}" alt="noimage">
-    {% else%}
-         <img src="{{ asset('uploads/image/' ~ participant.imageFilename()) }}" alt="image-profil">
-    {% endif %}
+    <div class="box-profil">
+        <div class="card">
+            {% if participant.imageFilename == 'noimage.jpg' %}
+            <img src="{{ asset('assets/image/noimage.jpg')}}"
+                 alt="noimage" class="img_profil">
 
-    <div>
+     {% else%}
+         <img src="{{ asset('uploads/image/' ~ participant.imageFilename()) }}" alt="image-profil">
+     {% endif %}
+
+      <div class="item">
+        <h2>{{ participant.pseudo }}</h2>
         <p>Prénom : {{ participant.prenom | nl2br }}</p>
         <p>Nom : {{ participant.nom | nl2br }}</p>
         <p>Téléphone : {{ participant.telephone | nl2br }}</p>
         <p>Email : {{ participant.email | nl2br }}</p>
         <p>Campus : {{ participant.campus.nom | nl2br }}</p>
-    </div>
-    {% if app.user.userIdentifier == participant.email %}
+      </div>
+     {% if app.user.userIdentifier == participant.email %}
         <a href="{{path('app_modifier',{'id':app.user.id})}}">Modifier</a>
-    {% endif %}
+     {% endif %}
+
+
+</div>
+    </div>
 {% endblock %}

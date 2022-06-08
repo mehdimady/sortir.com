@@ -3,11 +3,74 @@
 {{title}}
 {% endblock %}
 {% block body %}
+<div class="box-profil">
+    <div class="cardsorti">
 {{ form_start(sortieForm) }}
-    {{ form_row(sortieForm.nom) }}
-    {{ form_row(sortieForm.lieux.nom,{'label':'Lieu'}) }}<a class="display-1">+</a>
-    {{ form_row(sortieForm.lieux.latitude) }}
-    {{ form_row(sortieForm.lieux.longitude) }}
-    <button>Enregistrer</button>
+        <div class="input-group mb-3 ">
+            <label for="sortie_nom" class="input-group-text">Nom de la sortie:</label>
+            {{ form_widget(sortieForm.nom) }}
+        </div>
+        <div class="input-group mb-3 ">
+            <label for="sortie_dateHeureDebut" class="input-group-text">Date et heure de la sortie:</label>
+            {{ form_widget(sortieForm.dateHeureDebut) }}
+        </div>
+        <div class="input-group mb-3 ">
+            <label for="sortie_dateLimiteInscription" class="input-group-text">Date limite d'inscription:</label>
+            {{ form_widget(sortieForm.dateLimiteInscription) }}
+        </div>
+        <div class="input-group mb-3 ">
+            <label for="sortie_nbInscriptionsMax" class="input-group-text">Nombre de places:</label>
+            {{ form_widget(sortieForm.nbInscriptionsMax) }}
+        </div>
+        <div class="input-group mb-3 ">
+            <label for="sortie_duree" class="input-group-text">Durée:</label>
+            {{ form_widget(sortieForm.duree) }}
+        </div>
+        <div class="input-group mb-3 ">
+            <label for="sortie_infosSortie" class="input-group-text">Description et infos :</label>
+            {{ form_widget(sortieForm.infosSortie) }}
+        </div>
+
+        <div class="input-group mb-3 ">
+            <label for="sortie_campus" class="input-group-text">Campus</label>
+            {{ form_widget(sortieForm.campus) }}
+        </div>
+
+        <div class="input-group mb-3 ">
+            <label for="sortie_lieux_ville" class="input-group-text">Villes :</label>
+            {{ form_widget(sortieForm.lieux.ville) }}
+        </div>
+
+
+        <div class="input-group mb-3 ">
+            <label for="sortie_lieux_nom" class="input-group-text">Lieux:</label>
+            {{ form_widget(sortieForm.lieux.nom) }}<a class="display-1" href="{{path('lieu_tous')}}">+</a>
+        </div>
+        <div class="input-group mb-3 ">
+            <label for="sortie_lieux_rue" class="input-group-text">Rue:</label>
+            {{ form_widget(sortieForm.lieux.rue) }}
+        </div>
+
+        <div class="input-group mb-3 ">
+            <label for="sortie_lieux_latitude" class="input-group-text">Latitude:</label>
+            {{ form_widget(sortieForm.lieux.latitude) }}
+        </div>
+        <div class="input-group mb-3 ">
+            <label for="sortie_lieux_longitude" class="input-group-text">Longitude:</label>
+            {{ form_widget(sortieForm.lieux.longitude) }}
+        </div>
+
+
+
+        <button class="btn-registre">Enregistrer</button>
+
+
 {{ form_end(sortieForm) }}
+
+        <a href="{{path('sortie_publier')}}" class="btn-pubsorti">Publier la sortie</a>
+        <a href="{{path('sortie_publier')}}" class="btn-annuler">Annulée</a>
+
+</div>
+</div>>
 {% endblock %}
+
