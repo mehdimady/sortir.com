@@ -108,16 +108,6 @@ class SortieRepository extends ServiceEntityRepository
                 $qb->andWhere("e.libelle = 'Terminé'");
             }
             return $qb->getQuery()->getResult();
-            /*$resultFinal = [];
-                foreach ($result as $sortie){
-                    if($sortie->getEtat()->getLibelle() != "Terminé"){
-                        $resultFinal[] = $sortie;
-                    }
-                }
-            }else{
-                $resultFinal = $result;
-            }
-            return $resultFinal;*/
     }
 
     public function displayByDefault(UserInterface $participant ){
