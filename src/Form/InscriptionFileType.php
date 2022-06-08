@@ -18,7 +18,9 @@ class InscriptionFileType extends AbstractType
                 'label' => false,
                 'mapped' => false,
                 'required' => true,
-                'constraints' => [
+                'attr'=>[
+                    'class'=>'form-control form-control-sm'
+                ],'constraints' => [
                     new File([
                         'maxSize' => '1024k',
                         'mimeTypes' => [
@@ -35,7 +37,8 @@ class InscriptionFileType extends AbstractType
                             'application/vnd.msexcel',
                             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
                         ],
-                        'mimeTypesMessage' => "This document isn't valid.",
+                        'mimeTypesMessage' => "This document isn't valid."
+
                     ])
                 ],
             ])

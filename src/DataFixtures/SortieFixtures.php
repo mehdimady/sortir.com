@@ -23,13 +23,13 @@ class SortieFixtures extends Fixture implements  DependentFixtureInterface
             for($i = 0; $i <= 5; $i++ ) {
                 $dates= $this->setDateSortie($j);
                 $sortie = new Sortie();
-                $sortie->setNom(($this->getReference('etat-'.$j))->getLibelle().' - '.$i);
+                $sortie->setNom(($this->getReference('etat-'.$j))->getLibelle().' - '.$this->faker->word.' - '.$i);
                 $sortie->setDuree(rand(30, 180));
                 $sortie->setNbInscriptionsMax(rand(5, 10));
                 $sortie->setInfosSortie($this->faker->paragraph(2));
                 $sortie->setLieux($this->getReference('lieu-'.rand(0, 9)));
                 $sortie->setEtat($this->getReference('etat-'.$j));
-                $sortie->setDateHeureDebut((new \DateTime('now'))->modify($dates[0].' days'));
+                $sortie->setDateHeureDebut((new \DateTime('now'))->modify($dates[0].' days +'.rand(1,11).' Hours +'.rand(1,59).' Minutes'));
                 $sortie->setDateLimiteInscription((new \DateTime('now'))->modify($dates[1].' days'));
                 $idOrganisateur = rand(0,14);
                 $sortie->setOrganisateur($this->getReference('participant-'.$idOrganisateur));
