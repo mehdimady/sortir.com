@@ -75,9 +75,13 @@ class Sortie
     #[ORM\Column(type: 'text', nullable: true)]
     private $motif;
 
+    #[ORM\Column(type: 'datetime')]
+    private $dateHeureFin;
+
     public function __construct()
     {
         $this->participants = new ArrayCollection();
+
     }
 
     public function __toString() {
@@ -101,12 +105,12 @@ class Sortie
         return $this;
     }
 
-    public function getDateHeureDebut(): ?\DateTimeInterface
+    public function getDateHeureDebut(): ?\DateTime
     {
         return $this->dateHeureDebut;
     }
 
-    public function setDateHeureDebut(\DateTimeInterface $dateHeureDebut): self
+    public function setDateHeureDebut(\DateTime $dateHeureDebut): self
     {
         $this->dateHeureDebut = $dateHeureDebut;
 
@@ -241,6 +245,18 @@ class Sortie
     public function setMotif(?string $motif): self
     {
         $this->motif = $motif;
+
+        return $this;
+    }
+
+    public function getDateHeureFin(): ?\DateTimeInterface
+    {
+        return $this->dateHeureFin;
+    }
+
+    public function setDateHeureFin(\DateTimeInterface $dateHeureFin): self
+    {
+        $this->dateHeureFin = $dateHeureFin;
 
         return $this;
     }

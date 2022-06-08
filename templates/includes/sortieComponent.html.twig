@@ -1,7 +1,8 @@
 
         <tr >
-                <td>{{result.sortie.nom}}</td>
-                <td>{{result.sortie.dateHeureDebut | date("m/d/Y") |format_datetime('short', 'none', locale='fr')}}</td>
+                <td class="d-none d-md-block">{{result.sortie.nom}}</td>
+                <td class="d-md-none"><a href="{{path('sortie_affiche',{'id':result.sortie.id})}}">{{result.sortie.nom}}</a></td>
+                <td>{{result.sortie.dateHeureDebut | date("m/d/Y") |format_datetime('short', 'short', locale='fr')}}</td>
                 <td class="d-none d-md-table-cell">{{result.sortie.dateLimiteInscription | date("m/d/Y") |format_datetime('short', 'none', locale='fr')}}</td>
                 <td class="d-none d-md-table-cell">{{result.sortie.participants |length}} / {{result.sortie.nbInscriptionsMax}}</td>
                 <td class="d-none d-md-table-cell">{{result.sortie.etat.libelle}}</td>
@@ -20,7 +21,7 @@
                                 {% endif %}
                                 {% if app.user.roles[0]  == "ROLE_ADMIN" or  app.user.id == result.sortie.organisateur.id %}
                                         {%if result.sortie.etat.libelle != "Annulé" and result.sortie.etat.libelle !='En cours' and result.sortie.etat.libelle !='Terminé' and result.sortie.etat.libelle != 'Historisé' %}
-                                               - <a href="{{path('sortie_annuler',{'id':result.sortie.id})}}">annuler</a>
+                                                <a href="{{path('sortie_annuler',{'id':result.sortie.id})}}">annuler</a>
                                         {%endif%}
                                 {%endif%}
                         {% else %}

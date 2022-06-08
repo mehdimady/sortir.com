@@ -17,8 +17,6 @@ class GestionDesEtats
         $etats = $etatRepository->findAll();
 //Check All Status of Sorties
         foreach ($sorties as $sortie) {
-            $dateDebut = new \DateTime($sortie->getDateHeureDebut()->format('Y-m-d H:i:s'));
-            $dateFin =  ($dateDebut->add(new \DateInterval('PT' . $sortie->getDuree() . 'M')));
             switch ($sortie->getEtat()->getLibelle()) {
 //En Cours
                 case $etats[0] :
@@ -39,9 +37,9 @@ class GestionDesEtats
                     break;
 //Fermé
                 case $etats[2] :
-                    if ($date > $sortie->getDateHeureDebut() && $date < $dateFin) {
+                    if ($date > $sortie->getDateHeureDebut() && $date < $sortie->getDateHeureFin()) {
                         $sortie->setEtat($etats[4]);
-                    } elseif ($date > $dateFin) {
+                    } elseif ($date > $sortie->getDateHeureFin()) {
                         $sortie->setEtat($etats[5]);
                     } elseif ($date > $sortie->getDateLimiteInscription() && count($sortie->getParticipants()) == 0) {
                         $sortie->setEtat($etats[3]);
@@ -52,27 +50,23 @@ class GestionDesEtats
                     break;
 //En Cours
                 case  $etats[4] :
-                    if ($date > $dateFin) {
+                    if ($date > $sortie->getDateHeureFin()) {
                         $sortie->setEtat($etats[5]);
                     }
                     break;
             }
 // Tous ( Check Archivage )
-            if ($this->Archivage($dateFin)) {
+            if ($this->archivage($sortie)){
                 $sortie->setEtat($etats[6]);
             }
-//Reset
-            unset($dateDebut);
-            unset($dateFin);
-
             $manager->persist($sortie);
         }
         $manager->flush();
     }
 
-    public function Archivage($dateFin):bool{
+    public function archivage($sortie):bool{
         $moisEnMinutes = 43200;
-        $dateHistorise = new \DateTime($dateFin->format('Y-m-d H:i:s'));
+        $dateHistorise = new \DateTime($sortie->getDateHeureFin()->format('Y-m-d H:i:s'));
         return new \DateTime('now') > $dateHistorise->add(new DateInterval('PT' .$moisEnMinutes. 'M'));
     }
 }

@@ -12,12 +12,12 @@
                                         </li>
                                 </ul>
                         </div>
-                        {% else%}
-                                <strong>
-                                        <a class="f-lunatic date fs-3" href="{{ path('app_profil',{'id':app.user.id}) }}">
-                                                Hello  {{app.user.pseudo}}
-                                        </a>
-                                </strong>
+                {% else%}
+                        <strong>
+                                <a class="f-lunatic date fs-3" href="{{ path('app_profil',{'id':app.user.id}) }}">
+                                        Hello  {{app.user.pseudo}}
+                                </a>
+                        </strong>
                 {% endif %}
         </div>
 </nav>
