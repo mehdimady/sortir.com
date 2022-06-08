@@ -94,19 +94,21 @@ class SortieRepository extends ServiceEntityRepository
 
             }
 
-            if (!empty($search['inscrit'])){
+            if (!empty($search['inscrit']) and empty($search['not_inscrit'])){
                 $qb->andWhere(':inscrit MEMBER OF s.participants')
                     ->setParameter('inscrit', $participant);
             }
 
-            if (!empty($search['not_inscrit'])){
+            if (!empty($search['not_inscrit']) and empty($search['inscrit'])){
                 $qb->andWhere(':nonInscrit NOT MEMBER OF s.participants')
                     ->setParameter('nonInscrit', $participant);
             }
 
-            $result = $qb->getQuery()->getResult();
-            $resultFinal = [];
-            if (empty($search['passe'])){
+            if (!empty($search['passe'])){
+                $qb->andWhere("e.libelle = 'Terminé'");
+            }
+            return $qb->getQuery()->getResult();
+            /*$resultFinal = [];
                 foreach ($result as $sortie){
                     if($sortie->getEtat()->getLibelle() != "Terminé"){
                         $resultFinal[] = $sortie;
@@ -115,7 +117,7 @@ class SortieRepository extends ServiceEntityRepository
             }else{
                 $resultFinal = $result;
             }
-            return $resultFinal;
+            return $resultFinal;*/
     }
 
     public function displayByDefault(UserInterface $participant ){

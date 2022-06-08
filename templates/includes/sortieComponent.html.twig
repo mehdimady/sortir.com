@@ -21,7 +21,7 @@
                                 {% endif %}
                                 {% if app.user.roles[0]  == "ROLE_ADMIN" or  app.user.id == result.sortie.organisateur.id %}
                                         {%if result.sortie.etat.libelle != "Annulé" and result.sortie.etat.libelle !='En cours' and result.sortie.etat.libelle !='Terminé' and result.sortie.etat.libelle != 'Historisé' %}
-                                               - <a href="{{path('sortie_annuler',{'id':result.sortie.id})}}">annuler</a>
+                                                <a href="{{path('sortie_annuler',{'id':result.sortie.id})}}">annuler</a>
                                         {%endif%}
                                 {%endif%}
                         {% else %}
