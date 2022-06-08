@@ -60,15 +60,16 @@
             {{ form_widget(sortieForm.lieux.longitude) }}
         </div>
 
+        <div class="input-group mb-3 ">
+             <button class="btn bg-4 btn-sm text-white f-lunatic btn-connexion">Enregistrer</button>
+            <a href="{{path('sortie_createPublish')}}" class="btn bg-4 btn-sm text-white f-lunatic btn-connexion">Publier</a>
+            <a href="{{path('sortie_home')}}" class="btn bg-4 btn-sm text-white f-lunatic btn-connexion">Annuler</a>
+        </div>
 
-
-        <button class="btn-registre">Enregistrer</button>
 
 
 {{ form_end(sortieForm) }}
 
-        <a href="{{path('sortie_publier')}}" class="btn-pubsorti">Publier la sortie</a>
-        <a href="{{path('sortie_publier')}}" class="btn-annuler">Annulée</a>
 
 </div>
 </div>>
