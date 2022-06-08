@@ -11,12 +11,13 @@ use App\services\GestionDesEtats;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Sortie;
 use App\Form\SortieType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
-
+#[IsGranted('ROLE_USER')]
 #[Route('/sortie', name: 'sortie_')]
 class SortieController extends AbstractController
 {
