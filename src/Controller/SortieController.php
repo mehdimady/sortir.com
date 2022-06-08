@@ -4,10 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Etat;
 use App\Form\AnnuleType;
+use App\Form\SortieFilterType;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use App\services\GestionDesEtats;
-use App\services\SecurityControl;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Sortie;
 use App\Form\SortieType;
@@ -30,33 +30,43 @@ class SortieController extends AbstractController
     }
 
     #[Route('/', name: 'home')]
-    public function displayAllEvents(SortieRepository $sortieRepository,EtatRepository $etatRepository, GestionDesEtats $gestionDesEtats,EntityManagerInterface $manager,SecurityControl $control): Response
+    public function displayAllEvents(
+        Request $request,
+        SortieRepository $sortieRepository,
+        EtatRepository $etatRepository,
+        GestionDesEtats $gestionDesEtats,
+        EntityManagerInterface $manager): Response
     {
-        if ($control->userIsActive($this->getUser())) {
+        $gestionDesEtats->UpdateStatesOfEvents($sortieRepository, $etatRepository, $manager);
 
-            $gestionDesEtats->UpdateStatesOfEvents($sortieRepository, $etatRepository, $manager);
+        $formSearch = $this->createForm(SortieFilterType::class);
+        $formSearch->handleRequest($request);
 
-            $sorties = $sortieRepository->findAll();
-
-            foreach ($sorties as $sortie) {
-                $inscrit = false;
-                foreach ($sortie->getParticipants() as $participant) {
-                    if ($this->getUser()->getUserIdentifier() == $participant->getEmail()) {
-                        $inscrit = true;
-                    }
-                }
-                $sortiesReturn[] = ['sortie' => $sortie, 'inscrit' => $inscrit];
-            }
-
-            return $this->render('sortie/home.html.twig', [
-                'title' => 'Campus | sorties',
-                "inscrit" => $inscrit,
-                'sorties' => $sortiesReturn
-            ]);
-        } else {
-            $this->addFlash('error', "Votre compte a été désactivé! Veuillez contacter l'administrateur.");
-            return $this->redirectToRoute('app_login');
+        if ($formSearch->isSubmitted() and $formSearch->isValid()) {
+            $result = $sortieRepository->search($this->getUser(),$formSearch->getData());
+        }else{
+            $result = $sortieRepository->displayByDefault($this->getUser());
         }
+
+//    Si app.user est inscrit a la sortie
+        $sortiesReturn = [];
+        foreach($result as $sortie){
+            $inscrit =  false ;
+            foreach ($sortie->getParticipants() as $participant) {
+                if ($this->getUser()->getUserIdentifier() == $participant->getEmail()) {
+                    $inscrit = true;
+                }
+            }
+            $sortiesReturn[] = ['sortie' => $sortie, 'inscrit' => $inscrit];
+        }
+
+
+        return $this->render('sortie/home.html.twig', [
+            'title' => 'Campus | sorties',
+            'result'=>$result,
+            'sorties' => $sortiesReturn,
+            'formSearch'=>$formSearch->createView()
+        ]);
     }
 
     #[Route('/{id}', name: 'affiche',requirements: ['id' => '\d+'])]

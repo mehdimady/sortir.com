@@ -7,72 +7,58 @@
     <section class="container-fluid h-custom w-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <h1 class="text-center my-3 fs-3">Les sorties organisées</h1>
-            {# Examples#}
-            {#            <div class="input-group mb-3">#}
-            {#                <label class="input-group-text" for="???" >Campus</label>#}
-            {#                    #}{# todo : formCampus#}
-            {#            </div>#}
-
-            {#            <div class="input-group mb-3">#}
-            {#                <label class="input-group-text" for="???" >Le nom de la sortie contient</label>#}
-            {#                    #}{# todo : formCampus#}
-            {#            </div>#}
-
-            <div class="d-flex flex-row flex-wrap justify-content-center">
+            <div class="d-none d-md-flex flex-row flex-wrap justify-content-center">
+                    {{ form_start(formSearch) }}
                 <div class="p-1">
                     <h2 class="fs-5">Filtrer les sorties</h2>
 
                     <div class="input-group mb-3">
-                        <label class="input-group-text" for="site">Campus</label>
-                        <select  id="site" class="custom-select col-lg-3">
-                            <option></option>
-                        </select>
+                        <label class="input-group-text" for="sortie_filter_campus">Campus</label>
+                        {{form_widget(formSearch.campus)}}
                     </div>
 
                     <div class="input-group mb-3">
-                        <label for="Contains" class="input-group-text">Le nom de la sortie contient</label>
-                        <input type="search"  class="form-control" id="Contains">
+                        <label for="sortie_filter_recherche" class="input-group-text">Le nom de la sortie contient</label>
+                        {{form_widget(formSearch.recherche)}}
                     </div>
 
                     <div class="input-group mb-3">
-                        <label class="input-group-text" for="firstDate" >Entre le :</label>
-                        <input type="date" class="form-control" id="firstDate">
+                        <label class="input-group-text" for="sortie_filter_date_minimum" >Entre le :</label>
+                        {{form_widget(formSearch.date_minimum)}}
                     </div>
 
                     <div class="input-group mb-3">
-                        <label class="input-group-text" for="secondDate" >et le :</label>
-                        <input type="date" class="form-control" id="secondDate">
+                        <label class="input-group-text" for="sortie_filter_date_max" >et le :</label>
+                        {{form_widget(formSearch.date_max)}}
                     </div>
                 </div>
                 <div  class="p-2 fs-5">
                     <div class="input-group mb-3 d-flex flex-column">
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="event-orga">
-                            <label class="form-check-label" for="event-orga">Sorties dont je suis l'organisateur.trice</label>
+                            {{form_widget(formSearch.organisateur)}}
+                            <label class="form-check-label" for="sortie_filter_organisateur">Sorties dont je suis l'organisateur.trice</label>
                         </div>
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="event-inscrit">
-                            <label class="form-check-label" for="event-inscrit">Sorties auxquelles je suis inscrit.e</label>
+                            {{form_widget(formSearch.inscrit)}}
+                            <label class="form-check-label" for="sortie_filter_inscrit">Sorties auxquelles je suis inscrit.e</label>
                         </div>
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="event-desinscrit">
-                            <label class="form-check-label" for="event-desinscrit">Sorties auxquelles je ne suis pas inscrit.e</label>
+                            {{form_widget(formSearch.not_inscrit)}}
+                            <label class="form-check-label" for="sortie_filter_not_inscrit">Sorties auxquelles je ne suis pas inscrit.e</label>
                         </div>
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="event-passe">
-                            <label class="form-check-label" for="event-passe">Sorties passée</label>
+                            {{form_widget(formSearch.passe)}}
+                            <label class="form-check-label" for="sortie_filter_passe">Sorties passée</label>
                         </div>
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn bg-4 btn-lg text-white f-lunatic btn-connexion">Recherche</button>
                     </div>
                 </div>
+                {{ form_end(formSearch) }}
             </div>
         </div>
     </section>
-
-
-
     <div class="col-12 col-10   m-auto">
         <div class="box-table">
             <table class="table">
@@ -92,17 +78,11 @@
                 <tbody>
                 {% for result in sorties%}
                     {{ include('includes/sortieComponent.html.twig') }}
-                    {#                        {% if result.sortie.etat.libelle == 'En création' and app.user.id == result.sortie.organisateur.id %}#}
-                    {#                            {{ include('includes/sortieComponent.html.twig') }}#}
-                    {#                        {%endif%}#}
-                    {#                        {% if result.sortie.etat.libelle != 'En création'  %}#}
-                    {#                            {{ include('includes/sortieComponent.html.twig') }}#}
-                    {#                        {%endif%}#}
                 {% endfor %}
                 </tbody>
             </table>
         </div>
-        <div class="text-center">
+        <div class="text-center d-none d-md-block">
             <a class="btn bg-4 btn-lg text-white f-lunatic btn-connexion my-3" role="button" aria-pressed="true" href="{{path('sortie_create')}}">Créer une Sortie</a>
         </div>
     </div>

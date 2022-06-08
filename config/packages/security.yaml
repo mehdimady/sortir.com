@@ -37,6 +37,7 @@ security:
     access_control:
         - { path: /$, roles: ROLE_USER }
         - { path: ^/profil, roles: ROLE_USER }
+        - { path: ^/lieu, roles: ROLE_USER }
         - { path: ^/sortie, roles: ROLE_USER }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/campus, roles: ROLE_ADMIN }
