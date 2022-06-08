@@ -201,7 +201,7 @@ class SortieController extends AbstractController
     {
         $sortie = $sortieRepository->find($id);
         $sortieLibelle = $sortie->getEtat()->getLibelle();
-        $sortieGetUser = $sortie->getOrganisateur() === $this->getUser() or $this->security->isGranted('ROLE_ADMIN');
+        $sortieGetUser = ($sortie->getOrganisateur() == $this->getUser() or  $this->security->isGranted('ROLE_ADMIN') );
         $sortieEtat = ($sortieLibelle == 'Ouvert' or $sortieLibelle == 'Fermé' or $sortieLibelle == 'En création');
         if($sortie != null and $sortieGetUser and $sortieEtat){
             $formAnnule = $this->createForm(AnnuleType::class,$sortie);

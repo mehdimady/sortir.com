@@ -22,7 +22,19 @@
 
 <aside>
         {% for label, messages in app.flashes%}
-                {% for message in messages %}<div class="alert-{{ label }}">{{ message }}</div> {% endfor%}
+                {% for message in messages %}
+                        {% if label == 'error' or label == 'warning'%}
+                                <div class="alert alert-danger d-flex justify-content-between" role="alert">
+                        {% else%}
+                                <div class="alert alert-success d-flex justify-content-between" role="alert">
+                        {% endif %}
+                                        <div class="w-100 text-center">
+                                                {{ message }}
+                                        </div>
+
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                {% endfor%}
         {% endfor%}
 </aside>
 <main> {% block body %}{% endblock %}</main>
