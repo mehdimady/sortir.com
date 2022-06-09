@@ -56,7 +56,7 @@ class GestionDesEtats
                     break;
             }
 // Tous ( Check Archivage )
-            if (!$this->archivage($sortie)){
+            if ($this->archivage($sortie)){
                 $sortie->setEtat($etats[6]);
             }
             $manager->persist($sortie);

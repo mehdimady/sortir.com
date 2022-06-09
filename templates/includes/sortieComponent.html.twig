@@ -29,7 +29,7 @@
 
                         {% elseif result.sortie.etat.libelle == 'Ouvert' %}<a class="btn bg-4 btn-sm text-white btn-connexion mb-1" href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a>
 
-                                {% if result.inscrit %}<a class="btn bg-4 btn-sm text-white btn-connexion mb-1" href="{{path('sortie_desister',{'id':result.sortie.id})}}">se désister</a>{% else %}<a href="{{path('sortie_inscrire',{'id':result.sortie.id})}}">s'inscrire</a>{% endif %}
+                                {% if result.inscrit %}<a class="btn bg-4 btn-sm text-white btn-connexion mb-1" href="{{path('sortie_desister',{'id':result.sortie.id})}}">se désister</a>{% else %}<a class="btn bg-4 btn-sm text-white btn-connexion mb-1" href="{{path('sortie_inscrire',{'id':result.sortie.id})}}">s'inscrire</a>{% endif %}
 
                         {% elseif result.sortie.etat.libelle == 'Fermé' %}<a class="btn bg-4 btn-sm text-white btn-connexion mb-1" href="{{path('sortie_affiche',{'id':result.sortie.id})}}">Afficher</a>
 
