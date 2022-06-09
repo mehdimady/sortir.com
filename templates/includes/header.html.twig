@@ -13,10 +13,13 @@
                                 </ul>
                         </div>
                 {% else%}
-                        <strong>
+                        <strong class="d-none d-md-block">
                                 <a class="f-lunatic date fs-3" href="{{ path('app_profil',{'id':app.user.id}) }}">
                                         Hello  {{app.user.pseudo}}
                                 </a>
+                        </strong>
+                        <strong class="d-md-none f-lunatic date fs-3">
+                                Hello  {{app.user.pseudo}}
                         </strong>
                 {% endif %}
         </div>

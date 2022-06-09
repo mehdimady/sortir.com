@@ -20,7 +20,7 @@
 </header>
 {% if app.user %}<section class="bg-4">{{ include('includes/navbar.html.twig')}}</section>{% endif %}
 
-<aside>
+<aside class="bg-img">
         {% for label, messages in app.flashes%}
         {% for message in messages %}
         {% if label == 'error' or label == 'warning'%}

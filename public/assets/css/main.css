@@ -178,15 +178,13 @@ form[name="search_ville"]{
     min-height: 43px;
 }
 .img_profil {
-
-    width: 150px;!important;
-    height: 150px;!important;
+    width: 200px;!important;
+    height: 200px;!important;
+    object-fit: cover;
     border-radius: 50%;
     border: 5px solid #dab49dff;
     margin-top: 40px;
     box-shadow: 0 10px 50px #663416;
-
-
 }
 
 .box-profil{
@@ -204,7 +202,7 @@ form[name="search_ville"]{
 .card {
     background: #c08552ff;
     height: 40rem;
-    width: 400px;
+    width: 280px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -212,6 +210,19 @@ form[name="search_ville"]{
     color: white;
     border-radius: 5px;
     border: 5px solid #dab49dff;
+}
+@media screen and (min-width:320px) {
+    .card {
+        width: 320px;
+    }
+}@media screen and (min-width:350px) {
+    .card {
+        width: 350px;
+    }
+}@media screen and (min-width:400px) {
+    .card {
+        width: 400px;
+    }
 }
 .cardsorti, .form_groupe {
     background: #c08552ff;

@@ -10,11 +10,11 @@
                  alt="noimage" class="img_profil">
 
      {% else%}
-         <img src="{{ asset('uploads/image/' ~ participant.imageFilename()) }}" alt="image-profil">
+         <img  class="img_profil" src="{{ asset('uploads/image/' ~ participant.imageFilename()) }}" alt="image-profil">
      {% endif %}
 
       <div class="item fs-5">
-        <h2>{{ participant.pseudo | upper }}</h2>
+        <h2 class="text-center">{{ participant.pseudo | upper }}</h2>
         <p>Prénom : {{ participant.prenom | nl2br }}</p>
         <p>Nom : {{ participant.nom | nl2br }}</p>
         <p>Téléphone : {{ participant.telephone | nl2br }}</p>
