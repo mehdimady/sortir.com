@@ -13,35 +13,35 @@
         <div class="input-group mb-3 ">
             <label for="sortie_nom" class="input-group-text">Nom de la sortie:</label>
             {{ form_widget(sortieForm.nom) }}
+        </div>
+        <div class="input-group mb-3 ">
             {{ form_errors(sortieForm.nom) }}
         </div>
         <div class="input-group mb-3 ">
             <label for="sortie_dateHeureDebut" class="input-group-text">Date et heure de la sortie:</label>
             {{ form_widget(sortieForm.dateHeureDebut) }}
-            {{ form_errors(sortieForm.dateHeureDebut) }}
         </div>
+            {{ form_errors(sortieForm.dateHeureDebut) }}
         <div class="input-group mb-3 ">
             <label for="sortie_dateLimiteInscription" class="input-group-text">Date limite d'inscription:</label>
             {{ form_widget(sortieForm.dateLimiteInscription) }}
-            {{ form_errors(sortieForm.dateLimiteInscription) }}
-
         </div>
+            {{ form_errors(sortieForm.dateLimiteInscription) }}
         <div class="input-group mb-3 ">
             <label for="sortie_nbInscriptionsMax" class="input-group-text">Nombre de places:</label>
             {{ form_widget(sortieForm.nbInscriptionsMax) }}
-            {{ form_errors(sortieForm.nbInscriptionsMax) }}
         </div>
+            {{ form_errors(sortieForm.nbInscriptionsMax) }}
         <div class="input-group mb-3 ">
             <label for="sortie_duree" class="input-group-text">Durée:</label>
             {{ form_widget(sortieForm.duree) }}
-            {{ form_errors(sortieForm.duree) }}
         </div>
+            {{ form_errors(sortieForm.duree) }}
         <div class="input-group mb-3 ">
             <label for="sortie_infosSortie" class="input-group-text">Description et infos :</label>
             {{ form_widget(sortieForm.infosSortie) }}
-            {{ form_errors(sortieForm.infosSortie) }}
         </div>
-
+            {{ form_errors(sortieForm.infosSortie) }}
         <div class="input-group mb-3 ">
             <label for="sortie_campus" class="input-group-text">Campus</label>
             {{ form_widget(sortieForm.campus) }}
@@ -62,24 +62,24 @@
                     <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
                 </svg>
             </a>
-            {{ form_errors(sortieForm.lieux.nom) }}
         </div>
+            {{ form_errors(sortieForm.lieux.nom) }}
         <div class="input-group mb-3 ">
             <label for="sortie_lieux_rue" class="input-group-text">Rue:</label>
             {{ form_widget(sortieForm.lieux.rue) }}
-            {{ form_errors(sortieForm.lieux.rue) }}
         </div>
+            {{ form_errors(sortieForm.lieux.rue) }}
 
         <div class="input-group mb-3 ">
             <label for="sortie_lieux_latitude" class="input-group-text">Latitude:</label>
             {{ form_widget(sortieForm.lieux.latitude) }}
-            {{ form_errors(sortieForm.lieux.latitude) }}
         </div>
+            {{ form_errors(sortieForm.lieux.latitude) }}
         <div class="input-group mb-3 ">
             <label for="sortie_lieux_longitude" class="input-group-text">Longitude:</label>
             {{ form_widget(sortieForm.lieux.longitude) }}
-            {{ form_errors(sortieForm.lieux.longitude) }}
         </div>
+            {{ form_errors(sortieForm.lieux.longitude) }}
 
         <div class="input-group mt-4 d-flex justify-content-center ">
             {{ form_widget(sortieForm.enregistre) }}

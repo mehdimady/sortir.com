@@ -6,6 +6,7 @@ use App\Repository\CampusRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CampusRepository::class)]
 class Campus
@@ -15,6 +16,8 @@ class Campus
     #[ORM\Column(type: 'integer')]
     private $id;
 
+    #[Assert\Regex(pattern: "/^[Á-ÿA-Za-z \-]{3,50}$/",
+        message: "Merci d'utiliser uniquement des lettres, des tirets et des espaces !")]
     #[ORM\Column(type: 'string', length: 50)]
     private $nom;
 

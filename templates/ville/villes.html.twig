@@ -26,12 +26,14 @@
                                                         <label class="input-group-text d-none d-md-block" for="ville_nom">Nom</label>
                                                         {{form_widget(formVille.nom)}}
                                                 </div>
+                                                        {{form_errors(formVille.nom)}}
                                         </td>
                                         <td>
                                                 <div class="input-group">
                                                         <label class="input-group-text d-none d-md-block" for="ville_codePostal">Code Postal</label>
                                                         {{form_widget(formVille.codePostal)}}
                                                 </div>
+                                                {{form_errors(formVille.codePostal)}}
                                         </td>
                                         <td class="tdSubmit"><button type="submit" class="bg-4 btn btn-sm text-white f-lunatic btn-connexion">{{ button }}</button></td>
                                 </tr>

@@ -25,6 +25,8 @@ class Lieu
         minMessage: "Minimum 3 caractères s'il vous plait !",
         maxMessage: "Maximum 50 caractères s'il vous plait !"
     )]
+    #[Assert\Regex(pattern: "/^[Á-ÿA-Za-z \-']{3,50}$/",
+        message: "Merci d'utiliser uniquement des lettres, des tirets et des espaces !")]
     private $nom;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -35,6 +37,8 @@ class Lieu
         minMessage: "Minimum 3 caractères s'il vous plait !",
         maxMessage: "Maximum 255 caractères s'il vous plait !"
     )]
+    #[Assert\Regex(pattern: "/^[^<>{}*\:\\$!]{3,50}$/",
+        message: "Certains caractères ne sont pas acceptés !")]
     private $rue;
 
     #[ORM\Column(type: 'float')]

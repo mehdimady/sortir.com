@@ -25,6 +25,8 @@ class Sortie
         minMessage: "Minimum 3 caractères s'il vous plait !",
         maxMessage: "Maximum 50 caractères s'il vous plait !"
     )]
+    #[Assert\Regex(pattern: "/^[^<>{}*\:\\$!]{3,50}$/",
+        message: "Certains caractères ne sont pas acceptés !")]
     private $nom;
 
     #[ORM\Column(type: 'datetime')]
@@ -38,6 +40,8 @@ class Sortie
         value: 30,
         message: 'Les sorties doivent durer 30 minutes ou plus !'
     )]
+    #[Assert\Regex(pattern: "/^\d+$/",
+        message: "Veuillez entrez que des chiffres !")]
     private $duree;
 
     #[ORM\Column(type: 'datetime')]
@@ -51,10 +55,14 @@ class Sortie
         value: 2,
         message: 'Il est inutile de programmer une sortie pour moins de deux personnes !'
     )]
+    #[Assert\Regex(pattern: "/^\d+$/",
+        message: "Veuillez entrez que des chiffres !")]
     private $nbInscriptionsMax;
 
     #[ORM\Column(type: 'text')]
     #[Assert\NotBlank (message: "Veuillez ajouter des informations sur la sortie !")]
+    #[Assert\Regex(pattern: "/^[^<>{}*\:\\$!]{3,50}$/",
+        message: "Certains caractères ne sont pas acceptés !")]
     private $infosSortie;
 
     #[ORM\ManyToOne(targetEntity: Etat::class, inversedBy: 'sorties')]

@@ -38,18 +38,23 @@
                 <tr>
                     <td>
                         {{form_widget(formLieu.nom)}}
+                        {{form_errors(formLieu.nom)}}
                     </td>
                     <td>
                         {{form_widget(formLieu.rue)}}
+                        {{form_errors(formLieu.rue)}}
                     </td>
                     <td>
                         {{form_widget(formLieu.longitude)}}
+                        {{form_errors(formLieu.longitude)}}
                     </td>
                     <td>
                         {{form_widget(formLieu.latitude)}}
+                        {{form_errors(formLieu.latitude)}}
                     </td>
                     <td>
                         {{form_widget(formLieu.ville)}}
+                        {{form_errors(formLieu.ville)}}
                     </td>
                     <td>
                             <button type="submit" class="btn bg-4 btn-lg text-white f-lunatic btn-connexion mb-3 fs-6 add">Enregistrer</button>

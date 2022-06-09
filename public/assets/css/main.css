@@ -118,9 +118,20 @@ form[name='registration_form'] > ul{
     background: #b96e6c;
     padding: 1em 0;
     margin: -1.5em 0 2em;
-}form[name='registration_form'] > ul > li{
+}
+.box-table table.table tbody tr td ul,.input-group ul{
+    background: #b96e6c;
+    padding: 1em;
+    list-style: none;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    color:#ffffff;
+    width:100%;
+}
+form[name='registration_form'] > ul > li{
     color: #fff;
-     padding-left: 1em;
+     padding-left: 2em;
+    list-style: none;
 }
 
  .box-table{
@@ -164,7 +175,7 @@ form[name="search_ville"]{
 }
 
 .tdSubmit button{
-    min-height: 42.5px;
+    min-height: 43px;
 }
 .img_profil {
 
@@ -231,8 +242,6 @@ form[name="sortie"]  label{
     font-size:1em!important;
 }
 .bg-img{
-    /*background-image: url('../image/audience.jpg');*/
-    /*background-position: 50% 50%;*/
     background-color:rgba(137,87,55,.9);
 }
 card.col-12.col-md-10.col-lg-8.mx-auto.mb-3{
@@ -252,6 +261,7 @@ card.col-12.col-md-10.col-lg-8.mx-auto.mb-3{
 }
 .reset-pass{
     position: absolute;
+    top: 70px;
     min-height:50%;
     width:100%;
 }

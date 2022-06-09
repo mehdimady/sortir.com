@@ -26,6 +26,7 @@
                             <label class="input-group-text d-none d-md-block" for="campus_nom">Nom</label>
                             {{form_widget(formCampus.nom)}}
                         </div>
+                            {{form_errors(formCampus.nom)}}
                     </td>
                     <td class="tdSubmit"><button type="submit" class="bg-4 btn btn-sm text-white f-lunatic btn-connexion">{{ button }}</button></td>
                 </tr>

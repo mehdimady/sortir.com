@@ -56,7 +56,7 @@ class GestionDesEtats
                     break;
             }
 // Tous ( Check Archivage )
-            if ($this->archivage($sortie)){
+            if (!$this->archivage($sortie)){
                 $sortie->setEtat($etats[6]);
             }
             $manager->persist($sortie);
@@ -66,7 +66,6 @@ class GestionDesEtats
 
     public function archivage($sortie):bool{
         $moisEnMinutes = 43200;
-        $dateHistorise = new \DateTime($sortie->getDateHeureFin()->format('Y-m-d H:i:s'));
-        return new \DateTime('now') > $dateHistorise->add(new DateInterval('PT' .$moisEnMinutes. 'M'));
+        return (new \DateTime('now') > $sortie->getDateHeureFin()->add(new DateInterval('PT' .$moisEnMinutes. 'M')));
     }
 }

@@ -25,10 +25,14 @@ class Ville
         minMessage: "Minimum 3 caractères s'il vous plait !",
         maxMessage: "Maximum 50 caractères s'il vous plait !"
     )]
+    #[Assert\Regex(pattern: "/^[Á-ÿA-Za-z \-]{3,50}$/",
+        message: "Merci d'utiliser uniquement des lettres, des tirets et des espaces !")]
     private $nom;
 
     #[ORM\Column(type: 'integer')]
     #[Assert\NotBlank (message: "Veuillez indiquer le code postal d'une ville !")]
+    #[Assert\Regex(pattern: "/^\d+$/",
+        message: "Veuillez entrez que des chiffres !")]
     private $codePostal;
 
     #[ORM\OneToMany(mappedBy: 'ville', targetEntity: Lieu::class)]

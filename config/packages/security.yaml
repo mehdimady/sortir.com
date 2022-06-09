@@ -39,6 +39,8 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/campus, roles: ROLE_ADMIN }
         - { path: ^/ville, roles: ROLE_ADMIN }
+        - { path: ^/login, roles: IS_ANONYMOUS}
+        - { path: ^/register, roles: IS_ANONYMOUS}
 
 when@test:
     security:
