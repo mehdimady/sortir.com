@@ -256,6 +256,7 @@ class SortieController extends AbstractController
         return $this->render('sortie/index.html.twig', [
             'title' => 'Modifier une sortie',
             'sortieForm' => $sortieForm->createView(),
+            'modifier'=>true
         ]);
     }
 

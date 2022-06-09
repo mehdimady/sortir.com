@@ -14,7 +14,7 @@
      {% endif %}
 
       <div class="item">
-        <h2>{{ participant.pseudo }}</h2>
+        <h2>{{ participant.pseudo | upper }}</h2>
         <p>Prénom : {{ participant.prenom | nl2br }}</p>
         <p>Nom : {{ participant.nom | nl2br }}</p>
         <p>Téléphone : {{ participant.telephone | nl2br }}</p>

@@ -17,17 +17,21 @@ class LieuType extends AbstractType
     {
         $builder
             ->add('nom',TextType::class,[ 'attr' => [
-                'class' =>"form-control"
+                'class' =>"form-control",
+                'placeholder'=>'min 3 max 50'
             ]])
             ->add('rue',TextType::class,[ 'attr' => [
-        'class' => "form-control"
+        'class' => "form-control",
+                'placeholder'=>'min 3 max 255'
     ]])
             ->add('latitude',NumberType::class,[ 'attr' => [
-                'class' =>"form-control"
+                'class' =>"form-control",
+                'placeholder'=>'99.999999'
             ]])
             //todo corriger problème message
             ->add('longitude',NumberType::class,[ 'attr' => [
-                'class' =>"form-control"
+                'class' =>"form-control",
+                'placeholder'=>'99.999999'
             ]])
             //todo corriger problème message
             ->add('ville', EntityType::class, [

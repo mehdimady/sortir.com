@@ -4,8 +4,10 @@
 {% endblock %}
 {% block body %}
 <div class="box-profil">
-    <h1>Créer une sortie</h1>
-    <div class="cardsorti col-12 col-sm-10 col-md-8 col-lg-6">
+    <div class="cardsorti col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
+    <h1 class="text-center  f-lunatic text-white mb-3">
+        {% if  modifier  is defined %}Modifier{% else %}Créer{% endif %} une sortie
+    </h1>
 
 {{ form_start(sortieForm) }}
         <div class="input-group mb-3 ">
@@ -79,9 +81,17 @@
             {{ form_errors(sortieForm.lieux.longitude) }}
         </div>
 
-        <div class="input-group mb-3 d-flex justify-content-center ">
+        <div class="input-group mt-4 d-flex justify-content-center ">
             {{ form_widget(sortieForm.enregistre) }}
-            {{ form_widget(sortieForm.publie) }}
+            {% if  modifier  is defined %}
+                <div class="d-none">
+                {% endif %}
+                    {{ form_widget(sortieForm.publie) }}
+            {% if  modifier  is defined  %}
+                </div>
+            {% endif %}
+
+
             <a href="{{path('sortie_home')}}" class="btn bg-4 btn-lg text-white f-lunatic btn-connexion">Annuler</a>
         </div>
 

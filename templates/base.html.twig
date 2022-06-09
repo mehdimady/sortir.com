@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
+<head>
         <meta charset="UTF-8">
         <meta name="viewport"
               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -22,22 +22,23 @@
 
 <aside>
         {% for label, messages in app.flashes%}
-                {% for message in messages %}
-                        {% if label == 'error' or label == 'warning'%}
-                                <div class="alert alert-danger d-flex justify-content-between" role="alert">
-                        {% else%}
-                                <div class="alert alert-success d-flex justify-content-between" role="alert">
+        {% for message in messages %}
+        {% if label == 'error' or label == 'warning'%}
+        <div class="alert alert-danger d-flex justify-content-between" role="alert">
+                {% else%}
+                <div class="alert alert-success d-flex justify-content-between" role="alert">
                         {% endif %}
-                                        <div class="w-100 text-center">
-                                                {{ message }}
-                                        </div>
-
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <div class="w-100 text-center">
+                                {{ message }}
                         </div>
+
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
                 {% endfor%}
-        {% endfor%}
+                {% endfor%}
+        </div>
 </aside>
-<main> {% block body %}{% endblock %}</main>
+<main class="bg-img"> {% block body %}{% endblock %}</main>
 <footer class="bg-4 py-4">
         <div class="text-white text-center">Copyright © RedDev -ENI- 2022.</div>
 </footer>

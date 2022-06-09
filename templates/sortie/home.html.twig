@@ -3,11 +3,12 @@
 {% block title %}{{title}} | {{parent()}}{% endblock %}
 
 {% block body %}
-
+<div class="bg-img">
     <section class="container-fluid h-custom w-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-            <h1 class="text-center my-3 fs-3">Les sorties organisées</h1>
+        <div class="row d-flex justify-content-center align-items-center h-100 bg-img">
             <div class="d-none d-md-flex flex-row flex-wrap justify-content-center">
+                <div class="cardsorti col-12 col-sm-11 col-md-9 col-lg-7 col-xl-6 col-xxl-5 my-3">
+                    <h1 class="text-center my-3 fs-3 f-lunatic text-white">Les sorties organisées</h1>
                     {{ form_start(formSearch) }}
                 <div class="p-1">
                     <h2 class="fs-5">Filtrer les sorties</h2>
@@ -56,11 +57,12 @@
                     </div>
                 </div>
                 {{ form_end(formSearch) }}
+                </div>
             </div>
         </div>
     </section>
-    <div class="col-12 col-10   m-auto">
-        <div class="box-table">
+    <div class="col-12 col-10  m-auto  bg-2">
+        <div class="box-table mt-3">
             <table class="table">
                 <thead class="thead-light" >
                 <tr>
@@ -86,5 +88,6 @@
             <a class="btn bg-4 btn-lg text-white f-lunatic btn-connexion my-3" role="button" aria-pressed="true" href="{{path('sortie_create')}}">Créer une Sortie</a>
         </div>
     </div>
+</div>
 {% endblock %}
 

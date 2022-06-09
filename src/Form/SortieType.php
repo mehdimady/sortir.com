@@ -33,7 +33,8 @@ class SortieType extends AbstractType
         $builder
             ->add('nom',TextType::class,[
                 'attr'=>[
-                    'class'=>'form-control'
+                    'class'=>'form-control',
+                    'placeholder'=>'min 3 max 50 caractères'
                 ]
             ])
 
@@ -43,7 +44,7 @@ class SortieType extends AbstractType
                 'html5' => true,
                 'required'=>false,
                 'attr'=>[
-                    'class'=>'form-control'
+                    'class'=>'form-control',
                 ],
             ])
             ->add('dateLimiteInscription', DateTimeType::class, [
@@ -56,19 +57,23 @@ class SortieType extends AbstractType
                 ],
             ])
             ->add('duree',NumberType::class,[
-            'attr'=>[
-         'class'=>'form-control'
-    ]
+                'attr'=>[
+                    'class'=>'form-control',
+                    'placeholder'=>'min 30 minutes'
+                ]
             ])
             ->add('nbInscriptionsMax',NumberType::class,[
-            'attr'=>[
-        'class'=>'form-control'
-    ]
+                'attr'=>[
+                    'class'=>'form-control',
+                     'placeholder'=>'min 2 participants'
+                ]
             ])
             ->add('infosSortie',TextareaType::class,[
-            'attr'=>[
-        'class'=>'form-control'
-    ]
+                'attr'=>[
+                    'class'=>'form-control',
+                     'placeholder'=>'Informations sur la sortie',
+                     'rows'=>'5',
+                ]
             ])
             ->add('campus', TextType::class, [
                 'disabled' => true,

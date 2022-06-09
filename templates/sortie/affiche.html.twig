@@ -3,7 +3,7 @@
 {% block title %}{{title}} - {{parent()}}{% endblock %}
 
 {% block body %}
-<h1 class="text-center p-2">Afficher une sortie</h1>
+<h1 class="text-center p-2 f-lunatic text-white">Afficher une sortie</h1>
     {% if motif is defined %}
         <div class="toast m-auto d-block">
             <div class="toast-header text-center bg-danger">
@@ -28,11 +28,11 @@
             </p>
 
         </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item bg-1">Nombre de place : {{sortie.nbInscriptionsMax}} Durée : {{sortie.duree}} min</li>
+        <ul class="list-group list-group-flush w-100">
+            <li class="list-group-item bg-1">Nombre de place : {{sortie.nbInscriptionsMax}}  &nbsp; &nbsp; &nbsp; ⭐ &nbsp; &nbsp; &nbsp;  Durée : {{sortie.duree}} min</li>
             <li class="list-group-item bg-1">Description des infos : {{sortie.infosSortie}}</li>
         </ul>
-        <div class="card-body bg-5">
+        <div class="card-body bg-5 w-100">
             <p class="card-text">Campus : {{sortie.campus.nom}}</p>
             <p class="card-text">Lieu : {{sortie.lieux.nom}}</p>
             <p class="card-text">Rue : {{sortie.lieux.rue}}</p>
@@ -41,16 +41,9 @@
             <p class="card-text">Longitude : {{sortie.lieux.longitude}}</p>
         </div>
     </div>
-
-
-
-
-
-
-
     <div class="container col-sm-12 col-md-10 col-lg-6 mx-auto mb-3">
-        <h2 class="text-center">liste des partitipants</h2>
-        <div class="col-12 col-10   m-auto">
+        <h2 class="text-center f-lunatic text-white">liste des partitipants</h2>
+        <div class="col-12 col-sm-10 col-lg-8 col-xl-6 col-xxl-5  m-auto">
             <div class="box-table">
                 <table class="table">
                     <thead class="thead-light" >
