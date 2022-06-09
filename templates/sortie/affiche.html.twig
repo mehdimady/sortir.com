@@ -56,7 +56,7 @@
                     <tbody>
                     {% for participant in listeParticipants %}
                         <tr>
-                            <td  class="d-none d-md-table-cell">{{participant.pseudo}}</td>
+                            <td  class="d-none d-md-table-cell"><a  class="btn bg-4 btn-sm text-white btn-connexion mb-1" href="{{path('app_profil',{'id':participant.id})}}">{{participant.pseudo}}</a></td>
                             <td> {{participant.nom}} {{participant.prenom}}</td>
                             <td class="d-md-none"> {{participant.campus.nom}}</td>
                         </tr>
