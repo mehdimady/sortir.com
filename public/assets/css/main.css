@@ -231,10 +231,27 @@ form[name="sortie"]  label{
     font-size:1em!important;
 }
 .bg-img{
-    background-image: url('../image/audience.jpg');
-    background-position: 50% 50%;
+    /*background-image: url('../image/audience.jpg');*/
+    /*background-position: 50% 50%;*/
+    background-color:rgba(137,87,55,.9);
 }
 card.col-12.col-md-10.col-lg-8.mx-auto.mb-3{
     width:auto!important;
     height:auto!important;
+}
+.form-outline,.form-check-label,.small.fw-bold{
+    color:#ffffff;
+    font-size: 1.2em;
+}
+.link-danger{
+    color: maroon!important;
+    text-decoration: none;
+}
+#remember_me{
+    font-size: 1.2em;
+}
+.reset-pass{
+    position: absolute;
+    min-height:70%;
+    width:100%;
 }

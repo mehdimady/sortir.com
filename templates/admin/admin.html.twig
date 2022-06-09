@@ -3,8 +3,8 @@
 {% block title %} {{ title }} | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1 class="text-center">Gérer les participants</h1>
-    <h2>Filtrer les participants</h2>
+    <h1 class="text-center my-3 fs-3 f-lunatic text-white">Gérer les participants</h1>
+    <h2 class="text-center my-3 fs-5 f-lunatic text-white">Filtrer les participants</h2>
     <div class="col-sm-10 col-md-8 col-lg-6 my-2 mx-auto d-flex justify-content-around">
         {{form_start(formSearch)}}
         <div class="input-group">
@@ -16,10 +16,9 @@
     <div class="col-sm-10 col-md-8 col-lg-6 m-2 d-flex justify-content-around">
         {{ form_start(formFile) }}
         <div class="mb-3">
-            <label for="formFileSm" class="form-label">Intégrer un fichier csv </label>
+            <label for="formFileSm" class="form-label text-white">Intégrer un fichier csv </label>
             {{ form_widget(formFile.upload_file) }}
             {{ form_errors(formFile.upload_file) }}
-{#            <input class="form-control form-control-sm" id="formFileSm" type="file">#}
         </div>
         {{ form_end(formFile) }}
     </div>
@@ -44,7 +43,11 @@
                         <td>{{participant.prenom}}</td>
                         <td>{{participant.email}}</td>
                         <td>{{participant.telephone}}</td>
-                        <td><a href="{{ path('admin_enable',{'id':participant.id}) }}">Activer</a> - <a href="{{ path('admin_disable',{'id':participant.id}) }}">Désactiver</a> - <a href="{{ path('admin_delete',{'id':participant.id}) }}">Supprimer</a></td>
+                        <td>
+                            <a class="btn bg-4 btn-sm text-white btn-connexion mb-1" href="{{ path('admin_enable',{'id':participant.id}) }}">Activer</a>
+                            - <a class="btn bg-4 btn-sm text-white btn-connexion mb-1" href="{{ path('admin_disable',{'id':participant.id}) }}">Désactiver</a>
+                            - <a class="btn bg-4 btn-sm text-white btn-connexion mb-1" href="{{ path('admin_delete',{'id':participant.id}) }}">Supprimer</a>
+                        </td>
                     </tr>
                 {% endfor%}
                 </tbody>
@@ -54,7 +57,7 @@
     <section class="container-fluid h-custom w-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-                <h1  class="my-3 w-100 text-center color-3 fs-4 fw-bold bg-1 p-1 rounded">{{subtitle}}</h1>
+                <h2   class="text-center my-3 fs-5 f-lunatic text-white">{{subtitle}}</h2>
                 {{ form_start(adminForm) }}
 
                 <div class="input-group mb-3">

@@ -3,14 +3,14 @@
 {% block body%}
     <section class="container-fluid h-custom w-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-md-9 col-lg-6 col-xl-5 shadow mb-3 rounded">
+            <div class="col-md-9 col-lg-6 col-xl-5 shadow p-0 mb-3 rounded">
                 <img src="{{asset('assets/image/connexion.png')}}"
-                     class="img-fluid" alt="Sample image">
+                     class="img-fluid rounded opacity-75" alt="Sample image">
             </div>
             <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
                 <form method="post">
                     <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-                        <h1 class="my-3 w-100 text-center color-3 fs-4 fw-bold bg-1 p-1 rounded">Veuillez vous connecter !</h1>
+                        <h1 class="my-3 text-center text-white f-lunatic fs-4 fw-bold">Veuillez vous connecter !</h1>
                     </div>
                     {% if error %}
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">

@@ -34,7 +34,7 @@ class SortieType extends AbstractType
             ->add('nom',TextType::class,[
                 'attr'=>[
                     'class'=>'form-control',
-                    'placeholder'=>'min 3 max 50 caractères'
+                    'placeholder'=>'mini 3 max 50 caractères'
                 ]
             ])
 
@@ -59,13 +59,13 @@ class SortieType extends AbstractType
             ->add('duree',NumberType::class,[
                 'attr'=>[
                     'class'=>'form-control',
-                    'placeholder'=>'min 30 minutes'
+                    'placeholder'=>'mini 30 minutes'
                 ]
             ])
             ->add('nbInscriptionsMax',NumberType::class,[
                 'attr'=>[
                     'class'=>'form-control',
-                     'placeholder'=>'min 2 participants'
+                     'placeholder'=>'mini 2 participants'
                 ]
             ])
             ->add('infosSortie',TextareaType::class,[

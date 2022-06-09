@@ -5,15 +5,19 @@
 {% endblock %}
 
 {% block body %}
-    <h1 class="text-center">Gérer les lieux</h1>
-    <h2>Filtrer les lieux</h2>
+    <h1 class="text-center my-3 fs-3 f-lunatic text-white">Gérer les lieux</h1>
+    <h2 class="text-center my-3 fs-5 f-lunatic text-white">Filtrer les lieux</h2>
 
-    <div class="col-sm-10 col-md-8 col-lg-6 m-2 d-flex justify-content-around">
-        {{form_start(formSearch)}}
-        {{form_widget(formSearch.name, {'full_name': 'search','label':'Le nom contient :'})}}
-        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Rechercher</button>
+    {{form_start(formSearch)}}
+    <div class="p-1 d-flex flex-row justify-content-center col-11 mx-auto ">
+        <div class="input-group mb-3 w-100">
+            {{form_widget(formSearch.name, {'full_name': 'search'})}}
+        </div>
+        <div class="input-group mb-3 w-auto">
+            <button class="btn bg-4 btn-md text-white f-lunatic btn-connexion" type="submit" id="button-addon2">Rechercher</button>
+        </div>
+    </div>
         {{form_end(formSearch)}}
-
 
     </div>
     <div class="col-12 col-10   m-auto">
@@ -59,7 +63,7 @@
                         <td>{{lieu.longitude}}</td>
                         <td>{{lieu.latitude}}</td>
                         <td>{{lieu.ville}}</td>
-                        <td><a href="{{path('lieu_modify',{'id':lieu.id})}}">Modifier</a> - <a href="{{path('lieu_delete',{'id':lieu.id})}}">Supprimer</a></td>
+                        <td><a class="btn bg-4 btn-sm text-white btn-connexion mb-1"  href="{{path('lieu_modify',{'id':lieu.id})}}">Modifier</a> - <a class="btn bg-4 btn-sm text-white btn-connexion mb-1"  href="{{path('lieu_delete',{'id':lieu.id})}}">Supprimer</a></td>
                     </tr>
                 {% endfor%}
 

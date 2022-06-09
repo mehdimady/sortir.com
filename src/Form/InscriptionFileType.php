@@ -42,7 +42,11 @@ class InscriptionFileType extends AbstractType
                     ])
                 ],
             ])
-            ->add('send', SubmitType::class);
+            ->add('Integrer', SubmitType::class,[
+                'attr'=>[
+                    'class'=>'btn bg-4 btn-md text-white f-lunatic btn-connexion'
+                ]
+            ]);
     }
 
 

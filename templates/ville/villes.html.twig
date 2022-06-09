@@ -5,8 +5,8 @@
 {% endblock %}
 
 {% block body %}
-        <h1 class="text-center f-lunatic shadow-none color-4 my-3 my-md-5">Gérer les villes</h1>
-        <h2  class="px-3 color-4 fs-6">Filtrer les villes</h2>
+        <h1 class="text-center my-3 fs-3 f-lunatic text-white">Gérer les villes</h1>
+        <h2 class="text-center my-3 fs-5 f-lunatic text-white">Filtrer les villes</h2>
         {{include('includes/searchForm.html.twig')}}
         <div class="col-12 col-10   m-auto">
                 <div class="box-table">
@@ -40,7 +40,7 @@
                                         <tr>
                                                 <td>{{ville.nom}}</td>
                                                 <td>{{ville.codePostal}}</td>
-                                                <td><a href="{{path('ville_modify',{'id':ville.id})}}">Modifier</a> - <a href="{{path('ville_delete',{'id':ville.id})}}">Supprimer</a></td>
+                                                <td><a class="btn bg-4 btn-sm text-white btn-connexion  mb-1"  href="{{path('ville_modify',{'id':ville.id})}}">Modifier</a> - <a class="btn bg-4 btn-sm text-white btn-connexion  mb-1"  href="{{path('ville_delete',{'id':ville.id})}}">Supprimer</a></td>
                                         </tr>
                                 {% endfor%}
 

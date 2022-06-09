@@ -18,11 +18,11 @@ class LieuType extends AbstractType
         $builder
             ->add('nom',TextType::class,[ 'attr' => [
                 'class' =>"form-control",
-                'placeholder'=>'min 3 max 50'
+                'placeholder'=>'mini 3 max 50'
             ]])
             ->add('rue',TextType::class,[ 'attr' => [
         'class' => "form-control",
-                'placeholder'=>'min 3 max 255'
+                'placeholder'=>'mini 3 max 255'
     ]])
             ->add('latitude',NumberType::class,[ 'attr' => [
                 'class' =>"form-control",
