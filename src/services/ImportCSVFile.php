@@ -37,7 +37,7 @@ class ImportCSVFile
                     $role = str_replace(']', '', $role);
                     $role = str_replace('"', '', $role);
 //          PASSWORD
-//                       $pass = $this->hasher->hashPassword();
+//                       $pass = $this->hasher->hashPassword($datas[4]);
                     $participant = new Participant();
                     $participant->setCampus($cur_campus);
                     $participant->setEmail($datas[2]);

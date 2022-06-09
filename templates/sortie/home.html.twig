@@ -3,15 +3,15 @@
 {% block title %}{{title}} | {{parent()}}{% endblock %}
 
 {% block body %}
-<div class="bg-img">
+<div>
     <section class="container-fluid h-custom w-100">
-        <div class="row d-flex justify-content-center align-items-center h-100 bg-img">
+        <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="d-none d-md-flex flex-row flex-wrap justify-content-center">
                 <div class="cardsorti col-12 col-sm-11 col-md-9 col-lg-7 col-xl-6 col-xxl-5 my-3">
                     <h1 class="text-center my-3 fs-3 f-lunatic text-white">Les sorties organisées</h1>
                     {{ form_start(formSearch) }}
                 <div class="p-1">
-                    <h2 class="fs-5">Filtrer les sorties</h2>
+                    <h2 class="fs-5 text-white">Filtrer les sorties</h2>
 
                     <div class="input-group mb-3">
                         <label class="input-group-text" for="sortie_filter_campus">Campus</label>
@@ -22,7 +22,7 @@
                         <label for="sortie_filter_recherche" class="input-group-text">Le nom de la sortie contient</label>
                         {{form_widget(formSearch.recherche)}}
                     </div>
-                    <div class="input-group mb-3"><small>* Pour filtrer par dates, les deux champs sont requis.</small></div>
+                    <div class="input-group mb-3"><small class="text-white">* Pour filtrer par dates, les deux champs sont requis.</small></div>
                     <div class="input-group mb-3">
                         <label class="input-group-text" for="sortie_filter_date_minimum" >Entre le :</label>
                         {{form_widget(formSearch.date_minimum)}}
@@ -61,7 +61,7 @@
             </div>
         </div>
     </section>
-    <div class="col-12 col-10  m-auto  bg-2">
+    <div class="col-12 col-10  m-auto">
         <div class="box-table mt-3">
             <table class="table">
                 <thead class="thead-light" >
