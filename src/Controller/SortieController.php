@@ -108,6 +108,7 @@ class SortieController extends AbstractController
                 $sortie->setEtat($etats[1]);
                 $message = 'La sortie a bien été créée et publiée !';
             }
+
         if ($sortieForm->isSubmitted() and $sortieForm->isValid() ){
             $dateDebut = clone ($sortie->getDateHeureDebut());
             $sortie->setDateHeureFin($dateDebut->modify("+{$sortie->getDuree()} minutes"));
@@ -126,13 +127,11 @@ class SortieController extends AbstractController
     #[Route('/inscrire/{id}', name: 'inscrire',requirements: ['id' => '\d+'])]
     public function registerSortie(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager )
     {
-        $user = $this->getUser();
-        if ($user!=null){
             $sortie = $sortieRepository->find($id);
             $sortieLibelle = $sortie->getEtat()->getLibelle();
             $maxInscrit = $sortie->getNbInscriptionsMax();
             if ($sortieLibelle === 'Ouvert' and count($sortie->getParticipants()) < $maxInscrit){
-                $sortie->addParticipant($user);
+                $sortie->addParticipant($this->getUser());
                 if ( count($sortie->getParticipants()) === $maxInscrit){
                     $sortie->setEtat($this->etats[3]);
                 }
@@ -145,23 +144,16 @@ class SortieController extends AbstractController
                 $this->addFlash('warning','Vous ne pouvez pas vous inscrire à cette sortie !');
                 return $this->redirectToRoute('sortie_home');
             }
-        }
-        else{
-            $this->addFlash('warning','Veuillez vous connecter !');
-            return $this->redirectToRoute('sortie_home');
-        }
     }
 
     #[Route('/desister/{id}', name: 'desister',requirements: ['id' => '\d+'])]
     public function removeSortie(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager )
     {
-        $user = $this->getUser();
-        if ($user!=null){
             $sortie = $sortieRepository->find($id);
             $sortieLibelle = $sortie->getEtat()->getLibelle();
-            $sortieUser =$sortie->getParticipants()->contains($user);
+            $sortieUser =$sortie->getParticipants()->contains($this->getUser());
             if ($sortieUser and $sortieLibelle == 'Ouvert' or $sortieLibelle == 'Fermé'){
-                $sortie->removeParticipant($user);
+                $sortie->removeParticipant( $this->getUser());
                 $dateFin = $sortie->getDateLimiteInscription();
                 if (new \DateTime('now') < $dateFin){
                     $sortie->setEtat($this->etats[1]);
@@ -176,11 +168,6 @@ class SortieController extends AbstractController
                     'Vous ne pouvez pas vous désinscrire si la sortie est dans un autre état que Ouvert ou Fermé ou inscrivez vous !');
                 return $this->redirectToRoute('sortie_home');
             }
-        }
-        else{
-            $this->addFlash('warning','Veuillez vous connecter !');
-            return $this->redirectToRoute('sortie_home');
-        }
     }
 
     #[Route('/publier/{id}', name: 'publier',requirements: ['id' => '\d+'])]
@@ -206,12 +193,12 @@ class SortieController extends AbstractController
     {
         $sortie = $sortieRepository->find($id);
         $sortieLibelle = $sortie->getEtat()->getLibelle();
-        $sortieGetUser = ($sortie->getOrganisateur() == $this->getUser() or  $this->security->isGranted('ROLE_ADMIN') );
+        $sortieGetUser = $sortie->getOrganisateur() == $this->getUser() ||  $this->security->isGranted('ROLE_ADMIN');
         $sortieEtat = ($sortieLibelle == 'Ouvert' or $sortieLibelle == 'Fermé' or $sortieLibelle == 'En création');
         if($sortie != null and $sortieGetUser and $sortieEtat){
             $formAnnule = $this->createForm(AnnuleType::class,$sortie);
             $formAnnule->handleRequest($request);
-            if($formAnnule->isSubmitted() && $formAnnule->isValid()){
+            if($formAnnule->isSubmitted() && ($formAnnule->isValid())){
                 $sortie->setEtat($this->etats[3]);
                 $entityManager->persist($sortie);
                 $entityManager->flush();

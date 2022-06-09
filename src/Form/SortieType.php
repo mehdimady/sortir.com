@@ -10,7 +10,6 @@ use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -42,7 +41,7 @@ class SortieType extends AbstractType
                 'label' => 'Entre le',
                 'widget' => 'single_text',
                 'html5' => true,
-                'required'=>false,
+                'required'=>true,
                 'attr'=>[
                     'class'=>'form-control',
                 ],
@@ -51,7 +50,7 @@ class SortieType extends AbstractType
                 'label' => 'Entre le',
                 'widget' => 'single_text',
                 'html5' => true,
-                'required'=>false,
+                'required'=>true,
                 'attr'=>[
                     'class'=>'form-control'
                 ],
@@ -83,9 +82,8 @@ class SortieType extends AbstractType
                     'class'=>'form-control'
                 ]
             ])
-            ->add('lieux',LieuType::class,[
-                'label'=> ' ',
-            ])
+            ->add('lieux',LieuType::class)
+
             ->add('enregistre', SubmitType::class,
                 ['label' => 'Enregistrer',
                     'attr'=>[

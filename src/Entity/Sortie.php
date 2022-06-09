@@ -61,7 +61,7 @@ class Sortie
 
     #[ORM\Column(type: 'text')]
     #[Assert\NotBlank (message: "Veuillez ajouter des informations sur la sortie !")]
-    #[Assert\Regex(pattern: "/^[^<>{}*\:\\$!]{3,50}$/",
+    #[Assert\Regex(pattern: "/^[^<>{}*\:\\$!]{3,500}$/",
         message: "Certains caractères ne sont pas acceptés !")]
     private $infosSortie;
 
@@ -80,6 +80,8 @@ class Sortie
     #[ORM\ManyToMany(targetEntity: participant::class, inversedBy: 'sorties', cascade: ["persist"])]
     private $participants;
 
+    #[Assert\Regex(pattern: "/^[^<>{}*\:\\$!]{3,500}$/",
+        message: "Certains caractères ne sont pas acceptés !")]
     #[ORM\Column(type: 'text', nullable: true)]
     private $motif;
 

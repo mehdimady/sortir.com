@@ -37,8 +37,7 @@ class Lieu
         minMessage: "Minimum 3 caractères s'il vous plait !",
         maxMessage: "Maximum 255 caractères s'il vous plait !"
     )]
-    #[Assert\Regex(pattern: "/^[^<>{}*\:\\$!]{3,50}$/",
-        message: "Certains caractères ne sont pas acceptés !")]
+
     private $rue;
 
     #[ORM\Column(type: 'float')]

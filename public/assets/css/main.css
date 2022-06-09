@@ -2,6 +2,7 @@
     0%{
         text-shadow: 0 0 10px black;
         transform: scale(1);
+
     }50%{
          text-shadow: 0 0 50px black;
          transform: scale(1.05);
@@ -201,7 +202,7 @@ form[name="search_ville"]{
 
 .card {
     background: #c08552ff;
-    height: 40rem;
+    height: auto;
     width: 280px;
     display: flex;
     flex-direction: column;

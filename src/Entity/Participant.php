@@ -78,16 +78,17 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(targetEntity: Campus::class, inversedBy: 'participants')]
     private $campus;
 
-    #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class, cascade: ["persist"])]
+    #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class, cascade: ["persist", "remove"])]
     private $organisateur;
 
-    #[ORM\ManyToMany(targetEntity: Sortie::class, mappedBy: 'participants', cascade: ["persist", "remove"])]
+    #[ORM\ManyToMany(targetEntity: Sortie::class, mappedBy: 'participants', cascade: ["persist"])]
     private $sorties;
 
     public function __construct()
     {
         $this->organisateur = new ArrayCollection();
         $this->sorties = new ArrayCollection();
+        $this->favoris = new ArrayCollection();
     }
     public function __toString() {
         return $this->nom;
@@ -107,6 +108,9 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $imageFilename;
+
+    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'favoris')]
+    private $favoris;
 
     public function getId(): ?int
     {
@@ -346,6 +350,30 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     public function setImageFilename(?string $imageFilename): self
     {
         $this->imageFilename = $imageFilename;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getFavoris(): Collection
+    {
+        return $this->favoris;
+    }
+
+    public function addFavori(self $favori): self
+    {
+        if (!$this->favoris->contains($favori)) {
+            $this->favoris[] = $favori;
+        }
+
+        return $this;
+    }
+
+    public function removeFavori(self $favori): self
+    {
+        $this->favoris->removeElement($favori);
 
         return $this;
     }

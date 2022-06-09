@@ -3,29 +3,53 @@
 {% block title %}{{ title }} | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <div class="box-profil">
-        <div class="card">
-            {% if participant.imageFilename == 'noimage.jpg' %}
-            <img src="{{ asset('assets/image/noimage.jpg')}}"
-                 alt="noimage" class="img_profil">
+        <div class="box-profil">
+                <div class="card">
+                        {% if participant.imageFilename == 'noimage.jpg' %}
+                                <img src="{{ asset('assets/image/noimage.jpg')}}"
+                                     alt="noimage" class="img_profil">
 
-     {% else%}
-         <img  class="img_profil" src="{{ asset('uploads/image/' ~ participant.imageFilename()) }}" alt="image-profil">
-     {% endif %}
+                        {% else%}
+                                <img  class="img_profil" src="{{ asset('uploads/image/' ~ participant.imageFilename()) }}" alt="image-profil">
+                        {% endif %}
 
-      <div class="item fs-5">
-        <h2 class="text-center">{{ participant.pseudo | upper }}</h2>
-        <p>Prénom : {{ participant.prenom | nl2br }}</p>
-        <p>Nom : {{ participant.nom | nl2br }}</p>
-        <p>Téléphone : {{ participant.telephone | nl2br }}</p>
-        <p>Email : {{ participant.email | nl2br }}</p>
-        <p>Campus : {{ participant.campus.nom | nl2br }}</p>
-      </div>
-     {% if app.user.userIdentifier == participant.email %}
-        <a href="{{path('app_modifier',{'id':app.user.id})}}" class="btn bg-4 btn-lg text-white f-lunatic btn-connexion">Modifier</a>
-     {% endif %}
-
-
-</div>
-    </div>
+                        <div class="item fs-5">
+                                <h2 class="text-center">{{ participant.pseudo | upper }}</h2>
+                                <p>Prénom : {{ participant.prenom | nl2br }}</p>
+                                <p>Nom : {{ participant.nom | nl2br }}</p>
+                                <p>Téléphone : {{ participant.telephone | nl2br }}</p>
+                                <p>Email : {{ participant.email | nl2br }}</p>
+                                <p>Campus : {{ participant.campus.nom | nl2br }}</p>
+                        </div>
+                        {% if app.user.userIdentifier == participant.email %}
+                                <a href="{{path('app_modifier',{'id':app.user.id})}}" class="btn bg-4 btn-lg text-white f-lunatic btn-connexion mb-4">Modifier</a>
+                                <div class="col-12 col-10   m-auto">
+                                        <div class="box-table">
+                                                <table class="table">
+                                                        <thead class="thead-light" >
+                                                        <tr>
+                                                                <th scope="col">Pseudo</th>
+                                                                <th scope="col">Nom complet</th>
+                                                                <th scope="col">Favoris</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        {% for participant in participants %}
+                                                                <tr>
+                                                                        <td>{{participant.pseudo}}</td>
+                                                                        <td>{{participant.nom}} - {{participant.prenom}}</td>
+                                                                        {% if participant in app.user.favoris%}
+                                                                                <td class="text-center"><a href="{{path('remove_favoris',{'id':participant.id})}}"  class="fs-4 text-decoration-none">&#x1F31F;</a></td>
+                                                                        {%else%}
+                                                                                <td  class="text-center"><a href="{{path('add_favoris',{'id':participant.id})}}" class="fs-4 text-decoration-none text-secondary">&#9734;</a></td>
+                                                                        {% endif %}
+                                                                </tr>
+                                                        {% endfor%}
+                                                        </tbody>
+                                                </table>
+                                        </div>
+                                </div>
+                        {% endif %}
+                </div>
+        </div>
 {% endblock %}

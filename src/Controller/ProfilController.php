@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Participant;
 use App\Form\RegistrationFormType;
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,12 +20,14 @@ class ProfilController extends AbstractController
     public function myProfil(int $id, ParticipantRepository $participantRepository): Response
     {
         $participant = $participantRepository->find($id);
+        $participants = $this->getUser()->getFavoris();
         if (!$participant) {
             throw $this->createNotFoundException('Profil indisponible !');
         }
         return $this->render('profil/profil.html.twig', [
             'title' => 'Mon Profil',
-            "participant" => $participant
+            "participant" => $participant,
+            'participants' => $participants
         ]);
 
     }
@@ -78,5 +81,42 @@ class ProfilController extends AbstractController
                 "participant" => $participant,
                 'registrationForm' => $participantForm->createView()
             ]);
+        }
+
+        #[Route('/remove/favoris/{id}', name: 'remove_favoris',requirements: ['id' => '\d+'])]
+        public function removeFavoris(int $id,Request $request,  ParticipantRepository $participantRepository, EntityManagerInterface $entityManager )
+        {
+            $user = $this->getUser();
+            $participant = $participantRepository->find($id);
+            if ($user->getFavoris()->contains($participant)){
+                $user->removeFavori($participant);
+                $entityManager->persist($user);
+                $entityManager->flush();
+                $this->addFlash('success','Vous avez retiré un membre de vos favoris !');
+                return $this->redirect('../../profil/'.$user->getId());
+            }
+            else{
+                $this->addFlash('error',
+                    'Vous ne pouvez pas retiré ce membre de vos favoris !');
+                return $this->redirect('../../profil/'.$user->getId());
+            }
+        }
+
+        #[Route('/add/favoris/{id}', name: 'add_favoris',requirements: ['id' => '\d+'])]
+        public function addFavoris(int $id, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager )
+        {
+            $participant = $participantRepository->find($id);
+            $user = $this->getUser();
+            if (!$user->getFavoris()->contains($participant)){
+                $user->addFavori($participant);
+                $entityManager->persist($user);
+                $entityManager->flush();
+                $this->addFlash('success','Vous avez ajouté un membre à vos favoris !!');
+                return $this->redirect('../../profil/'.$user->getId());
+            }
+            else{
+                $this->addFlash('warning','Vous ne pouvez pas ajouté ce membre à vos favoris !');
+                return $this->redirect('../../profil/'.$user->getId());
+            }
         }
     }
