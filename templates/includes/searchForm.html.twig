@@ -2,7 +2,7 @@
 <div class="p-1 d-flex flex-row justify-content-center col-11 mx-auto ">
         <div class="input-group mb-3 w-100">
                 {{form_errors(formSearch.name)}}
-                {{form_widget(formSearch.name)}}
+                {{form_widget(formSearch.name,{'full_name': 'search'})}}
         </div>
         <div class="input-group mb-3 w-auto">
                 <button type="submit" class="btn bg-4 btn-md text-white f-lunatic btn-connexion">Rechercher</button>
